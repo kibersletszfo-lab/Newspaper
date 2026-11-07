@@ -1,0 +1,2307 @@
+﻿# Generated from work/build_newspaper_020.py. No gameplay balance writes.
+nfp20_migrate = {
+
+if = { limit = { is_player = yes NOT = { has_variable = nfp20_schema } }
+    set_variable = { name = nfp20_schema value = 2 }
+    set_variable = { name = nfp20_candidate_seq value = 0 }
+    set_variable = { name = nfp20_queue_count value = 0 }
+    set_variable = { name = nfp20_dropped value = 0 }
+    # Preserve subscription, numbering, old bodies and archive. No invented past.
+    set_variable = nfp_demo_created
+}
+
+}
+
+nfp20_prepare = {
+
+save_scope_as = nfp20_source
+set_variable = { name = nfp20_f_period value = nfp20_period }
+set_variable = { name = nfp20_f_year value = year }
+set_variable = { name = nfp20_f_month value = month }
+set_variable = { name = nfp20_f_secondary value = country_definition }
+set_variable = { name = nfp20_f_secondary_country value = this }
+set_variable = { name = nfp20_f_urgent value = 0 }
+set_variable = { name = nfp20_f_extra_detail value = flag:NFP20_NONE }
+remove_variable = nfp20_f_region
+remove_variable = nfp20_f_problem_state
+set_variable = { name = nfp20_f_problem value = 0 }
+set_variable = { name = nfp20_f_episode value = 0 }
+
+}
+
+nfp20_emit = {
+
+# Source country is prepared and captured once, then independent reader copies.
+if = { limit = { NOT = { has_variable = nfp20_source_serial } }
+    set_variable = { name = nfp20_source_serial value = 0 }
+}
+change_variable = { name = nfp20_source_serial add = 1 }
+nfp31_prepare_audience = { type = $type$ }
+save_scope_as = nfp63_source
+save_scope_as = nfp63_second
+if = { limit = { var:nfp31_f_type = 10 exists = var:nfp20_f_secondary_country } var:nfp20_f_secondary_country = { save_scope_as = nfp63_second } }
+every_country = { limit = { is_player = yes has_variable = nfp20_schema }
+    nfp63_kind_set = { kind = $type$ }
+nfp63_assess = yes
+nfp67_reader_capture = yes
+if = { limit = { OR = { always = $global$ this = scope:nfp20_source } var:nfp63_allow = 1 var:nfp67_relevant = 1 }
+        save_scope_as = nfp20_recipient
+        change_variable = { name = nfp20_candidate_seq add = 1 }
+        create_container = { tags = { nfp20_candidate } parent = scope:nfp20_recipient save_scope_as = nfp20_candidate }
+        scope:nfp20_candidate = {
+            set_variable = { name = nfp20_schema value = 2 }
+            set_variable = { name = nfp20_id value = scope:nfp20_recipient.var:nfp20_candidate_seq }
+            set_variable = { name = nfp20_source_serial value = scope:nfp20_source.var:nfp20_source_serial }
+            set_variable = { name = nfp20_type value = $type$ }
+            set_variable = { name = nfp_section value = $section$ }
+            set_variable = { name = nfp_body value = flag:$body$ }
+            set_variable = { name = nfp20_priority value = $severity$ }
+            set_variable = { name = nfp20_foreign value = 1 }
+            set_variable = { name = nfp20_used value = 0 }
+            nfp31_capture_audience = yes
+set_variable = { name = nfp20_extra_detail value = scope:nfp20_source.var:nfp20_f_extra_detail }
+set_variable = { name = nfp20_source_definition value = scope:nfp20_source.country_definition }
+set_variable = { name = nfp20_secondary value = scope:nfp20_source.var:nfp20_f_secondary }
+set_variable = { name = nfp20_period value = scope:nfp20_source.var:nfp20_f_period }
+set_variable = { name = nfp20_year value = scope:nfp20_source.var:nfp20_f_year }
+set_variable = { name = nfp20_month value = scope:nfp20_source.var:nfp20_f_month }
+set_variable = { name = nfp20_before value = scope:nfp20_source.var:nfp20_f_before }
+set_variable = { name = nfp20_after value = scope:nfp20_source.var:nfp20_f_after }
+set_variable = { name = nfp20_extra value = scope:nfp20_source.var:nfp20_f_extra }
+set_variable = { name = nfp20_detail value = scope:nfp20_source.var:nfp20_f_detail }
+set_variable = { name = nfp20_urgent value = scope:nfp20_source.var:nfp20_f_urgent }
+set_variable = { name = nfp20_problem value = scope:nfp20_source.var:nfp20_f_problem }
+set_variable = { name = nfp20_episode value = scope:nfp20_source.var:nfp20_f_episode }
+nfp46_capture_goods = yes
+nfp50_capture_law = yes
+nfp69_capture = yes
+nfp69_restore_old = yes
+nfp50_capture_family = yes
+nfp60_capture_state = yes
+if = { limit = { var:nfp20_type = 7 }
+if = { limit = { scope:nfp20_recipient = { has_variable = nfp67_output_valid } } set_variable = { name = nfp67_output_valid value = scope:nfp20_recipient.var:nfp67_output_valid } }
+if = { limit = { scope:nfp20_recipient = { has_variable = nfp67_output_delta } } set_variable = { name = nfp67_output_delta value = scope:nfp20_recipient.var:nfp67_output_delta } }
+if = { limit = { scope:nfp20_recipient = { has_variable = nfp67_output_abs } } set_variable = { name = nfp67_output_abs value = scope:nfp20_recipient.var:nfp67_output_abs } }
+if = { limit = { scope:nfp20_recipient = { has_variable = nfp67_ours } } set_variable = { name = nfp67_ours value = scope:nfp20_recipient.var:nfp67_ours } }
+if = { limit = { var:nfp20_type = 7 scope:nfp20_source = { has_variable = nfp67_source_amount } } set_variable = { name = nfp67_source_amount value = scope:nfp20_source.var:nfp67_source_amount } }
+}
+            if = { limit = { scope:nfp20_recipient = scope:nfp20_source }
+                set_variable = { name = nfp20_foreign value = 0 }
+                change_variable = { name = nfp20_priority add = 100 }
+            }
+            else_if = { limit = { scope:nfp20_recipient = scope:nfp20_source.var:nfp20_f_secondary_country }
+                set_variable = { name = nfp20_foreign value = 0 }
+                change_variable = { name = nfp20_priority add = 100 }
+            }
+            else = { set_variable = { name = nfp20_urgent value = 0 } }
+            if = { limit = { scope:nfp20_source = { has_variable = nfp20_f_region } }
+                set_variable = { name = nfp20_region value = scope:nfp20_source.var:nfp20_f_region }
+                set_variable = { name = nfp20_problem_state value = scope:nfp20_source.var:nfp20_f_problem_state }
+            }
+        }
+        scope:nfp20_candidate = { nfp63_capture = yes }
+        add_to_variable_list = { name = nfp20_candidates target = scope:nfp20_candidate }
+        change_variable = { name = nfp20_queue_count add = 1 }
+        nfp20_prune = yes
+    }
+}
+
+}
+
+nfp20_prune = {
+
+save_scope_as = nfp20_queue_owner
+every_in_list = { variable = nfp20_candidates
+    limit = { OR = { var:nfp20_used = 1 nfp20_candidate_age > 12 } }
+    save_scope_as = nfp20_remove
+    scope:nfp20_queue_owner = {
+        remove_list_variable = { name = nfp20_candidates target = scope:nfp20_remove }
+        change_variable = { name = nfp20_queue_count add = -1 }
+    }
+    destroy_container = yes
+}
+while = { limit = { var:nfp20_queue_count > 64 }
+    ordered_in_list = { variable = nfp20_candidates order_by = nfp20_discard_order position = 0
+        save_scope_as = nfp20_remove
+        scope:nfp20_queue_owner = {
+            remove_list_variable = { name = nfp20_candidates target = scope:nfp20_remove }
+            change_variable = { name = nfp20_queue_count add = -1 }
+            change_variable = { name = nfp20_dropped add = 1 }
+        }
+        destroy_container = yes
+    }
+}
+
+}
+
+nfp20_capture_rank = {
+set_variable = { name = nfp20_rank_now value = 0 }
+set_variable = { name = nfp20_rank_label value = flag:NFP20_RANK_UNKNOWN }
+if = { limit = { country_rank = rank_value:great_power } set_variable = { name = nfp20_rank_now value = 7 } set_variable = { name = nfp20_rank_label value = flag:great_power } }
+if = { limit = { country_rank = rank_value:major_power } set_variable = { name = nfp20_rank_now value = 6 } set_variable = { name = nfp20_rank_label value = flag:major_power } }
+if = { limit = { country_rank = rank_value:unrecognized_major_power } set_variable = { name = nfp20_rank_now value = 5 } set_variable = { name = nfp20_rank_label value = flag:unrecognized_major_power } }
+if = { limit = { country_rank = rank_value:minor_power } set_variable = { name = nfp20_rank_now value = 4 } set_variable = { name = nfp20_rank_label value = flag:minor_power } }
+if = { limit = { country_rank = rank_value:unrecognized_regional_power } set_variable = { name = nfp20_rank_now value = 3 } set_variable = { name = nfp20_rank_label value = flag:unrecognized_regional_power } }
+if = { limit = { country_rank = rank_value:insignificant_power } set_variable = { name = nfp20_rank_now value = 2 } set_variable = { name = nfp20_rank_label value = flag:insignificant_power } }
+if = { limit = { country_rank = rank_value:unrecognized_power } set_variable = { name = nfp20_rank_now value = 1 } set_variable = { name = nfp20_rank_label value = flag:unrecognized_power } }
+}
+
+nfp20_rank_news = {
+
+nfp20_capture_rank = yes
+if = { limit = { has_variable = nfp20_rank_old NOT = { var:nfp20_rank_old = var:nfp20_rank_now } }
+    nfp20_prepare = yes
+    set_variable = { name = nfp20_f_detail value = var:nfp20_rank_old_label }
+    set_variable = { name = nfp20_f_extra_detail value = var:nfp20_rank_label }
+    set_variable = { name = nfp20_f_before value = var:nfp20_rank_old }
+    set_variable = { name = nfp20_f_after value = var:nfp20_rank_now }
+    set_variable = { name = nfp20_f_extra value = 0 }
+    nfp20_emit = { type = 8 section = 4 body = NFP20_RANK severity = 50 global = yes }
+}
+set_variable = { name = nfp20_rank_old value = var:nfp20_rank_now }
+set_variable = { name = nfp20_rank_old_label value = var:nfp20_rank_label }
+
+}
+
+nfp20_collect_world = {
+
+# Also called before delivery. Country marker makes JE/world pulse order irrelevant.
+every_country = { nfp_initialize = yes nfp20_migrate = yes }
+every_country = { nfp20_observe = yes }
+every_country = { limit = { is_player = yes has_variable = nfp20_schema } nfp32_observe_prices = yes }
+
+}
+
+nfp20_observe = {
+ nfp69_observe = yes
+
+if = { limit = { OR = { NOT = { has_variable = nfp20_observed_period } NOT = { var:nfp20_observed_period = nfp20_period } } }
+    nfp20_prepare = yes
+    if = { limit = { NOT = { has_variable = nfp20_observed_period } }
+set_variable = { name = nfp20_count value = 0 }
+if = { limit = { NOT = { has_variable = nfp20_source_serial } }
+    set_variable = { name = nfp20_source_serial value = 0 }
+}
+set_variable = { name = nfp20_gdp_inside value = 0 }
+set_variable = { name = nfp20_gdp_streak value = 0 }
+set_variable = { name = nfp20_prod_grain_inside value = 0 }
+set_variable = { name = nfp20_prod_grain_streak value = 0 }
+set_variable = { name = nfp20_prod_coal_inside value = 0 }
+set_variable = { name = nfp20_prod_coal_streak value = 0 }
+set_variable = { name = nfp20_prod_iron_inside value = 0 }
+set_variable = { name = nfp20_prod_iron_streak value = 0 }
+set_variable = { name = nfp20_prod_tools_inside value = 0 }
+set_variable = { name = nfp20_prod_tools_streak value = 0 }
+set_variable = { name = nfp20_gdp_outside value = gdp_ranking }
+set_variable = { name = nfp20_prod_grain_outside value = "goods_production_rank(g:grain)" }
+set_variable = { name = nfp20_prod_coal_outside value = "goods_production_rank(g:coal)" }
+set_variable = { name = nfp20_prod_iron_outside value = "goods_production_rank(g:iron)" }
+set_variable = { name = nfp20_prod_tools_outside value = "goods_production_rank(g:tools)" }
+if = { limit = { has_technology_researched = railways } set_variable = nfp20_acquired_railways }
+if = { limit = { has_technology_researched = bessemer_process } set_variable = nfp20_acquired_bessemer_process }
+if = { limit = { has_technology_researched = steelworking } set_variable = nfp20_acquired_steelworking }
+if = { limit = { has_technology_researched = steam_donkey } set_variable = nfp20_acquired_steam_donkey }
+if = { limit = { has_technology_researched = aniline } set_variable = nfp20_acquired_aniline }
+if = { limit = { has_technology_researched = electrical_generation } set_variable = nfp20_acquired_electrical_generation }
+if = { limit = { has_technology_researched = electric_telegraph } set_variable = nfp20_acquired_electric_telegraph }
+if = { limit = { has_technology_researched = quinine } set_variable = nfp20_acquired_quinine }
+if = { limit = { has_technology_researched = antibiotics } set_variable = nfp20_acquired_antibiotics }
+set_variable = { name = nfp20_active_law_slavery_banned value = 0 }
+if = { limit = { has_law = law_type:law_slavery_banned } set_variable = { name = nfp20_active_law_slavery_banned value = 1 } }
+set_variable = { name = nfp20_active_law_protected_speech value = 0 }
+if = { limit = { has_law = law_type:law_protected_speech } set_variable = { name = nfp20_active_law_protected_speech value = 1 } }
+set_variable = { name = nfp20_active_law_compulsory_primary_school value = 0 }
+if = { limit = { has_law = law_type:law_compulsory_primary_school } set_variable = { name = nfp20_active_law_compulsory_primary_school value = 1 } }
+set_variable = { name = nfp20_active_law_womens_suffrage value = 0 }
+if = { limit = { has_law = law_type:law_womens_suffrage } set_variable = { name = nfp20_active_law_womens_suffrage value = 1 } }
+set_variable = { name = nfp20_active_law_guaranteed_liberties value = 0 }
+if = { limit = { has_law = law_type:law_guaranteed_liberties } set_variable = { name = nfp20_active_law_guaranteed_liberties value = 1 } }
+        set_variable = { name = nfp20_lit50 value = 0 }
+        set_variable = { name = nfp20_lit75 value = 0 }
+        if = { limit = { literacy_rate >= 0.5 } set_variable = { name = nfp20_lit50 value = 1 } }
+        if = { limit = { literacy_rate >= 0.75 } set_variable = { name = nfp20_lit75 value = 1 } }
+        if = { limit = { gdp_ranking <= 10 } set_variable = { name = nfp20_gdp_inside value = 1 } }
+if = { limit = { "goods_production_rank(g:grain)" <= 3 } set_variable = { name = nfp20_prod_grain_inside value = 1 } }
+if = { limit = { "goods_production_rank(g:coal)" <= 3 } set_variable = { name = nfp20_prod_coal_inside value = 1 } }
+if = { limit = { "goods_production_rank(g:iron)" <= 3 } set_variable = { name = nfp20_prod_iron_inside value = 1 } }
+if = { limit = { "goods_production_rank(g:tools)" <= 3 } set_variable = { name = nfp20_prod_tools_inside value = 1 } }
+if = { limit = { NOT = { has_law = law_type:law_slavery_banned } } set_variable = { name = nfp20_active_law_slavery_banned value = 0 } }
+if = { limit = { NOT = { has_law = law_type:law_protected_speech } } set_variable = { name = nfp20_active_law_protected_speech value = 0 } }
+if = { limit = { NOT = { has_law = law_type:law_compulsory_primary_school } } set_variable = { name = nfp20_active_law_compulsory_primary_school value = 0 } }
+if = { limit = { NOT = { has_law = law_type:law_womens_suffrage } } set_variable = { name = nfp20_active_law_womens_suffrage value = 0 } }
+if = { limit = { NOT = { has_law = law_type:law_guaranteed_liberties } } set_variable = { name = nfp20_active_law_guaranteed_liberties value = 0 } }
+
+    } else = {
+        # A gap invalidates consecutive observations and quarterly inference.
+        if = { limit = { NOT = { nfp20_period_gap = 1 } }
+            set_variable = { name = nfp20_count value = 0 }
+            set_variable = { name = nfp20_gdp_streak value = 0 }
+set_variable = { name = nfp20_prod_grain_streak value = 0 }
+set_variable = { name = nfp20_prod_coal_streak value = 0 }
+set_variable = { name = nfp20_prod_iron_streak value = 0 }
+set_variable = { name = nfp20_prod_tools_streak value = 0 }
+
+        }
+if = { limit = { var:nfp20_lit50 = 0 literacy_rate >= 0.5 var:nfp20_literacy_0 < 0.5 }
+    set_variable = { name = nfp20_f_before value = var:nfp20_literacy_0 }
+set_variable = { name = nfp20_f_after value = literacy_rate }
+set_variable = { name = nfp20_f_extra value = 0.5 }
+set_variable = { name = nfp20_f_detail value = flag:NFP20_NONE }
+nfp20_emit = { type = 5 section = 3 body = NFP20_LITERACY severity = 45 global = yes }
+    set_variable = { name = nfp20_lit50 value = 1 }
+}
+if = { limit = { var:nfp20_lit75 = 0 literacy_rate >= 0.75 var:nfp20_literacy_0 < 0.75 }
+    set_variable = { name = nfp20_f_before value = var:nfp20_literacy_0 }
+set_variable = { name = nfp20_f_after value = literacy_rate }
+set_variable = { name = nfp20_f_extra value = 0.75 }
+set_variable = { name = nfp20_f_detail value = flag:NFP20_NONE }
+nfp20_emit = { type = 5 section = 3 body = NFP20_LITERACY severity = 45 global = yes }
+    set_variable = { name = nfp20_lit75 value = 1 }
+}
+if = { limit = { gdp_ranking <= 10 }
+        if = { limit = { var:nfp20_gdp_inside = 0 }
+            change_variable = { name = nfp20_gdp_streak add = 1 }
+            if = { limit = { var:nfp20_gdp_streak >= 2 }
+                set_variable = { name = nfp20_f_before value = var:nfp20_gdp_outside }
+set_variable = { name = nfp20_f_after value = gdp_ranking }
+set_variable = { name = nfp20_f_extra value = 2 }
+set_variable = { name = nfp20_f_detail value = flag:NFP20_NONE }
+nfp20_emit = { type = 6 section = 1 body = NFP20_GDP_LEADER severity = 45 global = yes }
+                set_variable = { name = nfp20_gdp_inside value = 1 }
+            }
+        }
+    } else = { set_variable = { name = nfp20_gdp_inside value = 0 } set_variable = { name = nfp20_gdp_streak value = 0 } set_variable = { name = nfp20_gdp_outside value = gdp_ranking } }
+
+if = { limit = { NOT = { has_variable = nfp20_prod_copper_inside } }
+ set_variable = { name = nfp20_prod_copper_inside value = 0 }
+ set_variable = { name = nfp20_prod_copper_streak value = 0 }
+ set_variable = { name = nfp20_prod_copper_outside value = "goods_production_rank(g:copper)" }
+ if = { limit = { "goods_production_rank(g:copper)" >= 1 "goods_production_rank(g:copper)" <= 3 } set_variable = { name = nfp20_prod_copper_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_copper_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:copper)" >= 1 "goods_production_rank(g:copper)" <= 3 }
+  if = { limit = { var:nfp20_prod_copper_inside = 0 }
+   change_variable = { name = nfp20_prod_copper_streak add = 1 }
+   if = { limit = { var:nfp20_prod_copper_streak >= 2 }
+    if = { limit = { var:nfp20_prod_copper_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_copper_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:copper)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:copper }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_copper_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_copper_inside value = 0 }
+  set_variable = { name = nfp20_prod_copper_streak value = 0 }
+  set_variable = { name = nfp20_prod_copper_outside value = "goods_production_rank(g:copper)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_ammunition_inside } }
+ set_variable = { name = nfp20_prod_ammunition_inside value = 0 }
+ set_variable = { name = nfp20_prod_ammunition_streak value = 0 }
+ set_variable = { name = nfp20_prod_ammunition_outside value = "goods_production_rank(g:ammunition)" }
+ if = { limit = { "goods_production_rank(g:ammunition)" >= 1 "goods_production_rank(g:ammunition)" <= 3 } set_variable = { name = nfp20_prod_ammunition_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_ammunition_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:ammunition)" >= 1 "goods_production_rank(g:ammunition)" <= 3 }
+  if = { limit = { var:nfp20_prod_ammunition_inside = 0 }
+   change_variable = { name = nfp20_prod_ammunition_streak add = 1 }
+   if = { limit = { var:nfp20_prod_ammunition_streak >= 2 }
+    if = { limit = { var:nfp20_prod_ammunition_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_ammunition_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:ammunition)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:ammunition }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_ammunition_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_ammunition_inside value = 0 }
+  set_variable = { name = nfp20_prod_ammunition_streak value = 0 }
+  set_variable = { name = nfp20_prod_ammunition_outside value = "goods_production_rank(g:ammunition)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_small_arms_inside } }
+ set_variable = { name = nfp20_prod_small_arms_inside value = 0 }
+ set_variable = { name = nfp20_prod_small_arms_streak value = 0 }
+ set_variable = { name = nfp20_prod_small_arms_outside value = "goods_production_rank(g:small_arms)" }
+ if = { limit = { "goods_production_rank(g:small_arms)" >= 1 "goods_production_rank(g:small_arms)" <= 3 } set_variable = { name = nfp20_prod_small_arms_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_small_arms_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:small_arms)" >= 1 "goods_production_rank(g:small_arms)" <= 3 }
+  if = { limit = { var:nfp20_prod_small_arms_inside = 0 }
+   change_variable = { name = nfp20_prod_small_arms_streak add = 1 }
+   if = { limit = { var:nfp20_prod_small_arms_streak >= 2 }
+    if = { limit = { var:nfp20_prod_small_arms_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_small_arms_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:small_arms)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:small_arms }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_small_arms_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_small_arms_inside value = 0 }
+  set_variable = { name = nfp20_prod_small_arms_streak value = 0 }
+  set_variable = { name = nfp20_prod_small_arms_outside value = "goods_production_rank(g:small_arms)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_artillery_inside } }
+ set_variable = { name = nfp20_prod_artillery_inside value = 0 }
+ set_variable = { name = nfp20_prod_artillery_streak value = 0 }
+ set_variable = { name = nfp20_prod_artillery_outside value = "goods_production_rank(g:artillery)" }
+ if = { limit = { "goods_production_rank(g:artillery)" >= 1 "goods_production_rank(g:artillery)" <= 3 } set_variable = { name = nfp20_prod_artillery_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_artillery_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:artillery)" >= 1 "goods_production_rank(g:artillery)" <= 3 }
+  if = { limit = { var:nfp20_prod_artillery_inside = 0 }
+   change_variable = { name = nfp20_prod_artillery_streak add = 1 }
+   if = { limit = { var:nfp20_prod_artillery_streak >= 2 }
+    if = { limit = { var:nfp20_prod_artillery_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_artillery_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:artillery)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:artillery }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_artillery_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_artillery_inside value = 0 }
+  set_variable = { name = nfp20_prod_artillery_streak value = 0 }
+  set_variable = { name = nfp20_prod_artillery_outside value = "goods_production_rank(g:artillery)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_tanks_inside } }
+ set_variable = { name = nfp20_prod_tanks_inside value = 0 }
+ set_variable = { name = nfp20_prod_tanks_streak value = 0 }
+ set_variable = { name = nfp20_prod_tanks_outside value = "goods_production_rank(g:tanks)" }
+ if = { limit = { "goods_production_rank(g:tanks)" >= 1 "goods_production_rank(g:tanks)" <= 3 } set_variable = { name = nfp20_prod_tanks_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_tanks_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:tanks)" >= 1 "goods_production_rank(g:tanks)" <= 3 }
+  if = { limit = { var:nfp20_prod_tanks_inside = 0 }
+   change_variable = { name = nfp20_prod_tanks_streak add = 1 }
+   if = { limit = { var:nfp20_prod_tanks_streak >= 2 }
+    if = { limit = { var:nfp20_prod_tanks_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_tanks_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:tanks)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:tanks }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_tanks_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_tanks_inside value = 0 }
+  set_variable = { name = nfp20_prod_tanks_streak value = 0 }
+  set_variable = { name = nfp20_prod_tanks_outside value = "goods_production_rank(g:tanks)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_aeroplanes_inside } }
+ set_variable = { name = nfp20_prod_aeroplanes_inside value = 0 }
+ set_variable = { name = nfp20_prod_aeroplanes_streak value = 0 }
+ set_variable = { name = nfp20_prod_aeroplanes_outside value = "goods_production_rank(g:aeroplanes)" }
+ if = { limit = { "goods_production_rank(g:aeroplanes)" >= 1 "goods_production_rank(g:aeroplanes)" <= 3 } set_variable = { name = nfp20_prod_aeroplanes_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_aeroplanes_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:aeroplanes)" >= 1 "goods_production_rank(g:aeroplanes)" <= 3 }
+  if = { limit = { var:nfp20_prod_aeroplanes_inside = 0 }
+   change_variable = { name = nfp20_prod_aeroplanes_streak add = 1 }
+   if = { limit = { var:nfp20_prod_aeroplanes_streak >= 2 }
+    if = { limit = { var:nfp20_prod_aeroplanes_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_aeroplanes_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:aeroplanes)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:aeroplanes }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_aeroplanes_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_aeroplanes_inside value = 0 }
+  set_variable = { name = nfp20_prod_aeroplanes_streak value = 0 }
+  set_variable = { name = nfp20_prod_aeroplanes_outside value = "goods_production_rank(g:aeroplanes)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_manowars_inside } }
+ set_variable = { name = nfp20_prod_manowars_inside value = 0 }
+ set_variable = { name = nfp20_prod_manowars_streak value = 0 }
+ set_variable = { name = nfp20_prod_manowars_outside value = "goods_production_rank(g:manowars)" }
+ if = { limit = { "goods_production_rank(g:manowars)" >= 1 "goods_production_rank(g:manowars)" <= 3 } set_variable = { name = nfp20_prod_manowars_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_manowars_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:manowars)" >= 1 "goods_production_rank(g:manowars)" <= 3 }
+  if = { limit = { var:nfp20_prod_manowars_inside = 0 }
+   change_variable = { name = nfp20_prod_manowars_streak add = 1 }
+   if = { limit = { var:nfp20_prod_manowars_streak >= 2 }
+    if = { limit = { var:nfp20_prod_manowars_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_manowars_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:manowars)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:manowars }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_manowars_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_manowars_inside value = 0 }
+  set_variable = { name = nfp20_prod_manowars_streak value = 0 }
+  set_variable = { name = nfp20_prod_manowars_outside value = "goods_production_rank(g:manowars)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_ironclads_inside } }
+ set_variable = { name = nfp20_prod_ironclads_inside value = 0 }
+ set_variable = { name = nfp20_prod_ironclads_streak value = 0 }
+ set_variable = { name = nfp20_prod_ironclads_outside value = "goods_production_rank(g:ironclads)" }
+ if = { limit = { "goods_production_rank(g:ironclads)" >= 1 "goods_production_rank(g:ironclads)" <= 3 } set_variable = { name = nfp20_prod_ironclads_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_ironclads_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:ironclads)" >= 1 "goods_production_rank(g:ironclads)" <= 3 }
+  if = { limit = { var:nfp20_prod_ironclads_inside = 0 }
+   change_variable = { name = nfp20_prod_ironclads_streak add = 1 }
+   if = { limit = { var:nfp20_prod_ironclads_streak >= 2 }
+    if = { limit = { var:nfp20_prod_ironclads_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_ironclads_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:ironclads)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:ironclads }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_ironclads_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_ironclads_inside value = 0 }
+  set_variable = { name = nfp20_prod_ironclads_streak value = 0 }
+  set_variable = { name = nfp20_prod_ironclads_outside value = "goods_production_rank(g:ironclads)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_grain_inside } }
+ set_variable = { name = nfp20_prod_grain_inside value = 0 }
+ set_variable = { name = nfp20_prod_grain_streak value = 0 }
+ set_variable = { name = nfp20_prod_grain_outside value = "goods_production_rank(g:grain)" }
+ if = { limit = { "goods_production_rank(g:grain)" >= 1 "goods_production_rank(g:grain)" <= 3 } set_variable = { name = nfp20_prod_grain_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_grain_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:grain)" >= 1 "goods_production_rank(g:grain)" <= 3 }
+  if = { limit = { var:nfp20_prod_grain_inside = 0 }
+   change_variable = { name = nfp20_prod_grain_streak add = 1 }
+   if = { limit = { var:nfp20_prod_grain_streak >= 2 }
+    if = { limit = { var:nfp20_prod_grain_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_grain_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:grain)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:grain }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_grain_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_grain_inside value = 0 }
+  set_variable = { name = nfp20_prod_grain_streak value = 0 }
+  set_variable = { name = nfp20_prod_grain_outside value = "goods_production_rank(g:grain)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_fish_inside } }
+ set_variable = { name = nfp20_prod_fish_inside value = 0 }
+ set_variable = { name = nfp20_prod_fish_streak value = 0 }
+ set_variable = { name = nfp20_prod_fish_outside value = "goods_production_rank(g:fish)" }
+ if = { limit = { "goods_production_rank(g:fish)" >= 1 "goods_production_rank(g:fish)" <= 3 } set_variable = { name = nfp20_prod_fish_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_fish_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:fish)" >= 1 "goods_production_rank(g:fish)" <= 3 }
+  if = { limit = { var:nfp20_prod_fish_inside = 0 }
+   change_variable = { name = nfp20_prod_fish_streak add = 1 }
+   if = { limit = { var:nfp20_prod_fish_streak >= 2 }
+    if = { limit = { var:nfp20_prod_fish_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_fish_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:fish)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:fish }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_fish_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_fish_inside value = 0 }
+  set_variable = { name = nfp20_prod_fish_streak value = 0 }
+  set_variable = { name = nfp20_prod_fish_outside value = "goods_production_rank(g:fish)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_fabric_inside } }
+ set_variable = { name = nfp20_prod_fabric_inside value = 0 }
+ set_variable = { name = nfp20_prod_fabric_streak value = 0 }
+ set_variable = { name = nfp20_prod_fabric_outside value = "goods_production_rank(g:fabric)" }
+ if = { limit = { "goods_production_rank(g:fabric)" >= 1 "goods_production_rank(g:fabric)" <= 3 } set_variable = { name = nfp20_prod_fabric_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_fabric_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:fabric)" >= 1 "goods_production_rank(g:fabric)" <= 3 }
+  if = { limit = { var:nfp20_prod_fabric_inside = 0 }
+   change_variable = { name = nfp20_prod_fabric_streak add = 1 }
+   if = { limit = { var:nfp20_prod_fabric_streak >= 2 }
+    if = { limit = { var:nfp20_prod_fabric_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_fabric_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:fabric)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:fabric }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_fabric_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_fabric_inside value = 0 }
+  set_variable = { name = nfp20_prod_fabric_streak value = 0 }
+  set_variable = { name = nfp20_prod_fabric_outside value = "goods_production_rank(g:fabric)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_wood_inside } }
+ set_variable = { name = nfp20_prod_wood_inside value = 0 }
+ set_variable = { name = nfp20_prod_wood_streak value = 0 }
+ set_variable = { name = nfp20_prod_wood_outside value = "goods_production_rank(g:wood)" }
+ if = { limit = { "goods_production_rank(g:wood)" >= 1 "goods_production_rank(g:wood)" <= 3 } set_variable = { name = nfp20_prod_wood_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_wood_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:wood)" >= 1 "goods_production_rank(g:wood)" <= 3 }
+  if = { limit = { var:nfp20_prod_wood_inside = 0 }
+   change_variable = { name = nfp20_prod_wood_streak add = 1 }
+   if = { limit = { var:nfp20_prod_wood_streak >= 2 }
+    if = { limit = { var:nfp20_prod_wood_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_wood_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:wood)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:wood }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_wood_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_wood_inside value = 0 }
+  set_variable = { name = nfp20_prod_wood_streak value = 0 }
+  set_variable = { name = nfp20_prod_wood_outside value = "goods_production_rank(g:wood)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_groceries_inside } }
+ set_variable = { name = nfp20_prod_groceries_inside value = 0 }
+ set_variable = { name = nfp20_prod_groceries_streak value = 0 }
+ set_variable = { name = nfp20_prod_groceries_outside value = "goods_production_rank(g:groceries)" }
+ if = { limit = { "goods_production_rank(g:groceries)" >= 1 "goods_production_rank(g:groceries)" <= 3 } set_variable = { name = nfp20_prod_groceries_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_groceries_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:groceries)" >= 1 "goods_production_rank(g:groceries)" <= 3 }
+  if = { limit = { var:nfp20_prod_groceries_inside = 0 }
+   change_variable = { name = nfp20_prod_groceries_streak add = 1 }
+   if = { limit = { var:nfp20_prod_groceries_streak >= 2 }
+    if = { limit = { var:nfp20_prod_groceries_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_groceries_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:groceries)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:groceries }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_groceries_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_groceries_inside value = 0 }
+  set_variable = { name = nfp20_prod_groceries_streak value = 0 }
+  set_variable = { name = nfp20_prod_groceries_outside value = "goods_production_rank(g:groceries)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_clothes_inside } }
+ set_variable = { name = nfp20_prod_clothes_inside value = 0 }
+ set_variable = { name = nfp20_prod_clothes_streak value = 0 }
+ set_variable = { name = nfp20_prod_clothes_outside value = "goods_production_rank(g:clothes)" }
+ if = { limit = { "goods_production_rank(g:clothes)" >= 1 "goods_production_rank(g:clothes)" <= 3 } set_variable = { name = nfp20_prod_clothes_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_clothes_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:clothes)" >= 1 "goods_production_rank(g:clothes)" <= 3 }
+  if = { limit = { var:nfp20_prod_clothes_inside = 0 }
+   change_variable = { name = nfp20_prod_clothes_streak add = 1 }
+   if = { limit = { var:nfp20_prod_clothes_streak >= 2 }
+    if = { limit = { var:nfp20_prod_clothes_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_clothes_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:clothes)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:clothes }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_clothes_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_clothes_inside value = 0 }
+  set_variable = { name = nfp20_prod_clothes_streak value = 0 }
+  set_variable = { name = nfp20_prod_clothes_outside value = "goods_production_rank(g:clothes)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_furniture_inside } }
+ set_variable = { name = nfp20_prod_furniture_inside value = 0 }
+ set_variable = { name = nfp20_prod_furniture_streak value = 0 }
+ set_variable = { name = nfp20_prod_furniture_outside value = "goods_production_rank(g:furniture)" }
+ if = { limit = { "goods_production_rank(g:furniture)" >= 1 "goods_production_rank(g:furniture)" <= 3 } set_variable = { name = nfp20_prod_furniture_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_furniture_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:furniture)" >= 1 "goods_production_rank(g:furniture)" <= 3 }
+  if = { limit = { var:nfp20_prod_furniture_inside = 0 }
+   change_variable = { name = nfp20_prod_furniture_streak add = 1 }
+   if = { limit = { var:nfp20_prod_furniture_streak >= 2 }
+    if = { limit = { var:nfp20_prod_furniture_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_furniture_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:furniture)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:furniture }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_furniture_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_furniture_inside value = 0 }
+  set_variable = { name = nfp20_prod_furniture_streak value = 0 }
+  set_variable = { name = nfp20_prod_furniture_outside value = "goods_production_rank(g:furniture)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_paper_inside } }
+ set_variable = { name = nfp20_prod_paper_inside value = 0 }
+ set_variable = { name = nfp20_prod_paper_streak value = 0 }
+ set_variable = { name = nfp20_prod_paper_outside value = "goods_production_rank(g:paper)" }
+ if = { limit = { "goods_production_rank(g:paper)" >= 1 "goods_production_rank(g:paper)" <= 3 } set_variable = { name = nfp20_prod_paper_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_paper_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:paper)" >= 1 "goods_production_rank(g:paper)" <= 3 }
+  if = { limit = { var:nfp20_prod_paper_inside = 0 }
+   change_variable = { name = nfp20_prod_paper_streak add = 1 }
+   if = { limit = { var:nfp20_prod_paper_streak >= 2 }
+    if = { limit = { var:nfp20_prod_paper_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_paper_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:paper)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:paper }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_paper_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_paper_inside value = 0 }
+  set_variable = { name = nfp20_prod_paper_streak value = 0 }
+  set_variable = { name = nfp20_prod_paper_outside value = "goods_production_rank(g:paper)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_services_inside } }
+ set_variable = { name = nfp20_prod_services_inside value = 0 }
+ set_variable = { name = nfp20_prod_services_streak value = 0 }
+ set_variable = { name = nfp20_prod_services_outside value = "goods_production_rank(g:services)" }
+ if = { limit = { "goods_production_rank(g:services)" >= 1 "goods_production_rank(g:services)" <= 3 } set_variable = { name = nfp20_prod_services_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_services_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:services)" >= 1 "goods_production_rank(g:services)" <= 3 }
+  if = { limit = { var:nfp20_prod_services_inside = 0 }
+   change_variable = { name = nfp20_prod_services_streak add = 1 }
+   if = { limit = { var:nfp20_prod_services_streak >= 2 }
+    if = { limit = { var:nfp20_prod_services_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_services_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:services)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:services }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_services_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_services_inside value = 0 }
+  set_variable = { name = nfp20_prod_services_streak value = 0 }
+  set_variable = { name = nfp20_prod_services_outside value = "goods_production_rank(g:services)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_transportation_inside } }
+ set_variable = { name = nfp20_prod_transportation_inside value = 0 }
+ set_variable = { name = nfp20_prod_transportation_streak value = 0 }
+ set_variable = { name = nfp20_prod_transportation_outside value = "goods_production_rank(g:transportation)" }
+ if = { limit = { "goods_production_rank(g:transportation)" >= 1 "goods_production_rank(g:transportation)" <= 3 } set_variable = { name = nfp20_prod_transportation_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_transportation_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:transportation)" >= 1 "goods_production_rank(g:transportation)" <= 3 }
+  if = { limit = { var:nfp20_prod_transportation_inside = 0 }
+   change_variable = { name = nfp20_prod_transportation_streak add = 1 }
+   if = { limit = { var:nfp20_prod_transportation_streak >= 2 }
+    if = { limit = { var:nfp20_prod_transportation_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_transportation_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:transportation)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:transportation }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_transportation_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_transportation_inside value = 0 }
+  set_variable = { name = nfp20_prod_transportation_streak value = 0 }
+  set_variable = { name = nfp20_prod_transportation_outside value = "goods_production_rank(g:transportation)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_electricity_inside } }
+ set_variable = { name = nfp20_prod_electricity_inside value = 0 }
+ set_variable = { name = nfp20_prod_electricity_streak value = 0 }
+ set_variable = { name = nfp20_prod_electricity_outside value = "goods_production_rank(g:electricity)" }
+ if = { limit = { "goods_production_rank(g:electricity)" >= 1 "goods_production_rank(g:electricity)" <= 3 } set_variable = { name = nfp20_prod_electricity_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_electricity_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:electricity)" >= 1 "goods_production_rank(g:electricity)" <= 3 }
+  if = { limit = { var:nfp20_prod_electricity_inside = 0 }
+   change_variable = { name = nfp20_prod_electricity_streak add = 1 }
+   if = { limit = { var:nfp20_prod_electricity_streak >= 2 }
+    if = { limit = { var:nfp20_prod_electricity_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_electricity_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:electricity)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:electricity }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_electricity_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_electricity_inside value = 0 }
+  set_variable = { name = nfp20_prod_electricity_streak value = 0 }
+  set_variable = { name = nfp20_prod_electricity_outside value = "goods_production_rank(g:electricity)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_merchant_marine_inside } }
+ set_variable = { name = nfp20_prod_merchant_marine_inside value = 0 }
+ set_variable = { name = nfp20_prod_merchant_marine_streak value = 0 }
+ set_variable = { name = nfp20_prod_merchant_marine_outside value = "goods_production_rank(g:merchant_marine)" }
+ if = { limit = { "goods_production_rank(g:merchant_marine)" >= 1 "goods_production_rank(g:merchant_marine)" <= 3 } set_variable = { name = nfp20_prod_merchant_marine_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_merchant_marine_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:merchant_marine)" >= 1 "goods_production_rank(g:merchant_marine)" <= 3 }
+  if = { limit = { var:nfp20_prod_merchant_marine_inside = 0 }
+   change_variable = { name = nfp20_prod_merchant_marine_streak add = 1 }
+   if = { limit = { var:nfp20_prod_merchant_marine_streak >= 2 }
+    if = { limit = { var:nfp20_prod_merchant_marine_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_merchant_marine_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:merchant_marine)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:merchant_marine }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_merchant_marine_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_merchant_marine_inside value = 0 }
+  set_variable = { name = nfp20_prod_merchant_marine_streak value = 0 }
+  set_variable = { name = nfp20_prod_merchant_marine_outside value = "goods_production_rank(g:merchant_marine)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_clippers_inside } }
+ set_variable = { name = nfp20_prod_clippers_inside value = 0 }
+ set_variable = { name = nfp20_prod_clippers_streak value = 0 }
+ set_variable = { name = nfp20_prod_clippers_outside value = "goods_production_rank(g:clippers)" }
+ if = { limit = { "goods_production_rank(g:clippers)" >= 1 "goods_production_rank(g:clippers)" <= 3 } set_variable = { name = nfp20_prod_clippers_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_clippers_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:clippers)" >= 1 "goods_production_rank(g:clippers)" <= 3 }
+  if = { limit = { var:nfp20_prod_clippers_inside = 0 }
+   change_variable = { name = nfp20_prod_clippers_streak add = 1 }
+   if = { limit = { var:nfp20_prod_clippers_streak >= 2 }
+    if = { limit = { var:nfp20_prod_clippers_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_clippers_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:clippers)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:clippers }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_clippers_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_clippers_inside value = 0 }
+  set_variable = { name = nfp20_prod_clippers_streak value = 0 }
+  set_variable = { name = nfp20_prod_clippers_outside value = "goods_production_rank(g:clippers)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_steamers_inside } }
+ set_variable = { name = nfp20_prod_steamers_inside value = 0 }
+ set_variable = { name = nfp20_prod_steamers_streak value = 0 }
+ set_variable = { name = nfp20_prod_steamers_outside value = "goods_production_rank(g:steamers)" }
+ if = { limit = { "goods_production_rank(g:steamers)" >= 1 "goods_production_rank(g:steamers)" <= 3 } set_variable = { name = nfp20_prod_steamers_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_steamers_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:steamers)" >= 1 "goods_production_rank(g:steamers)" <= 3 }
+  if = { limit = { var:nfp20_prod_steamers_inside = 0 }
+   change_variable = { name = nfp20_prod_steamers_streak add = 1 }
+   if = { limit = { var:nfp20_prod_steamers_streak >= 2 }
+    if = { limit = { var:nfp20_prod_steamers_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_steamers_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:steamers)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:steamers }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_steamers_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_steamers_inside value = 0 }
+  set_variable = { name = nfp20_prod_steamers_streak value = 0 }
+  set_variable = { name = nfp20_prod_steamers_outside value = "goods_production_rank(g:steamers)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_silk_inside } }
+ set_variable = { name = nfp20_prod_silk_inside value = 0 }
+ set_variable = { name = nfp20_prod_silk_streak value = 0 }
+ set_variable = { name = nfp20_prod_silk_outside value = "goods_production_rank(g:silk)" }
+ if = { limit = { "goods_production_rank(g:silk)" >= 1 "goods_production_rank(g:silk)" <= 3 } set_variable = { name = nfp20_prod_silk_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_silk_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:silk)" >= 1 "goods_production_rank(g:silk)" <= 3 }
+  if = { limit = { var:nfp20_prod_silk_inside = 0 }
+   change_variable = { name = nfp20_prod_silk_streak add = 1 }
+   if = { limit = { var:nfp20_prod_silk_streak >= 2 }
+    if = { limit = { var:nfp20_prod_silk_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_silk_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:silk)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:silk }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_silk_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_silk_inside value = 0 }
+  set_variable = { name = nfp20_prod_silk_streak value = 0 }
+  set_variable = { name = nfp20_prod_silk_outside value = "goods_production_rank(g:silk)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_dye_inside } }
+ set_variable = { name = nfp20_prod_dye_inside value = 0 }
+ set_variable = { name = nfp20_prod_dye_streak value = 0 }
+ set_variable = { name = nfp20_prod_dye_outside value = "goods_production_rank(g:dye)" }
+ if = { limit = { "goods_production_rank(g:dye)" >= 1 "goods_production_rank(g:dye)" <= 3 } set_variable = { name = nfp20_prod_dye_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_dye_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:dye)" >= 1 "goods_production_rank(g:dye)" <= 3 }
+  if = { limit = { var:nfp20_prod_dye_inside = 0 }
+   change_variable = { name = nfp20_prod_dye_streak add = 1 }
+   if = { limit = { var:nfp20_prod_dye_streak >= 2 }
+    if = { limit = { var:nfp20_prod_dye_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_dye_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:dye)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:dye }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_dye_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_dye_inside value = 0 }
+  set_variable = { name = nfp20_prod_dye_streak value = 0 }
+  set_variable = { name = nfp20_prod_dye_outside value = "goods_production_rank(g:dye)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_sulfur_inside } }
+ set_variable = { name = nfp20_prod_sulfur_inside value = 0 }
+ set_variable = { name = nfp20_prod_sulfur_streak value = 0 }
+ set_variable = { name = nfp20_prod_sulfur_outside value = "goods_production_rank(g:sulfur)" }
+ if = { limit = { "goods_production_rank(g:sulfur)" >= 1 "goods_production_rank(g:sulfur)" <= 3 } set_variable = { name = nfp20_prod_sulfur_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_sulfur_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:sulfur)" >= 1 "goods_production_rank(g:sulfur)" <= 3 }
+  if = { limit = { var:nfp20_prod_sulfur_inside = 0 }
+   change_variable = { name = nfp20_prod_sulfur_streak add = 1 }
+   if = { limit = { var:nfp20_prod_sulfur_streak >= 2 }
+    if = { limit = { var:nfp20_prod_sulfur_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_sulfur_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:sulfur)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:sulfur }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_sulfur_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_sulfur_inside value = 0 }
+  set_variable = { name = nfp20_prod_sulfur_streak value = 0 }
+  set_variable = { name = nfp20_prod_sulfur_outside value = "goods_production_rank(g:sulfur)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_coal_inside } }
+ set_variable = { name = nfp20_prod_coal_inside value = 0 }
+ set_variable = { name = nfp20_prod_coal_streak value = 0 }
+ set_variable = { name = nfp20_prod_coal_outside value = "goods_production_rank(g:coal)" }
+ if = { limit = { "goods_production_rank(g:coal)" >= 1 "goods_production_rank(g:coal)" <= 3 } set_variable = { name = nfp20_prod_coal_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_coal_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:coal)" >= 1 "goods_production_rank(g:coal)" <= 3 }
+  if = { limit = { var:nfp20_prod_coal_inside = 0 }
+   change_variable = { name = nfp20_prod_coal_streak add = 1 }
+   if = { limit = { var:nfp20_prod_coal_streak >= 2 }
+    if = { limit = { var:nfp20_prod_coal_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_coal_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:coal)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:coal }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_coal_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_coal_inside value = 0 }
+  set_variable = { name = nfp20_prod_coal_streak value = 0 }
+  set_variable = { name = nfp20_prod_coal_outside value = "goods_production_rank(g:coal)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_iron_inside } }
+ set_variable = { name = nfp20_prod_iron_inside value = 0 }
+ set_variable = { name = nfp20_prod_iron_streak value = 0 }
+ set_variable = { name = nfp20_prod_iron_outside value = "goods_production_rank(g:iron)" }
+ if = { limit = { "goods_production_rank(g:iron)" >= 1 "goods_production_rank(g:iron)" <= 3 } set_variable = { name = nfp20_prod_iron_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_iron_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:iron)" >= 1 "goods_production_rank(g:iron)" <= 3 }
+  if = { limit = { var:nfp20_prod_iron_inside = 0 }
+   change_variable = { name = nfp20_prod_iron_streak add = 1 }
+   if = { limit = { var:nfp20_prod_iron_streak >= 2 }
+    if = { limit = { var:nfp20_prod_iron_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_iron_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:iron)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:iron }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_iron_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_iron_inside value = 0 }
+  set_variable = { name = nfp20_prod_iron_streak value = 0 }
+  set_variable = { name = nfp20_prod_iron_outside value = "goods_production_rank(g:iron)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_lead_inside } }
+ set_variable = { name = nfp20_prod_lead_inside value = 0 }
+ set_variable = { name = nfp20_prod_lead_streak value = 0 }
+ set_variable = { name = nfp20_prod_lead_outside value = "goods_production_rank(g:lead)" }
+ if = { limit = { "goods_production_rank(g:lead)" >= 1 "goods_production_rank(g:lead)" <= 3 } set_variable = { name = nfp20_prod_lead_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_lead_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:lead)" >= 1 "goods_production_rank(g:lead)" <= 3 }
+  if = { limit = { var:nfp20_prod_lead_inside = 0 }
+   change_variable = { name = nfp20_prod_lead_streak add = 1 }
+   if = { limit = { var:nfp20_prod_lead_streak >= 2 }
+    if = { limit = { var:nfp20_prod_lead_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_lead_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:lead)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:lead }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_lead_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_lead_inside value = 0 }
+  set_variable = { name = nfp20_prod_lead_streak value = 0 }
+  set_variable = { name = nfp20_prod_lead_outside value = "goods_production_rank(g:lead)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_hardwood_inside } }
+ set_variable = { name = nfp20_prod_hardwood_inside value = 0 }
+ set_variable = { name = nfp20_prod_hardwood_streak value = 0 }
+ set_variable = { name = nfp20_prod_hardwood_outside value = "goods_production_rank(g:hardwood)" }
+ if = { limit = { "goods_production_rank(g:hardwood)" >= 1 "goods_production_rank(g:hardwood)" <= 3 } set_variable = { name = nfp20_prod_hardwood_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_hardwood_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:hardwood)" >= 1 "goods_production_rank(g:hardwood)" <= 3 }
+  if = { limit = { var:nfp20_prod_hardwood_inside = 0 }
+   change_variable = { name = nfp20_prod_hardwood_streak add = 1 }
+   if = { limit = { var:nfp20_prod_hardwood_streak >= 2 }
+    if = { limit = { var:nfp20_prod_hardwood_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_hardwood_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:hardwood)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:hardwood }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_hardwood_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_hardwood_inside value = 0 }
+  set_variable = { name = nfp20_prod_hardwood_streak value = 0 }
+  set_variable = { name = nfp20_prod_hardwood_outside value = "goods_production_rank(g:hardwood)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_rubber_inside } }
+ set_variable = { name = nfp20_prod_rubber_inside value = 0 }
+ set_variable = { name = nfp20_prod_rubber_streak value = 0 }
+ set_variable = { name = nfp20_prod_rubber_outside value = "goods_production_rank(g:rubber)" }
+ if = { limit = { "goods_production_rank(g:rubber)" >= 1 "goods_production_rank(g:rubber)" <= 3 } set_variable = { name = nfp20_prod_rubber_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_rubber_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:rubber)" >= 1 "goods_production_rank(g:rubber)" <= 3 }
+  if = { limit = { var:nfp20_prod_rubber_inside = 0 }
+   change_variable = { name = nfp20_prod_rubber_streak add = 1 }
+   if = { limit = { var:nfp20_prod_rubber_streak >= 2 }
+    if = { limit = { var:nfp20_prod_rubber_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_rubber_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:rubber)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:rubber }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_rubber_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_rubber_inside value = 0 }
+  set_variable = { name = nfp20_prod_rubber_streak value = 0 }
+  set_variable = { name = nfp20_prod_rubber_outside value = "goods_production_rank(g:rubber)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_oil_inside } }
+ set_variable = { name = nfp20_prod_oil_inside value = 0 }
+ set_variable = { name = nfp20_prod_oil_streak value = 0 }
+ set_variable = { name = nfp20_prod_oil_outside value = "goods_production_rank(g:oil)" }
+ if = { limit = { "goods_production_rank(g:oil)" >= 1 "goods_production_rank(g:oil)" <= 3 } set_variable = { name = nfp20_prod_oil_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_oil_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:oil)" >= 1 "goods_production_rank(g:oil)" <= 3 }
+  if = { limit = { var:nfp20_prod_oil_inside = 0 }
+   change_variable = { name = nfp20_prod_oil_streak add = 1 }
+   if = { limit = { var:nfp20_prod_oil_streak >= 2 }
+    if = { limit = { var:nfp20_prod_oil_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_oil_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:oil)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:oil }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_oil_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_oil_inside value = 0 }
+  set_variable = { name = nfp20_prod_oil_streak value = 0 }
+  set_variable = { name = nfp20_prod_oil_outside value = "goods_production_rank(g:oil)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_engines_inside } }
+ set_variable = { name = nfp20_prod_engines_inside value = 0 }
+ set_variable = { name = nfp20_prod_engines_streak value = 0 }
+ set_variable = { name = nfp20_prod_engines_outside value = "goods_production_rank(g:engines)" }
+ if = { limit = { "goods_production_rank(g:engines)" >= 1 "goods_production_rank(g:engines)" <= 3 } set_variable = { name = nfp20_prod_engines_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_engines_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:engines)" >= 1 "goods_production_rank(g:engines)" <= 3 }
+  if = { limit = { var:nfp20_prod_engines_inside = 0 }
+   change_variable = { name = nfp20_prod_engines_streak add = 1 }
+   if = { limit = { var:nfp20_prod_engines_streak >= 2 }
+    if = { limit = { var:nfp20_prod_engines_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_engines_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:engines)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:engines }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_engines_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_engines_inside value = 0 }
+  set_variable = { name = nfp20_prod_engines_streak value = 0 }
+  set_variable = { name = nfp20_prod_engines_outside value = "goods_production_rank(g:engines)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_steel_inside } }
+ set_variable = { name = nfp20_prod_steel_inside value = 0 }
+ set_variable = { name = nfp20_prod_steel_streak value = 0 }
+ set_variable = { name = nfp20_prod_steel_outside value = "goods_production_rank(g:steel)" }
+ if = { limit = { "goods_production_rank(g:steel)" >= 1 "goods_production_rank(g:steel)" <= 3 } set_variable = { name = nfp20_prod_steel_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_steel_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:steel)" >= 1 "goods_production_rank(g:steel)" <= 3 }
+  if = { limit = { var:nfp20_prod_steel_inside = 0 }
+   change_variable = { name = nfp20_prod_steel_streak add = 1 }
+   if = { limit = { var:nfp20_prod_steel_streak >= 2 }
+    if = { limit = { var:nfp20_prod_steel_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_steel_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:steel)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:steel }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_steel_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_steel_inside value = 0 }
+  set_variable = { name = nfp20_prod_steel_streak value = 0 }
+  set_variable = { name = nfp20_prod_steel_outside value = "goods_production_rank(g:steel)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_glass_inside } }
+ set_variable = { name = nfp20_prod_glass_inside value = 0 }
+ set_variable = { name = nfp20_prod_glass_streak value = 0 }
+ set_variable = { name = nfp20_prod_glass_outside value = "goods_production_rank(g:glass)" }
+ if = { limit = { "goods_production_rank(g:glass)" >= 1 "goods_production_rank(g:glass)" <= 3 } set_variable = { name = nfp20_prod_glass_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_glass_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:glass)" >= 1 "goods_production_rank(g:glass)" <= 3 }
+  if = { limit = { var:nfp20_prod_glass_inside = 0 }
+   change_variable = { name = nfp20_prod_glass_streak add = 1 }
+   if = { limit = { var:nfp20_prod_glass_streak >= 2 }
+    if = { limit = { var:nfp20_prod_glass_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_glass_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:glass)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:glass }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_glass_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_glass_inside value = 0 }
+  set_variable = { name = nfp20_prod_glass_streak value = 0 }
+  set_variable = { name = nfp20_prod_glass_outside value = "goods_production_rank(g:glass)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_fertilizer_inside } }
+ set_variable = { name = nfp20_prod_fertilizer_inside value = 0 }
+ set_variable = { name = nfp20_prod_fertilizer_streak value = 0 }
+ set_variable = { name = nfp20_prod_fertilizer_outside value = "goods_production_rank(g:fertilizer)" }
+ if = { limit = { "goods_production_rank(g:fertilizer)" >= 1 "goods_production_rank(g:fertilizer)" <= 3 } set_variable = { name = nfp20_prod_fertilizer_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_fertilizer_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:fertilizer)" >= 1 "goods_production_rank(g:fertilizer)" <= 3 }
+  if = { limit = { var:nfp20_prod_fertilizer_inside = 0 }
+   change_variable = { name = nfp20_prod_fertilizer_streak add = 1 }
+   if = { limit = { var:nfp20_prod_fertilizer_streak >= 2 }
+    if = { limit = { var:nfp20_prod_fertilizer_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_fertilizer_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:fertilizer)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:fertilizer }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_fertilizer_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_fertilizer_inside value = 0 }
+  set_variable = { name = nfp20_prod_fertilizer_streak value = 0 }
+  set_variable = { name = nfp20_prod_fertilizer_outside value = "goods_production_rank(g:fertilizer)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_tools_inside } }
+ set_variable = { name = nfp20_prod_tools_inside value = 0 }
+ set_variable = { name = nfp20_prod_tools_streak value = 0 }
+ set_variable = { name = nfp20_prod_tools_outside value = "goods_production_rank(g:tools)" }
+ if = { limit = { "goods_production_rank(g:tools)" >= 1 "goods_production_rank(g:tools)" <= 3 } set_variable = { name = nfp20_prod_tools_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_tools_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:tools)" >= 1 "goods_production_rank(g:tools)" <= 3 }
+  if = { limit = { var:nfp20_prod_tools_inside = 0 }
+   change_variable = { name = nfp20_prod_tools_streak add = 1 }
+   if = { limit = { var:nfp20_prod_tools_streak >= 2 }
+    if = { limit = { var:nfp20_prod_tools_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_tools_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:tools)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:tools }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_tools_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_tools_inside value = 0 }
+  set_variable = { name = nfp20_prod_tools_streak value = 0 }
+  set_variable = { name = nfp20_prod_tools_outside value = "goods_production_rank(g:tools)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_explosives_inside } }
+ set_variable = { name = nfp20_prod_explosives_inside value = 0 }
+ set_variable = { name = nfp20_prod_explosives_streak value = 0 }
+ set_variable = { name = nfp20_prod_explosives_outside value = "goods_production_rank(g:explosives)" }
+ if = { limit = { "goods_production_rank(g:explosives)" >= 1 "goods_production_rank(g:explosives)" <= 3 } set_variable = { name = nfp20_prod_explosives_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_explosives_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:explosives)" >= 1 "goods_production_rank(g:explosives)" <= 3 }
+  if = { limit = { var:nfp20_prod_explosives_inside = 0 }
+   change_variable = { name = nfp20_prod_explosives_streak add = 1 }
+   if = { limit = { var:nfp20_prod_explosives_streak >= 2 }
+    if = { limit = { var:nfp20_prod_explosives_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_explosives_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:explosives)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:explosives }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_explosives_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_explosives_inside value = 0 }
+  set_variable = { name = nfp20_prod_explosives_streak value = 0 }
+  set_variable = { name = nfp20_prod_explosives_outside value = "goods_production_rank(g:explosives)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_porcelain_inside } }
+ set_variable = { name = nfp20_prod_porcelain_inside value = 0 }
+ set_variable = { name = nfp20_prod_porcelain_streak value = 0 }
+ set_variable = { name = nfp20_prod_porcelain_outside value = "goods_production_rank(g:porcelain)" }
+ if = { limit = { "goods_production_rank(g:porcelain)" >= 1 "goods_production_rank(g:porcelain)" <= 3 } set_variable = { name = nfp20_prod_porcelain_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_porcelain_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:porcelain)" >= 1 "goods_production_rank(g:porcelain)" <= 3 }
+  if = { limit = { var:nfp20_prod_porcelain_inside = 0 }
+   change_variable = { name = nfp20_prod_porcelain_streak add = 1 }
+   if = { limit = { var:nfp20_prod_porcelain_streak >= 2 }
+    if = { limit = { var:nfp20_prod_porcelain_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_porcelain_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:porcelain)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:porcelain }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_porcelain_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_porcelain_inside value = 0 }
+  set_variable = { name = nfp20_prod_porcelain_streak value = 0 }
+  set_variable = { name = nfp20_prod_porcelain_outside value = "goods_production_rank(g:porcelain)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_meat_inside } }
+ set_variable = { name = nfp20_prod_meat_inside value = 0 }
+ set_variable = { name = nfp20_prod_meat_streak value = 0 }
+ set_variable = { name = nfp20_prod_meat_outside value = "goods_production_rank(g:meat)" }
+ if = { limit = { "goods_production_rank(g:meat)" >= 1 "goods_production_rank(g:meat)" <= 3 } set_variable = { name = nfp20_prod_meat_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_meat_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:meat)" >= 1 "goods_production_rank(g:meat)" <= 3 }
+  if = { limit = { var:nfp20_prod_meat_inside = 0 }
+   change_variable = { name = nfp20_prod_meat_streak add = 1 }
+   if = { limit = { var:nfp20_prod_meat_streak >= 2 }
+    if = { limit = { var:nfp20_prod_meat_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_meat_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:meat)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:meat }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_meat_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_meat_inside value = 0 }
+  set_variable = { name = nfp20_prod_meat_streak value = 0 }
+  set_variable = { name = nfp20_prod_meat_outside value = "goods_production_rank(g:meat)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_fruit_inside } }
+ set_variable = { name = nfp20_prod_fruit_inside value = 0 }
+ set_variable = { name = nfp20_prod_fruit_streak value = 0 }
+ set_variable = { name = nfp20_prod_fruit_outside value = "goods_production_rank(g:fruit)" }
+ if = { limit = { "goods_production_rank(g:fruit)" >= 1 "goods_production_rank(g:fruit)" <= 3 } set_variable = { name = nfp20_prod_fruit_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_fruit_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:fruit)" >= 1 "goods_production_rank(g:fruit)" <= 3 }
+  if = { limit = { var:nfp20_prod_fruit_inside = 0 }
+   change_variable = { name = nfp20_prod_fruit_streak add = 1 }
+   if = { limit = { var:nfp20_prod_fruit_streak >= 2 }
+    if = { limit = { var:nfp20_prod_fruit_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_fruit_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:fruit)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:fruit }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_fruit_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_fruit_inside value = 0 }
+  set_variable = { name = nfp20_prod_fruit_streak value = 0 }
+  set_variable = { name = nfp20_prod_fruit_outside value = "goods_production_rank(g:fruit)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_liquor_inside } }
+ set_variable = { name = nfp20_prod_liquor_inside value = 0 }
+ set_variable = { name = nfp20_prod_liquor_streak value = 0 }
+ set_variable = { name = nfp20_prod_liquor_outside value = "goods_production_rank(g:liquor)" }
+ if = { limit = { "goods_production_rank(g:liquor)" >= 1 "goods_production_rank(g:liquor)" <= 3 } set_variable = { name = nfp20_prod_liquor_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_liquor_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:liquor)" >= 1 "goods_production_rank(g:liquor)" <= 3 }
+  if = { limit = { var:nfp20_prod_liquor_inside = 0 }
+   change_variable = { name = nfp20_prod_liquor_streak add = 1 }
+   if = { limit = { var:nfp20_prod_liquor_streak >= 2 }
+    if = { limit = { var:nfp20_prod_liquor_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_liquor_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:liquor)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:liquor }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_liquor_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_liquor_inside value = 0 }
+  set_variable = { name = nfp20_prod_liquor_streak value = 0 }
+  set_variable = { name = nfp20_prod_liquor_outside value = "goods_production_rank(g:liquor)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_wine_inside } }
+ set_variable = { name = nfp20_prod_wine_inside value = 0 }
+ set_variable = { name = nfp20_prod_wine_streak value = 0 }
+ set_variable = { name = nfp20_prod_wine_outside value = "goods_production_rank(g:wine)" }
+ if = { limit = { "goods_production_rank(g:wine)" >= 1 "goods_production_rank(g:wine)" <= 3 } set_variable = { name = nfp20_prod_wine_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_wine_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:wine)" >= 1 "goods_production_rank(g:wine)" <= 3 }
+  if = { limit = { var:nfp20_prod_wine_inside = 0 }
+   change_variable = { name = nfp20_prod_wine_streak add = 1 }
+   if = { limit = { var:nfp20_prod_wine_streak >= 2 }
+    if = { limit = { var:nfp20_prod_wine_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_wine_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:wine)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:wine }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_wine_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_wine_inside value = 0 }
+  set_variable = { name = nfp20_prod_wine_streak value = 0 }
+  set_variable = { name = nfp20_prod_wine_outside value = "goods_production_rank(g:wine)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_tea_inside } }
+ set_variable = { name = nfp20_prod_tea_inside value = 0 }
+ set_variable = { name = nfp20_prod_tea_streak value = 0 }
+ set_variable = { name = nfp20_prod_tea_outside value = "goods_production_rank(g:tea)" }
+ if = { limit = { "goods_production_rank(g:tea)" >= 1 "goods_production_rank(g:tea)" <= 3 } set_variable = { name = nfp20_prod_tea_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_tea_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:tea)" >= 1 "goods_production_rank(g:tea)" <= 3 }
+  if = { limit = { var:nfp20_prod_tea_inside = 0 }
+   change_variable = { name = nfp20_prod_tea_streak add = 1 }
+   if = { limit = { var:nfp20_prod_tea_streak >= 2 }
+    if = { limit = { var:nfp20_prod_tea_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_tea_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:tea)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:tea }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_tea_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_tea_inside value = 0 }
+  set_variable = { name = nfp20_prod_tea_streak value = 0 }
+  set_variable = { name = nfp20_prod_tea_outside value = "goods_production_rank(g:tea)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_coffee_inside } }
+ set_variable = { name = nfp20_prod_coffee_inside value = 0 }
+ set_variable = { name = nfp20_prod_coffee_streak value = 0 }
+ set_variable = { name = nfp20_prod_coffee_outside value = "goods_production_rank(g:coffee)" }
+ if = { limit = { "goods_production_rank(g:coffee)" >= 1 "goods_production_rank(g:coffee)" <= 3 } set_variable = { name = nfp20_prod_coffee_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_coffee_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:coffee)" >= 1 "goods_production_rank(g:coffee)" <= 3 }
+  if = { limit = { var:nfp20_prod_coffee_inside = 0 }
+   change_variable = { name = nfp20_prod_coffee_streak add = 1 }
+   if = { limit = { var:nfp20_prod_coffee_streak >= 2 }
+    if = { limit = { var:nfp20_prod_coffee_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_coffee_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:coffee)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:coffee }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_coffee_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_coffee_inside value = 0 }
+  set_variable = { name = nfp20_prod_coffee_streak value = 0 }
+  set_variable = { name = nfp20_prod_coffee_outside value = "goods_production_rank(g:coffee)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_sugar_inside } }
+ set_variable = { name = nfp20_prod_sugar_inside value = 0 }
+ set_variable = { name = nfp20_prod_sugar_streak value = 0 }
+ set_variable = { name = nfp20_prod_sugar_outside value = "goods_production_rank(g:sugar)" }
+ if = { limit = { "goods_production_rank(g:sugar)" >= 1 "goods_production_rank(g:sugar)" <= 3 } set_variable = { name = nfp20_prod_sugar_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_sugar_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:sugar)" >= 1 "goods_production_rank(g:sugar)" <= 3 }
+  if = { limit = { var:nfp20_prod_sugar_inside = 0 }
+   change_variable = { name = nfp20_prod_sugar_streak add = 1 }
+   if = { limit = { var:nfp20_prod_sugar_streak >= 2 }
+    if = { limit = { var:nfp20_prod_sugar_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_sugar_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:sugar)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:sugar }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_sugar_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_sugar_inside value = 0 }
+  set_variable = { name = nfp20_prod_sugar_streak value = 0 }
+  set_variable = { name = nfp20_prod_sugar_outside value = "goods_production_rank(g:sugar)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_tobacco_inside } }
+ set_variable = { name = nfp20_prod_tobacco_inside value = 0 }
+ set_variable = { name = nfp20_prod_tobacco_streak value = 0 }
+ set_variable = { name = nfp20_prod_tobacco_outside value = "goods_production_rank(g:tobacco)" }
+ if = { limit = { "goods_production_rank(g:tobacco)" >= 1 "goods_production_rank(g:tobacco)" <= 3 } set_variable = { name = nfp20_prod_tobacco_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_tobacco_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:tobacco)" >= 1 "goods_production_rank(g:tobacco)" <= 3 }
+  if = { limit = { var:nfp20_prod_tobacco_inside = 0 }
+   change_variable = { name = nfp20_prod_tobacco_streak add = 1 }
+   if = { limit = { var:nfp20_prod_tobacco_streak >= 2 }
+    if = { limit = { var:nfp20_prod_tobacco_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_tobacco_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:tobacco)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:tobacco }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_tobacco_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_tobacco_inside value = 0 }
+  set_variable = { name = nfp20_prod_tobacco_streak value = 0 }
+  set_variable = { name = nfp20_prod_tobacco_outside value = "goods_production_rank(g:tobacco)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_opium_inside } }
+ set_variable = { name = nfp20_prod_opium_inside value = 0 }
+ set_variable = { name = nfp20_prod_opium_streak value = 0 }
+ set_variable = { name = nfp20_prod_opium_outside value = "goods_production_rank(g:opium)" }
+ if = { limit = { "goods_production_rank(g:opium)" >= 1 "goods_production_rank(g:opium)" <= 3 } set_variable = { name = nfp20_prod_opium_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_opium_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:opium)" >= 1 "goods_production_rank(g:opium)" <= 3 }
+  if = { limit = { var:nfp20_prod_opium_inside = 0 }
+   change_variable = { name = nfp20_prod_opium_streak add = 1 }
+   if = { limit = { var:nfp20_prod_opium_streak >= 2 }
+    if = { limit = { var:nfp20_prod_opium_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_opium_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:opium)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:opium }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_opium_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_opium_inside value = 0 }
+  set_variable = { name = nfp20_prod_opium_streak value = 0 }
+  set_variable = { name = nfp20_prod_opium_outside value = "goods_production_rank(g:opium)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_automobiles_inside } }
+ set_variable = { name = nfp20_prod_automobiles_inside value = 0 }
+ set_variable = { name = nfp20_prod_automobiles_streak value = 0 }
+ set_variable = { name = nfp20_prod_automobiles_outside value = "goods_production_rank(g:automobiles)" }
+ if = { limit = { "goods_production_rank(g:automobiles)" >= 1 "goods_production_rank(g:automobiles)" <= 3 } set_variable = { name = nfp20_prod_automobiles_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_automobiles_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:automobiles)" >= 1 "goods_production_rank(g:automobiles)" <= 3 }
+  if = { limit = { var:nfp20_prod_automobiles_inside = 0 }
+   change_variable = { name = nfp20_prod_automobiles_streak add = 1 }
+   if = { limit = { var:nfp20_prod_automobiles_streak >= 2 }
+    if = { limit = { var:nfp20_prod_automobiles_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_automobiles_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:automobiles)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:automobiles }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_automobiles_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_automobiles_inside value = 0 }
+  set_variable = { name = nfp20_prod_automobiles_streak value = 0 }
+  set_variable = { name = nfp20_prod_automobiles_outside value = "goods_production_rank(g:automobiles)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_telephones_inside } }
+ set_variable = { name = nfp20_prod_telephones_inside value = 0 }
+ set_variable = { name = nfp20_prod_telephones_streak value = 0 }
+ set_variable = { name = nfp20_prod_telephones_outside value = "goods_production_rank(g:telephones)" }
+ if = { limit = { "goods_production_rank(g:telephones)" >= 1 "goods_production_rank(g:telephones)" <= 3 } set_variable = { name = nfp20_prod_telephones_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_telephones_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:telephones)" >= 1 "goods_production_rank(g:telephones)" <= 3 }
+  if = { limit = { var:nfp20_prod_telephones_inside = 0 }
+   change_variable = { name = nfp20_prod_telephones_streak add = 1 }
+   if = { limit = { var:nfp20_prod_telephones_streak >= 2 }
+    if = { limit = { var:nfp20_prod_telephones_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_telephones_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:telephones)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:telephones }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_telephones_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_telephones_inside value = 0 }
+  set_variable = { name = nfp20_prod_telephones_streak value = 0 }
+  set_variable = { name = nfp20_prod_telephones_outside value = "goods_production_rank(g:telephones)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_radios_inside } }
+ set_variable = { name = nfp20_prod_radios_inside value = 0 }
+ set_variable = { name = nfp20_prod_radios_streak value = 0 }
+ set_variable = { name = nfp20_prod_radios_outside value = "goods_production_rank(g:radios)" }
+ if = { limit = { "goods_production_rank(g:radios)" >= 1 "goods_production_rank(g:radios)" <= 3 } set_variable = { name = nfp20_prod_radios_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_radios_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:radios)" >= 1 "goods_production_rank(g:radios)" <= 3 }
+  if = { limit = { var:nfp20_prod_radios_inside = 0 }
+   change_variable = { name = nfp20_prod_radios_streak add = 1 }
+   if = { limit = { var:nfp20_prod_radios_streak >= 2 }
+    if = { limit = { var:nfp20_prod_radios_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_radios_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:radios)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:radios }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_radios_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_radios_inside value = 0 }
+  set_variable = { name = nfp20_prod_radios_streak value = 0 }
+  set_variable = { name = nfp20_prod_radios_outside value = "goods_production_rank(g:radios)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_luxury_clothes_inside } }
+ set_variable = { name = nfp20_prod_luxury_clothes_inside value = 0 }
+ set_variable = { name = nfp20_prod_luxury_clothes_streak value = 0 }
+ set_variable = { name = nfp20_prod_luxury_clothes_outside value = "goods_production_rank(g:luxury_clothes)" }
+ if = { limit = { "goods_production_rank(g:luxury_clothes)" >= 1 "goods_production_rank(g:luxury_clothes)" <= 3 } set_variable = { name = nfp20_prod_luxury_clothes_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_luxury_clothes_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:luxury_clothes)" >= 1 "goods_production_rank(g:luxury_clothes)" <= 3 }
+  if = { limit = { var:nfp20_prod_luxury_clothes_inside = 0 }
+   change_variable = { name = nfp20_prod_luxury_clothes_streak add = 1 }
+   if = { limit = { var:nfp20_prod_luxury_clothes_streak >= 2 }
+    if = { limit = { var:nfp20_prod_luxury_clothes_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_luxury_clothes_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:luxury_clothes)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:luxury_clothes }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_luxury_clothes_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_luxury_clothes_inside value = 0 }
+  set_variable = { name = nfp20_prod_luxury_clothes_streak value = 0 }
+  set_variable = { name = nfp20_prod_luxury_clothes_outside value = "goods_production_rank(g:luxury_clothes)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_luxury_furniture_inside } }
+ set_variable = { name = nfp20_prod_luxury_furniture_inside value = 0 }
+ set_variable = { name = nfp20_prod_luxury_furniture_streak value = 0 }
+ set_variable = { name = nfp20_prod_luxury_furniture_outside value = "goods_production_rank(g:luxury_furniture)" }
+ if = { limit = { "goods_production_rank(g:luxury_furniture)" >= 1 "goods_production_rank(g:luxury_furniture)" <= 3 } set_variable = { name = nfp20_prod_luxury_furniture_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_luxury_furniture_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:luxury_furniture)" >= 1 "goods_production_rank(g:luxury_furniture)" <= 3 }
+  if = { limit = { var:nfp20_prod_luxury_furniture_inside = 0 }
+   change_variable = { name = nfp20_prod_luxury_furniture_streak add = 1 }
+   if = { limit = { var:nfp20_prod_luxury_furniture_streak >= 2 }
+    if = { limit = { var:nfp20_prod_luxury_furniture_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_luxury_furniture_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:luxury_furniture)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:luxury_furniture }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_luxury_furniture_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_luxury_furniture_inside value = 0 }
+  set_variable = { name = nfp20_prod_luxury_furniture_streak value = 0 }
+  set_variable = { name = nfp20_prod_luxury_furniture_outside value = "goods_production_rank(g:luxury_furniture)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_gold_inside } }
+ set_variable = { name = nfp20_prod_gold_inside value = 0 }
+ set_variable = { name = nfp20_prod_gold_streak value = 0 }
+ set_variable = { name = nfp20_prod_gold_outside value = "goods_production_rank(g:gold)" }
+ if = { limit = { "goods_production_rank(g:gold)" >= 1 "goods_production_rank(g:gold)" <= 3 } set_variable = { name = nfp20_prod_gold_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_gold_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:gold)" >= 1 "goods_production_rank(g:gold)" <= 3 }
+  if = { limit = { var:nfp20_prod_gold_inside = 0 }
+   change_variable = { name = nfp20_prod_gold_streak add = 1 }
+   if = { limit = { var:nfp20_prod_gold_streak >= 2 }
+    if = { limit = { var:nfp20_prod_gold_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_gold_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:gold)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:gold }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_gold_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_gold_inside value = 0 }
+  set_variable = { name = nfp20_prod_gold_streak value = 0 }
+  set_variable = { name = nfp20_prod_gold_outside value = "goods_production_rank(g:gold)" }
+ }
+}
+
+if = { limit = { NOT = { has_variable = nfp20_prod_fine_art_inside } }
+ set_variable = { name = nfp20_prod_fine_art_inside value = 0 }
+ set_variable = { name = nfp20_prod_fine_art_streak value = 0 }
+ set_variable = { name = nfp20_prod_fine_art_outside value = "goods_production_rank(g:fine_art)" }
+ if = { limit = { "goods_production_rank(g:fine_art)" >= 1 "goods_production_rank(g:fine_art)" <= 3 } set_variable = { name = nfp20_prod_fine_art_inside value = 1 } }
+} else = {
+ if = { limit = { NOT = { nfp20_period_gap = 1 } } set_variable = { name = nfp20_prod_fine_art_streak value = 0 } }
+ if = { limit = { "goods_production_rank(g:fine_art)" >= 1 "goods_production_rank(g:fine_art)" <= 3 }
+  if = { limit = { var:nfp20_prod_fine_art_inside = 0 }
+   change_variable = { name = nfp20_prod_fine_art_streak add = 1 }
+   if = { limit = { var:nfp20_prod_fine_art_streak >= 2 }
+    if = { limit = { var:nfp20_prod_fine_art_outside > 3 }
+     set_variable = { name = nfp20_f_before value = var:nfp20_prod_fine_art_outside }
+     set_variable = { name = nfp20_f_after value = "goods_production_rank(g:fine_art)" }
+     set_variable = { name = nfp20_f_extra value = 2 }
+     set_variable = { name = nfp20_f_detail value = flag:fine_art }
+     nfp20_emit = { type = 7 section = 1 body = NFP20_PRODUCTION severity = 45 global = yes }
+    }
+    set_variable = { name = nfp20_prod_fine_art_inside value = 1 }
+   }
+  }
+ } else = {
+  set_variable = { name = nfp20_prod_fine_art_inside value = 0 }
+  set_variable = { name = nfp20_prod_fine_art_streak value = 0 }
+  set_variable = { name = nfp20_prod_fine_art_outside value = "goods_production_rank(g:fine_art)" }
+ }
+}
+
+        if = { limit = { is_player = yes var:nfp20_count >= 3 var:nfp20_gdp_2 > 0 nfp20_quarter_gap = 3
+            nfp20_growth >= 0.05 nfp20_sol_fall >= 0.5
+            NOT = { has_variable = nfp20_growth_cooldown }
+            OR = { NOT = { has_variable = nfp20_territory_period } nfp20_safe_quarter >= 4 } }
+set_variable = { name = nfp20_f_before value = var:nfp20_gdp_2 }
+set_variable = { name = nfp20_f_after value = gdp }
+set_variable = { name = nfp20_f_extra value = nfp20_sol_fall }
+set_variable = { name = nfp20_f_detail value = flag:NFP20_NONE }
+nfp20_emit = { type = 1 section = 1 body = NFP20_DIVERGENCE severity = 80 global = no }
+            set_variable = { name = nfp20_growth_cooldown days = 90 }
+        }
+    }
+    nfp20_rank_news = yes
+if = { limit = { var:nfp20_count >= 12 }
+set_variable = { name = nfp20_gdp_12 value = var:nfp20_gdp_11 }
+set_variable = { name = nfp20_sol_12 value = var:nfp20_sol_11 }
+set_variable = { name = nfp20_literacy_12 value = var:nfp20_literacy_11 }
+set_variable = { name = nfp20_population_12 value = var:nfp20_population_11 }
+set_variable = { name = nfp20_period_12 value = var:nfp20_period_11 }
+}
+if = { limit = { var:nfp20_count >= 11 }
+set_variable = { name = nfp20_gdp_11 value = var:nfp20_gdp_10 }
+set_variable = { name = nfp20_sol_11 value = var:nfp20_sol_10 }
+set_variable = { name = nfp20_literacy_11 value = var:nfp20_literacy_10 }
+set_variable = { name = nfp20_population_11 value = var:nfp20_population_10 }
+set_variable = { name = nfp20_period_11 value = var:nfp20_period_10 }
+}
+if = { limit = { var:nfp20_count >= 10 }
+set_variable = { name = nfp20_gdp_10 value = var:nfp20_gdp_9 }
+set_variable = { name = nfp20_sol_10 value = var:nfp20_sol_9 }
+set_variable = { name = nfp20_literacy_10 value = var:nfp20_literacy_9 }
+set_variable = { name = nfp20_population_10 value = var:nfp20_population_9 }
+set_variable = { name = nfp20_period_10 value = var:nfp20_period_9 }
+}
+if = { limit = { var:nfp20_count >= 9 }
+set_variable = { name = nfp20_gdp_9 value = var:nfp20_gdp_8 }
+set_variable = { name = nfp20_sol_9 value = var:nfp20_sol_8 }
+set_variable = { name = nfp20_literacy_9 value = var:nfp20_literacy_8 }
+set_variable = { name = nfp20_population_9 value = var:nfp20_population_8 }
+set_variable = { name = nfp20_period_9 value = var:nfp20_period_8 }
+}
+if = { limit = { var:nfp20_count >= 8 }
+set_variable = { name = nfp20_gdp_8 value = var:nfp20_gdp_7 }
+set_variable = { name = nfp20_sol_8 value = var:nfp20_sol_7 }
+set_variable = { name = nfp20_literacy_8 value = var:nfp20_literacy_7 }
+set_variable = { name = nfp20_population_8 value = var:nfp20_population_7 }
+set_variable = { name = nfp20_period_8 value = var:nfp20_period_7 }
+}
+if = { limit = { var:nfp20_count >= 7 }
+set_variable = { name = nfp20_gdp_7 value = var:nfp20_gdp_6 }
+set_variable = { name = nfp20_sol_7 value = var:nfp20_sol_6 }
+set_variable = { name = nfp20_literacy_7 value = var:nfp20_literacy_6 }
+set_variable = { name = nfp20_population_7 value = var:nfp20_population_6 }
+set_variable = { name = nfp20_period_7 value = var:nfp20_period_6 }
+}
+if = { limit = { var:nfp20_count >= 6 }
+set_variable = { name = nfp20_gdp_6 value = var:nfp20_gdp_5 }
+set_variable = { name = nfp20_sol_6 value = var:nfp20_sol_5 }
+set_variable = { name = nfp20_literacy_6 value = var:nfp20_literacy_5 }
+set_variable = { name = nfp20_population_6 value = var:nfp20_population_5 }
+set_variable = { name = nfp20_period_6 value = var:nfp20_period_5 }
+}
+if = { limit = { var:nfp20_count >= 5 }
+set_variable = { name = nfp20_gdp_5 value = var:nfp20_gdp_4 }
+set_variable = { name = nfp20_sol_5 value = var:nfp20_sol_4 }
+set_variable = { name = nfp20_literacy_5 value = var:nfp20_literacy_4 }
+set_variable = { name = nfp20_population_5 value = var:nfp20_population_4 }
+set_variable = { name = nfp20_period_5 value = var:nfp20_period_4 }
+}
+if = { limit = { var:nfp20_count >= 4 }
+set_variable = { name = nfp20_gdp_4 value = var:nfp20_gdp_3 }
+set_variable = { name = nfp20_sol_4 value = var:nfp20_sol_3 }
+set_variable = { name = nfp20_literacy_4 value = var:nfp20_literacy_3 }
+set_variable = { name = nfp20_population_4 value = var:nfp20_population_3 }
+set_variable = { name = nfp20_period_4 value = var:nfp20_period_3 }
+}
+if = { limit = { var:nfp20_count >= 3 }
+set_variable = { name = nfp20_gdp_3 value = var:nfp20_gdp_2 }
+set_variable = { name = nfp20_sol_3 value = var:nfp20_sol_2 }
+set_variable = { name = nfp20_literacy_3 value = var:nfp20_literacy_2 }
+set_variable = { name = nfp20_population_3 value = var:nfp20_population_2 }
+set_variable = { name = nfp20_period_3 value = var:nfp20_period_2 }
+}
+if = { limit = { var:nfp20_count >= 2 }
+set_variable = { name = nfp20_gdp_2 value = var:nfp20_gdp_1 }
+set_variable = { name = nfp20_sol_2 value = var:nfp20_sol_1 }
+set_variable = { name = nfp20_literacy_2 value = var:nfp20_literacy_1 }
+set_variable = { name = nfp20_population_2 value = var:nfp20_population_1 }
+set_variable = { name = nfp20_period_2 value = var:nfp20_period_1 }
+}
+if = { limit = { var:nfp20_count >= 1 }
+set_variable = { name = nfp20_gdp_1 value = var:nfp20_gdp_0 }
+set_variable = { name = nfp20_sol_1 value = var:nfp20_sol_0 }
+set_variable = { name = nfp20_literacy_1 value = var:nfp20_literacy_0 }
+set_variable = { name = nfp20_population_1 value = var:nfp20_population_0 }
+set_variable = { name = nfp20_period_1 value = var:nfp20_period_0 }
+}
+set_variable = { name = nfp20_gdp_0 value = gdp }
+set_variable = { name = nfp20_sol_0 value = average_sol }
+set_variable = { name = nfp20_literacy_0 value = literacy_rate }
+set_variable = { name = nfp20_population_0 value = total_population }
+set_variable = { name = nfp20_period_0 value = nfp20_period }
+
+    if = { limit = { var:nfp20_count < 13 } change_variable = { name = nfp20_count add = 1 } }
+    set_variable = { name = nfp20_observed_period value = nfp20_period }
+    if = { limit = { is_player = yes has_variable = nfp20_schema }
+        nfp20_observe_regions = yes
+        nfp20_observe_goods = yes
+        nfp20_prune = yes
+    }
+}
+
+}
+
+nfp20_observe_regions = {
+save_scope_as = nfp20_region_reader
+every_scope_state = {
+
+if = { limit = { OR = { NOT = { has_variable = nfp20_region_owner } NOT = { var:nfp20_region_owner = owner } } }
+    set_variable = { name = nfp20_region_owner value = owner }
+set_variable = { name = nfp20_infra_bad value = 0 }
+set_variable = { name = nfp20_infra_good value = 0 }
+set_variable = { name = nfp20_infra_active value = 0 }
+set_variable = { name = nfp20_infra_published value = 0 }
+set_variable = { name = nfp20_infra_episode value = 0 }
+set_variable = { name = nfp20_access_bad value = 0 }
+set_variable = { name = nfp20_access_good value = 0 }
+set_variable = { name = nfp20_access_active value = 0 }
+set_variable = { name = nfp20_access_published value = 0 }
+set_variable = { name = nfp20_access_episode value = 0 }
+}
+nfp60_state_begin = yes
+if = { limit = { infrastructure_delta < 0 }
+        set_variable = { name = nfp20_infra_good value = 0 } change_variable = { name = nfp20_infra_bad add = 1 }
+        if = { limit = { var:nfp20_infra_bad >= 2 var:nfp20_infra_active = 0 }
+            set_variable = { name = nfp20_infra_active value = 1 } change_variable = { name = nfp20_infra_episode add = 1 }
+            save_scope_as = nfp20_region_source
+            set_variable = { name = nfp20_infra_initial value = infrastructure_delta }
+            owner = { nfp20_prepare = yes
+                set_variable = { name = nfp20_f_region value = scope:nfp20_region_source.state_region }
+                set_variable = { name = nfp20_f_problem_state value = scope:nfp20_region_source }
+                set_variable = { name = nfp20_f_problem value = 1 }
+                set_variable = { name = nfp20_f_episode value = scope:nfp20_region_source.var:nfp20_infra_episode }
+                set_variable = { name = nfp20_f_before value = 0 }
+set_variable = { name = nfp20_f_after value = scope:nfp20_region_source.infrastructure_delta }
+set_variable = { name = nfp20_f_extra value = 2 }
+set_variable = { name = nfp20_f_detail value = flag:NFP20_NONE }
+nfp20_emit = { type = 2 section = 1 body = NFP20_INFRA severity = 80 global = no }
+            }
+        }
+    } else = {
+        set_variable = { name = nfp20_infra_bad value = 0 } change_variable = { name = nfp20_infra_good add = 1 }
+        if = { limit = { var:nfp20_infra_active = 1 var:nfp20_infra_good >= 2 }
+            if = { limit = { var:nfp20_infra_published = var:nfp20_infra_episode }
+                save_scope_as = nfp20_region_source
+                owner = { nfp20_prepare = yes
+                    set_variable = { name = nfp20_f_region value = scope:nfp20_region_source.state_region }
+                    set_variable = { name = nfp20_f_problem_state value = scope:nfp20_region_source }
+                    set_variable = { name = nfp20_f_problem value = 1 }
+                    set_variable = { name = nfp20_f_episode value = scope:nfp20_region_source.var:nfp20_infra_episode }
+                    set_variable = { name = nfp20_f_before value = scope:nfp20_region_source.var:nfp20_infra_initial }
+set_variable = { name = nfp20_f_after value = scope:nfp20_region_source.infrastructure_delta }
+set_variable = { name = nfp20_f_extra value = 2 }
+set_variable = { name = nfp20_f_detail value = flag:NFP20_NONE }
+nfp20_emit = { type = 4 section = 1 body = NFP20_INFRA_RECOVERY severity = 75 global = no }
+                }
+            }
+            set_variable = { name = nfp20_infra_active value = 0 }
+        }
+    }
+if = { limit = { market_access < 0.9 }
+        set_variable = { name = nfp20_access_good value = 0 } change_variable = { name = nfp20_access_bad add = 1 }
+        if = { limit = { var:nfp20_access_bad >= 2 var:nfp20_access_active = 0 }
+            set_variable = { name = nfp20_access_active value = 1 } change_variable = { name = nfp20_access_episode add = 1 }
+            save_scope_as = nfp20_region_source
+            set_variable = { name = nfp20_access_initial value = market_access }
+            owner = { nfp20_prepare = yes
+                set_variable = { name = nfp20_f_region value = scope:nfp20_region_source.state_region }
+                set_variable = { name = nfp20_f_problem_state value = scope:nfp20_region_source }
+                set_variable = { name = nfp20_f_problem value = 2 }
+                set_variable = { name = nfp20_f_episode value = scope:nfp20_region_source.var:nfp20_access_episode }
+                set_variable = { name = nfp20_f_before value = 0 }
+set_variable = { name = nfp20_f_after value = scope:nfp20_region_source.market_access }
+set_variable = { name = nfp20_f_extra value = 2 }
+set_variable = { name = nfp20_f_detail value = flag:NFP20_NONE }
+nfp20_emit = { type = 2 section = 1 body = NFP20_ACCESS severity = 80 global = no }
+            }
+        }
+    } else = {
+        set_variable = { name = nfp20_access_bad value = 0 } change_variable = { name = nfp20_access_good add = 1 }
+        if = { limit = { var:nfp20_access_active = 1 var:nfp20_access_good >= 2 }
+            if = { limit = { var:nfp20_access_published = var:nfp20_access_episode }
+                save_scope_as = nfp20_region_source
+                owner = { nfp20_prepare = yes
+                    set_variable = { name = nfp20_f_region value = scope:nfp20_region_source.state_region }
+                    set_variable = { name = nfp20_f_problem_state value = scope:nfp20_region_source }
+                    set_variable = { name = nfp20_f_problem value = 2 }
+                    set_variable = { name = nfp20_f_episode value = scope:nfp20_region_source.var:nfp20_access_episode }
+                    set_variable = { name = nfp20_f_before value = scope:nfp20_region_source.var:nfp20_access_initial }
+set_variable = { name = nfp20_f_after value = scope:nfp20_region_source.market_access }
+set_variable = { name = nfp20_f_extra value = 2 }
+set_variable = { name = nfp20_f_detail value = flag:NFP20_NONE }
+nfp20_emit = { type = 4 section = 1 body = NFP20_ACCESS_RECOVERY severity = 75 global = no }
+                }
+            }
+            set_variable = { name = nfp20_access_active value = 0 }
+        }
+    }
+    nfp46_retry_state_warnings = yes
+    nfp60_state_finish = yes
+}
+}
+
+nfp20_observe_goods = { nfp46_observe_goods = yes }
+
+nfp20_mark_problem_published = {
+nfp46_mark_goods_published = yes
+if = { limit = { var:nfp20_type = 2 var:nfp20_problem = 1 exists = var:nfp20_problem_state }
+        save_scope_as = nfp20_published_fact
+        var:nfp20_problem_state = {
+            if = { limit = { owner = scope:nfp_reader var:nfp20_infra_episode = scope:nfp20_published_fact.var:nfp20_episode }
+                set_variable = { name = nfp20_infra_published value = scope:nfp20_published_fact.var:nfp20_episode }
+                set_variable = { name = nfp20_infra_initial value = scope:nfp20_published_fact.var:nfp20_after }
+            }
+        }
+    }
+if = { limit = { var:nfp20_type = 2 var:nfp20_problem = 2 exists = var:nfp20_problem_state }
+        save_scope_as = nfp20_published_fact
+        var:nfp20_problem_state = {
+            if = { limit = { owner = scope:nfp_reader var:nfp20_access_episode = scope:nfp20_published_fact.var:nfp20_episode }
+                set_variable = { name = nfp20_access_published value = scope:nfp20_published_fact.var:nfp20_episode }
+                set_variable = { name = nfp20_access_initial value = scope:nfp20_published_fact.var:nfp20_after }
+            }
+        }
+    }
+if = { limit = { var:nfp20_type = 3 var:nfp20_problem = 3 }
+        save_scope_as = nfp20_published_fact
+        scope:nfp_reader = { set_variable = { name = nfp20_short_grain_published value = scope:nfp20_published_fact.var:nfp20_episode } }
+    }
+if = { limit = { var:nfp20_type = 3 var:nfp20_problem = 4 }
+        save_scope_as = nfp20_published_fact
+        scope:nfp_reader = { set_variable = { name = nfp20_short_coal_published value = scope:nfp20_published_fact.var:nfp20_episode } }
+    }
+if = { limit = { var:nfp20_type = 3 var:nfp20_problem = 5 }
+        save_scope_as = nfp20_published_fact
+        scope:nfp_reader = { set_variable = { name = nfp20_short_iron_published value = scope:nfp20_published_fact.var:nfp20_episode } }
+    }
+if = { limit = { var:nfp20_type = 3 var:nfp20_problem = 6 }
+        save_scope_as = nfp20_published_fact
+        scope:nfp_reader = { set_variable = { name = nfp20_short_tools_published value = scope:nfp20_published_fact.var:nfp20_episode } }
+    }
+
+}
+
+nfp20_copy_article = {
+create_container = { tags = { nfp_article } parent = scope:nfp_new_issue save_scope_as = nfp_new_article }
+scope:nfp_new_article = {
+set_variable = { name = nfp_section value = scope:nfp20_selected_fact.var:nfp_section }
+set_variable = { name = nfp_body value = scope:nfp20_selected_fact.var:nfp_body }
+set_variable = { name = nfp20_schema value = scope:nfp20_selected_fact.var:nfp20_schema }
+set_variable = { name = nfp20_id value = scope:nfp20_selected_fact.var:nfp20_id }
+set_variable = { name = nfp20_source_serial value = scope:nfp20_selected_fact.var:nfp20_source_serial }
+set_variable = { name = nfp20_type value = scope:nfp20_selected_fact.var:nfp20_type }
+set_variable = { name = nfp20_priority value = scope:nfp20_selected_fact.var:nfp20_priority }
+set_variable = { name = nfp20_foreign value = scope:nfp20_selected_fact.var:nfp20_foreign }
+set_variable = { name = nfp20_extra_detail value = scope:nfp20_selected_fact.var:nfp20_extra_detail }
+set_variable = { name = nfp20_source_definition value = scope:nfp20_selected_fact.var:nfp20_source_definition }
+set_variable = { name = nfp20_secondary value = scope:nfp20_selected_fact.var:nfp20_secondary }
+set_variable = { name = nfp20_period value = scope:nfp20_selected_fact.var:nfp20_period }
+set_variable = { name = nfp20_year value = scope:nfp20_selected_fact.var:nfp20_year }
+set_variable = { name = nfp20_month value = scope:nfp20_selected_fact.var:nfp20_month }
+set_variable = { name = nfp20_before value = scope:nfp20_selected_fact.var:nfp20_before }
+set_variable = { name = nfp20_after value = scope:nfp20_selected_fact.var:nfp20_after }
+set_variable = { name = nfp20_extra value = scope:nfp20_selected_fact.var:nfp20_extra }
+set_variable = { name = nfp20_detail value = scope:nfp20_selected_fact.var:nfp20_detail }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp67_output_valid } } set_variable = { name = nfp67_output_valid value = scope:nfp20_selected_fact.var:nfp67_output_valid } }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp67_output_delta } } set_variable = { name = nfp67_output_delta value = scope:nfp20_selected_fact.var:nfp67_output_delta } }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp67_output_abs } } set_variable = { name = nfp67_output_abs value = scope:nfp20_selected_fact.var:nfp67_output_abs } }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp67_ours } } set_variable = { name = nfp67_ours value = scope:nfp20_selected_fact.var:nfp67_ours } }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp67_source_amount } } set_variable = { name = nfp67_source_amount value = scope:nfp20_selected_fact.var:nfp67_source_amount } }
+set_variable = { name = nfp20_urgent value = scope:nfp20_selected_fact.var:nfp20_urgent }
+set_variable = { name = nfp20_problem value = scope:nfp20_selected_fact.var:nfp20_problem }
+set_variable = { name = nfp20_episode value = scope:nfp20_selected_fact.var:nfp20_episode }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp20_region } } set_variable = { name = nfp20_region value = scope:nfp20_selected_fact.var:nfp20_region } }
+if = { limit = { scope:nfp20_selected_fact = { exists = var:nfp20_problem_state } }
+set_variable = { name = nfp20_problem_state value = scope:nfp20_selected_fact.var:nfp20_problem_state }
+}
+nfp31_copy_audience = yes
+nfp63_copy = yes
+nfp46_copy_goods = yes
+nfp50_copy_law = yes
+nfp69_copy = yes
+nfp50_copy_family = yes
+nfp60_copy_causes = yes
+nfp52_copy_article = yes
+nfp51_copy_article = yes
+nfp43_copy_election = yes
+set_variable = { name = nfp20_reason value = flag:$reason$ }
+set_variable = { name = nfp20_order value = scope:nfp_reader.var:nfp20_selected_count }
+}
+scope:nfp_new_issue = { add_to_variable_list = { name = nfp_articles target = scope:nfp_new_article } }
+}
+
+nfp20_select = {
+
+if = { limit = { any_in_list = { variable = nfp20_candidates nfp20_eligible = yes nfp20_type_room = yes OR = { always = $any$ var:nfp20_foreign = 1 } } }
+    ordered_in_list = { variable = nfp20_candidates order_by = nfp20_editor_order position = 0
+        limit = { nfp20_eligible = yes nfp20_type_room = yes OR = { always = $any$ var:nfp20_foreign = 1 } }
+        save_scope_as = nfp20_selected_fact
+        set_variable = { name = nfp20_used value = 1 }
+        nfp20_mark_problem_published = yes
+        scope:nfp_reader = { change_variable = { name = nfp20_selected_count add = 1 } }
+if = { limit = { var:nfp20_type = 1 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_1 add = 1 } } }
+if = { limit = { var:nfp20_type = 2 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_2 add = 1 } } }
+if = { limit = { var:nfp20_type = 3 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_3 add = 1 } } }
+if = { limit = { var:nfp20_type = 4 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_4 add = 1 } } }
+if = { limit = { var:nfp20_type = 5 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_5 add = 1 } } }
+if = { limit = { var:nfp20_type = 6 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_6 add = 1 } } }
+if = { limit = { var:nfp20_type = 7 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_7 add = 1 } } }
+if = { limit = { var:nfp20_type = 8 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_8 add = 1 } } }
+if = { limit = { var:nfp20_type = 9 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_9 add = 1 } } }
+if = { limit = { var:nfp20_type = 10 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_10 add = 1 } } }
+if = { limit = { var:nfp20_type = 11 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_11 add = 1 } } }
+if = { limit = { var:nfp20_type = 29 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_29 add = 1 } } }
+if = { limit = { var:nfp20_type = 30 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_30 add = 1 } } }
+if = { limit = { var:nfp20_type = 31 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_31 add = 1 } } }
+if = { limit = { var:nfp20_type = 24 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_24 add = 1 } } }
+if = { limit = { var:nfp20_type = 21 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_21 add = 1 } } }
+if = { limit = { var:nfp20_type = 22 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_22 add = 1 } } }
+if = { limit = { var:nfp20_type = 23 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_23 add = 1 } } }
+if = { limit = { var:nfp_section = 1 } scope:nfp_reader = { change_variable = { name = nfp20_section_count_1 add = 1 } } }
+if = { limit = { var:nfp_section = 2 } scope:nfp_reader = { change_variable = { name = nfp20_section_count_2 add = 1 } } }
+if = { limit = { var:nfp_section = 3 } scope:nfp_reader = { change_variable = { name = nfp20_section_count_3 add = 1 } } }
+if = { limit = { var:nfp_section = 4 } scope:nfp_reader = { change_variable = { name = nfp20_section_count_4 add = 1 } } }
+nfp20_copy_article = { reason = $reason$ }
+}
+}
+}
+
+nfp20_edit_issue = {
+nfp31_migrate_queue = yes
+
+nfp20_prune = yes
+set_variable = { name = nfp20_print_kind value = $kind$ }
+set_variable = { name = nfp20_selected_count value = 0 }
+set_variable = { name = nfp20_chosen_1 value = 0 }
+set_variable = { name = nfp20_chosen_2 value = 0 }
+set_variable = { name = nfp20_chosen_3 value = 0 }
+set_variable = { name = nfp20_chosen_4 value = 0 }
+set_variable = { name = nfp20_chosen_5 value = 0 }
+set_variable = { name = nfp20_chosen_6 value = 0 }
+set_variable = { name = nfp20_chosen_7 value = 0 }
+set_variable = { name = nfp20_chosen_8 value = 0 }
+set_variable = { name = nfp20_chosen_9 value = 0 }
+set_variable = { name = nfp20_chosen_10 value = 0 }
+set_variable = { name = nfp20_chosen_11 value = 0 }
+set_variable = { name = nfp20_chosen_29 value = 0 }
+set_variable = { name = nfp20_chosen_30 value = 0 }
+set_variable = { name = nfp20_chosen_31 value = 0 }
+set_variable = { name = nfp20_chosen_24 value = 0 }
+set_variable = { name = nfp20_chosen_21 value = 0 }
+set_variable = { name = nfp20_chosen_22 value = 0 }
+set_variable = { name = nfp20_chosen_23 value = 0 }
+set_variable = { name = nfp20_section_count_1 value = 0 }
+set_variable = { name = nfp20_section_count_2 value = 0 }
+set_variable = { name = nfp20_section_count_3 value = 0 }
+set_variable = { name = nfp20_section_count_4 value = 0 }
+if = { limit = { var:nfp20_print_kind < 3 }
+    nfp63_select_domestic = yes
+}
+while = { count = 6
+    if = { limit = { OR = { AND = { var:nfp20_print_kind < 3 var:nfp20_selected_count < 6 } AND = { var:nfp20_print_kind = 3 var:nfp20_selected_count < 1 } } }
+        nfp20_select = { any = yes reason = NFP20_REASON_PRIORITY }
+    }
+}
+scope:nfp_new_issue = {
+    set_variable = { name = nfp20_schema value = 2 }
+    set_variable = { name = nfp20_article_count value = scope:nfp_reader.var:nfp20_selected_count }
+    set_variable = { name = nfp20_dropped value = scope:nfp_reader.var:nfp20_dropped }
+    set_variable = { name = nfp20_history_count value = scope:nfp_reader.var:nfp20_count }
+    set_variable = { name = nfp20_summary_before value = scope:nfp_reader.var:nfp20_gdp_0 }
+    set_variable = { name = nfp20_summary_after value = scope:nfp_reader.var:nfp20_gdp_0 }
+    set_variable = { name = nfp20_summary_intervals value = 0 }
+}
+scope:nfp_new_issue = { set_variable = { name = nfp20_section_count_1 value = scope:nfp_reader.var:nfp20_section_count_1 } }
+scope:nfp_new_issue = { set_variable = { name = nfp20_section_count_2 value = scope:nfp_reader.var:nfp20_section_count_2 } }
+scope:nfp_new_issue = { set_variable = { name = nfp20_section_count_3 value = scope:nfp_reader.var:nfp20_section_count_3 } }
+scope:nfp_new_issue = { set_variable = { name = nfp20_section_count_4 value = scope:nfp_reader.var:nfp20_section_count_4 } }
+set_variable = { name = nfp31_rejected_region value = 0 }
+set_variable = { name = nfp20_rejected_obsolete value = 0 }
+set_variable = { name = nfp20_rejected_rubric value = 0 }
+set_variable = { name = nfp20_rejected_urgent value = 0 }
+set_variable = { name = nfp20_rejected_cap value = 0 }
+set_variable = { name = nfp20_rejected_space value = 0 }
+every_in_list = { variable = nfp20_candidates limit = { var:nfp20_used = 0 }
+if = { limit = { NOT = { nfp20_live_warning = yes } } scope:nfp_reader = { change_variable = { name = nfp20_rejected_obsolete add = 1 } } }
+else_if = { limit = { NOT = { nfp31_candidate_relevant = yes } } scope:nfp_reader = { change_variable = { name = nfp31_rejected_region add = 1 } } }
+else_if = { limit = { NOT = { nfp20_rubric_enabled = yes } } scope:nfp_reader = { change_variable = { name = nfp20_rejected_rubric add = 1 } } }
+else_if = { limit = { var:nfp20_urgent = 0 scope:nfp_reader = { var:nfp20_print_kind = 3 } } scope:nfp_reader = { change_variable = { name = nfp20_rejected_urgent add = 1 } } }
+else_if = { limit = { NOT = { nfp20_type_room = yes } } scope:nfp_reader = { change_variable = { name = nfp20_rejected_cap add = 1 } } }
+else = { scope:nfp_reader = { change_variable = { name = nfp20_rejected_space add = 1 } } }
+}
+scope:nfp_new_issue = { set_variable = { name = nfp31_rejected_region value = scope:nfp_reader.var:nfp31_rejected_region } }
+scope:nfp_new_issue = { set_variable = { name = nfp20_rejected_obsolete value = scope:nfp_reader.var:nfp20_rejected_obsolete } }
+scope:nfp_new_issue = { set_variable = { name = nfp20_rejected_rubric value = scope:nfp_reader.var:nfp20_rejected_rubric } }
+scope:nfp_new_issue = { set_variable = { name = nfp20_rejected_urgent value = scope:nfp_reader.var:nfp20_rejected_urgent } }
+scope:nfp_new_issue = { set_variable = { name = nfp20_rejected_cap value = scope:nfp_reader.var:nfp20_rejected_cap } }
+scope:nfp_new_issue = { set_variable = { name = nfp20_rejected_space value = scope:nfp_reader.var:nfp20_rejected_space } }
+if = { limit = { var:nfp20_count >= 13 }
+        scope:nfp_new_issue = {
+            set_variable = { name = nfp20_summary_before value = scope:nfp_reader.var:nfp20_gdp_12 }
+            set_variable = { name = nfp20_summary_intervals value = 12 }
+        }
+    }
+else_if = { limit = { var:nfp20_count >= 12 }
+        scope:nfp_new_issue = {
+            set_variable = { name = nfp20_summary_before value = scope:nfp_reader.var:nfp20_gdp_11 }
+            set_variable = { name = nfp20_summary_intervals value = 11 }
+        }
+    }
+else_if = { limit = { var:nfp20_count >= 11 }
+        scope:nfp_new_issue = {
+            set_variable = { name = nfp20_summary_before value = scope:nfp_reader.var:nfp20_gdp_10 }
+            set_variable = { name = nfp20_summary_intervals value = 10 }
+        }
+    }
+else_if = { limit = { var:nfp20_count >= 10 }
+        scope:nfp_new_issue = {
+            set_variable = { name = nfp20_summary_before value = scope:nfp_reader.var:nfp20_gdp_9 }
+            set_variable = { name = nfp20_summary_intervals value = 9 }
+        }
+    }
+else_if = { limit = { var:nfp20_count >= 9 }
+        scope:nfp_new_issue = {
+            set_variable = { name = nfp20_summary_before value = scope:nfp_reader.var:nfp20_gdp_8 }
+            set_variable = { name = nfp20_summary_intervals value = 8 }
+        }
+    }
+else_if = { limit = { var:nfp20_count >= 8 }
+        scope:nfp_new_issue = {
+            set_variable = { name = nfp20_summary_before value = scope:nfp_reader.var:nfp20_gdp_7 }
+            set_variable = { name = nfp20_summary_intervals value = 7 }
+        }
+    }
+else_if = { limit = { var:nfp20_count >= 7 }
+        scope:nfp_new_issue = {
+            set_variable = { name = nfp20_summary_before value = scope:nfp_reader.var:nfp20_gdp_6 }
+            set_variable = { name = nfp20_summary_intervals value = 6 }
+        }
+    }
+else_if = { limit = { var:nfp20_count >= 6 }
+        scope:nfp_new_issue = {
+            set_variable = { name = nfp20_summary_before value = scope:nfp_reader.var:nfp20_gdp_5 }
+            set_variable = { name = nfp20_summary_intervals value = 5 }
+        }
+    }
+else_if = { limit = { var:nfp20_count >= 5 }
+        scope:nfp_new_issue = {
+            set_variable = { name = nfp20_summary_before value = scope:nfp_reader.var:nfp20_gdp_4 }
+            set_variable = { name = nfp20_summary_intervals value = 4 }
+        }
+    }
+else_if = { limit = { var:nfp20_count >= 4 }
+        scope:nfp_new_issue = {
+            set_variable = { name = nfp20_summary_before value = scope:nfp_reader.var:nfp20_gdp_3 }
+            set_variable = { name = nfp20_summary_intervals value = 3 }
+        }
+    }
+else_if = { limit = { var:nfp20_count >= 3 }
+        scope:nfp_new_issue = {
+            set_variable = { name = nfp20_summary_before value = scope:nfp_reader.var:nfp20_gdp_2 }
+            set_variable = { name = nfp20_summary_intervals value = 2 }
+        }
+    }
+else_if = { limit = { var:nfp20_count >= 2 }
+        scope:nfp_new_issue = {
+            set_variable = { name = nfp20_summary_before value = scope:nfp_reader.var:nfp20_gdp_1 }
+            set_variable = { name = nfp20_summary_intervals value = 1 }
+        }
+    }
+nfp20_prune = yes
+scope:nfp_new_issue = { set_variable = { name = nfp20_queue_remaining value = scope:nfp_reader.var:nfp20_queue_count } }
+}
+
+nfp63_select_domestic_impl = {
+
+if = { limit = { any_in_list = { variable = nfp20_candidates nfp20_eligible = yes nfp20_type_room = yes var:nfp20_foreign = 0 } }
+    ordered_in_list = { variable = nfp20_candidates order_by = nfp20_editor_order position = 0
+        limit = { nfp20_eligible = yes nfp20_type_room = yes var:nfp20_foreign = 0 }
+        save_scope_as = nfp20_selected_fact
+        set_variable = { name = nfp20_used value = 1 }
+        nfp20_mark_problem_published = yes
+        scope:nfp_reader = { change_variable = { name = nfp20_selected_count add = 1 } }
+if = { limit = { var:nfp20_type = 1 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_1 add = 1 } } }
+if = { limit = { var:nfp20_type = 2 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_2 add = 1 } } }
+if = { limit = { var:nfp20_type = 3 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_3 add = 1 } } }
+if = { limit = { var:nfp20_type = 4 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_4 add = 1 } } }
+if = { limit = { var:nfp20_type = 5 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_5 add = 1 } } }
+if = { limit = { var:nfp20_type = 6 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_6 add = 1 } } }
+if = { limit = { var:nfp20_type = 7 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_7 add = 1 } } }
+if = { limit = { var:nfp20_type = 8 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_8 add = 1 } } }
+if = { limit = { var:nfp20_type = 9 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_9 add = 1 } } }
+if = { limit = { var:nfp20_type = 10 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_10 add = 1 } } }
+if = { limit = { var:nfp20_type = 11 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_11 add = 1 } } }
+if = { limit = { var:nfp20_type = 29 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_29 add = 1 } } }
+if = { limit = { var:nfp20_type = 30 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_30 add = 1 } } }
+if = { limit = { var:nfp20_type = 31 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_31 add = 1 } } }
+if = { limit = { var:nfp20_type = 24 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_24 add = 1 } } }
+if = { limit = { var:nfp20_type = 21 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_21 add = 1 } } }
+if = { limit = { var:nfp20_type = 22 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_22 add = 1 } } }
+if = { limit = { var:nfp20_type = 23 } scope:nfp_reader = { change_variable = { name = nfp20_chosen_23 add = 1 } } }
+if = { limit = { var:nfp_section = 1 } scope:nfp_reader = { change_variable = { name = nfp20_section_count_1 add = 1 } } }
+if = { limit = { var:nfp_section = 2 } scope:nfp_reader = { change_variable = { name = nfp20_section_count_2 add = 1 } } }
+if = { limit = { var:nfp_section = 3 } scope:nfp_reader = { change_variable = { name = nfp20_section_count_3 add = 1 } } }
+if = { limit = { var:nfp_section = 4 } scope:nfp_reader = { change_variable = { name = nfp20_section_count_4 add = 1 } } }
+nfp20_copy_article = { reason = NFP63_DOMESTIC_REASON }
+}
+}
+}
+nfp63_select_domestic = {
+nfp63_select_domestic_impl = yes}

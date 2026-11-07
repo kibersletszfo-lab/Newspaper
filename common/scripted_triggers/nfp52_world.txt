@@ -1,0 +1,10 @@
+﻿# Root = DiplomaticPlay, matching only the vanilla American civil war.
+nfp52_us_civil_war_play = {
+ has_global_variable = american_civil_war
+ exists = initiator exists = target
+ OR = { NOT = { has_global_variable = nfp52_acw_known } has_variable = nfp52_acw_play }
+ OR = {
+  AND = { initiator = { c:USA ?= this } target = { OR = { c:CSA ?= this c:FSA ?= this } } }
+  AND = { target = { c:USA ?= this } initiator = { OR = { c:CSA ?= this c:FSA ?= this } } }
+ }
+}

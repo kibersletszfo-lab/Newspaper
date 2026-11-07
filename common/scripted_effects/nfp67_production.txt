@@ -1,0 +1,1463 @@
+﻿nfp67_reader_capture = {
+set_variable = { name = nfp67_relevant value = 1 }
+set_variable = { name = nfp67_output_valid value = 0 }
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:copper } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:copper)" >= 1 "goods_production_rank(g:copper)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:copper }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:copper.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:copper }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:copper.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:ammunition } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:ammunition)" >= 1 "goods_production_rank(g:ammunition)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:ammunition }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:ammunition.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:ammunition }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:ammunition.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:small_arms } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:small_arms)" >= 1 "goods_production_rank(g:small_arms)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:small_arms }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:small_arms.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:small_arms }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:small_arms.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:artillery } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:artillery)" >= 1 "goods_production_rank(g:artillery)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:artillery }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:artillery.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:artillery }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:artillery.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:tanks } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:tanks)" >= 1 "goods_production_rank(g:tanks)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:tanks }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:tanks.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:tanks }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:tanks.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:aeroplanes } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:aeroplanes)" >= 1 "goods_production_rank(g:aeroplanes)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:aeroplanes }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:aeroplanes.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:aeroplanes }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:aeroplanes.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:manowars } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:manowars)" >= 1 "goods_production_rank(g:manowars)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:manowars }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:manowars.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:manowars }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:manowars.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:ironclads } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:ironclads)" >= 1 "goods_production_rank(g:ironclads)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:ironclads }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:ironclads.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:ironclads }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:ironclads.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:grain } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:grain)" >= 1 "goods_production_rank(g:grain)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:grain }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:grain.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:grain }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:grain.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:fish } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:fish)" >= 1 "goods_production_rank(g:fish)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:fish }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:fish.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:fish }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:fish.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:fabric } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:fabric)" >= 1 "goods_production_rank(g:fabric)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:fabric }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:fabric.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:fabric }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:fabric.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:wood } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:wood)" >= 1 "goods_production_rank(g:wood)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:wood }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:wood.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:wood }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:wood.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:groceries } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:groceries)" >= 1 "goods_production_rank(g:groceries)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:groceries }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:groceries.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:groceries }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:groceries.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:clothes } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:clothes)" >= 1 "goods_production_rank(g:clothes)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:clothes }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:clothes.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:clothes }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:clothes.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:furniture } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:furniture)" >= 1 "goods_production_rank(g:furniture)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:furniture }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:furniture.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:furniture }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:furniture.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:paper } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:paper)" >= 1 "goods_production_rank(g:paper)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:paper }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:paper.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:paper }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:paper.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:services } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:services)" >= 1 "goods_production_rank(g:services)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:services }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:services.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:services }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:services.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:transportation } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:transportation)" >= 1 "goods_production_rank(g:transportation)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:transportation }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:transportation.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:transportation }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:transportation.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:electricity } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:electricity)" >= 1 "goods_production_rank(g:electricity)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:electricity }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:electricity.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:electricity }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:electricity.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:merchant_marine } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:merchant_marine)" >= 1 "goods_production_rank(g:merchant_marine)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:merchant_marine }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:merchant_marine.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:merchant_marine }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:merchant_marine.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:clippers } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:clippers)" >= 1 "goods_production_rank(g:clippers)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:clippers }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:clippers.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:clippers }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:clippers.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:steamers } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:steamers)" >= 1 "goods_production_rank(g:steamers)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:steamers }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:steamers.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:steamers }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:steamers.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:silk } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:silk)" >= 1 "goods_production_rank(g:silk)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:silk }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:silk.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:silk }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:silk.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:dye } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:dye)" >= 1 "goods_production_rank(g:dye)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:dye }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:dye.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:dye }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:dye.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:sulfur } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:sulfur)" >= 1 "goods_production_rank(g:sulfur)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:sulfur }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:sulfur.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:sulfur }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:sulfur.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:coal } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:coal)" >= 1 "goods_production_rank(g:coal)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:coal }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:coal.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:coal }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:coal.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:iron } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:iron)" >= 1 "goods_production_rank(g:iron)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:iron }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:iron.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:iron }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:iron.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:lead } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:lead)" >= 1 "goods_production_rank(g:lead)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:lead }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:lead.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:lead }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:lead.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:hardwood } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:hardwood)" >= 1 "goods_production_rank(g:hardwood)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:hardwood }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:hardwood.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:hardwood }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:hardwood.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:rubber } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:rubber)" >= 1 "goods_production_rank(g:rubber)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:rubber }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:rubber.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:rubber }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:rubber.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:oil } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:oil)" >= 1 "goods_production_rank(g:oil)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:oil }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:oil.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:oil }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:oil.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:engines } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:engines)" >= 1 "goods_production_rank(g:engines)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:engines }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:engines.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:engines }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:engines.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:steel } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:steel)" >= 1 "goods_production_rank(g:steel)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:steel }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:steel.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:steel }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:steel.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:glass } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:glass)" >= 1 "goods_production_rank(g:glass)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:glass }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:glass.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:glass }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:glass.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:fertilizer } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:fertilizer)" >= 1 "goods_production_rank(g:fertilizer)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:fertilizer }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:fertilizer.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:fertilizer }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:fertilizer.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:tools } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:tools)" >= 1 "goods_production_rank(g:tools)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:tools }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:tools.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:tools }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:tools.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:explosives } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:explosives)" >= 1 "goods_production_rank(g:explosives)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:explosives }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:explosives.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:explosives }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:explosives.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:porcelain } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:porcelain)" >= 1 "goods_production_rank(g:porcelain)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:porcelain }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:porcelain.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:porcelain }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:porcelain.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:meat } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:meat)" >= 1 "goods_production_rank(g:meat)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:meat }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:meat.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:meat }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:meat.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:fruit } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:fruit)" >= 1 "goods_production_rank(g:fruit)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:fruit }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:fruit.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:fruit }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:fruit.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:liquor } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:liquor)" >= 1 "goods_production_rank(g:liquor)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:liquor }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:liquor.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:liquor }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:liquor.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:wine } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:wine)" >= 1 "goods_production_rank(g:wine)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:wine }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:wine.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:wine }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:wine.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:tea } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:tea)" >= 1 "goods_production_rank(g:tea)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:tea }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:tea.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:tea }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:tea.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:coffee } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:coffee)" >= 1 "goods_production_rank(g:coffee)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:coffee }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:coffee.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:coffee }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:coffee.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:sugar } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:sugar)" >= 1 "goods_production_rank(g:sugar)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:sugar }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:sugar.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:sugar }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:sugar.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:tobacco } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:tobacco)" >= 1 "goods_production_rank(g:tobacco)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:tobacco }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:tobacco.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:tobacco }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:tobacco.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:opium } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:opium)" >= 1 "goods_production_rank(g:opium)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:opium }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:opium.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:opium }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:opium.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:automobiles } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:automobiles)" >= 1 "goods_production_rank(g:automobiles)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:automobiles }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:automobiles.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:automobiles }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:automobiles.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:telephones } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:telephones)" >= 1 "goods_production_rank(g:telephones)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:telephones }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:telephones.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:telephones }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:telephones.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:radios } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:radios)" >= 1 "goods_production_rank(g:radios)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:radios }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:radios.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:radios }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:radios.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:luxury_clothes } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:luxury_clothes)" >= 1 "goods_production_rank(g:luxury_clothes)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:luxury_clothes }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:luxury_clothes.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:luxury_clothes }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:luxury_clothes.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:luxury_furniture } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:luxury_furniture)" >= 1 "goods_production_rank(g:luxury_furniture)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:luxury_furniture }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:luxury_furniture.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:luxury_furniture }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:luxury_furniture.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:gold } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:gold)" >= 1 "goods_production_rank(g:gold)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:gold }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:gold.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:gold }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:gold.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+if = { limit = { var:nfp63_kind = 7 scope:nfp20_source = { var:nfp20_f_detail = flag:fine_art } }
+ set_variable = { name = nfp67_relevant value = 0 }
+ if = { limit = { "goods_production_rank(g:fine_art)" >= 1 "goods_production_rank(g:fine_art)" <= 5 }
+  set_variable = { name = nfp67_relevant value = 1 }
+  save_scope_as = nfp67_reader
+  set_variable = { name = nfp67_ours value = 0 }
+  every_scope_state = { limit = { owner = scope:nfp67_reader exists = sg:fine_art }
+   scope:nfp67_reader = { change_variable = { name = nfp67_ours add = prev.sg:fine_art.state_goods_production } }
+  }
+  scope:nfp20_source = {
+   set_variable = { name = nfp67_source_amount value = 0 }
+   every_scope_state = { limit = { owner = scope:nfp20_source exists = sg:fine_art }
+    scope:nfp20_source = { change_variable = { name = nfp67_source_amount add = prev.sg:fine_art.state_goods_production } }
+   }
+  }
+  if = { limit = { scope:nfp20_source.var:nfp67_source_amount > 0 }
+   set_variable = { name = nfp67_output_valid value = 1 }
+   set_variable = { name = nfp67_output_delta value = var:nfp67_ours }
+   change_variable = { name = nfp67_output_delta divide = scope:nfp20_source.var:nfp67_source_amount }
+   change_variable = { name = nfp67_output_delta subtract = 1 }
+   change_variable = { name = nfp67_output_delta multiply = 100 }
+   set_variable = { name = nfp67_output_abs value = var:nfp67_output_delta }
+   if = { limit = { var:nfp67_output_abs < 0 } change_variable = { name = nfp67_output_abs multiply = -1 } }
+  }
+ }
+}
+
+}

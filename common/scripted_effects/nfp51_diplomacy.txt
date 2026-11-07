@@ -1,0 +1,331 @@
+﻿# Diplomatic-play root. Seed a stable save-persistent ID once, including
+# a play already in progress when the mod was installed. That is NOT a start fact.
+nfp51_seed_play = {
+ save_scope_as = nfp51_play
+ initiator = { save_scope_as = nfp51_initiator }
+ target = { save_scope_as = nfp51_target }
+ if = { limit = { NOT = { has_variable = nfp51_crisis } }
+  if = { limit = { NOT = { exists = global_var:nfp51_crisis_sequence } }
+   set_global_variable = { name = nfp51_crisis_sequence value = 0 }
+  }
+  change_global_variable = { name = nfp51_crisis_sequence add = 1 }
+  set_variable = { name = nfp51_crisis value = global_var:nfp51_crisis_sequence }
+  set_variable = { name = nfp51_start_known value = 0 }
+  set_variable = { name = nfp51_start_year value = 0 }
+  set_variable = { name = nfp51_start_month value = 0 }
+  set_variable = { name = nfp51_joiner_count value = 0 }
+  set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_UNKNOWN }
+  if = { limit = { is_diplomatic_play_type = dp_default_treaty_article } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_DEFAULT_TREATY_ARTICLE } }
+  if = { limit = { is_diplomatic_play_type = dp_open_market } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_OPEN_MARKET } }
+  if = { limit = { is_diplomatic_play_type = dp_regime_change } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_REGIME_CHANGE } }
+  if = { limit = { is_diplomatic_play_type = dp_ban_slavery } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_BAN_SLAVERY } }
+  if = { limit = { is_diplomatic_play_type = dp_conquer_state } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_CONQUER_STATE } }
+  if = { limit = { is_diplomatic_play_type = dp_return_state } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_RETURN_STATE } }
+  if = { limit = { is_diplomatic_play_type = dp_liberate_subject } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_LIBERATE_SUBJECT } }
+  if = { limit = { is_diplomatic_play_type = dp_liberate_country } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_LIBERATE_COUNTRY } }
+  if = { limit = { is_diplomatic_play_type = dp_independence } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_INDEPENDENCE } }
+  if = { limit = { is_diplomatic_play_type = dp_leave_power_bloc } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_LEAVE_POWER_BLOC } }
+  if = { limit = { is_diplomatic_play_type = dp_increase_autonomy } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_INCREASE_AUTONOMY } }
+  if = { limit = { is_diplomatic_play_type = dp_reduce_autonomy } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_REDUCE_AUTONOMY } }
+  if = { limit = { is_diplomatic_play_type = dp_take_treaty_port } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_TAKE_TREATY_PORT } }
+  if = { limit = { is_diplomatic_play_type = dp_make_tributary } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_MAKE_TRIBUTARY } }
+  if = { limit = { is_diplomatic_play_type = dp_make_dominion } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_MAKE_DOMINION } }
+  if = { limit = { is_diplomatic_play_type = dp_make_protectorate } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_MAKE_PROTECTORATE } }
+  if = { limit = { is_diplomatic_play_type = dp_transfer_subject } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_TRANSFER_SUBJECT } }
+  if = { limit = { is_diplomatic_play_type = dp_annex_subject } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_ANNEX_SUBJECT } }
+  if = { limit = { is_diplomatic_play_type = dp_revolution } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_REVOLUTION } }
+  if = { limit = { is_diplomatic_play_type = dp_secession } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_SECESSION } }
+  if = { limit = { is_diplomatic_play_type = dp_contain_threat } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_CONTAIN_THREAT } }
+  if = { limit = { is_diplomatic_play_type = dp_taiping_rebellion } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_TAIPING_REBELLION } }
+  if = { limit = { is_diplomatic_play_type = dp_join_power_bloc } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_JOIN_POWER_BLOC } }
+  if = { limit = { is_diplomatic_play_type = dp_force_nationalization } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_FORCE_NATIONALIZATION } }
+  if = { limit = { is_diplomatic_play_type = dp_give_foreign_investment_rights } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_GIVE_FOREIGN_INVESTMENT_RIGHTS } }
+  if = { limit = { is_diplomatic_play_type = dp_demand_strait_access } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_DEMAND_STRAIT_ACCESS } }
+  if = { limit = { is_diplomatic_play_type = dp_demand_toll_exemption } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_DEMAND_TOLL_EXEMPTION } }
+  if = { limit = { is_diplomatic_play_type = dp_demand_no_tolls } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_DEMAND_NO_TOLLS } }
+  if = { limit = { is_diplomatic_play_type = dp_demand_no_strait_closure } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_DEMAND_NO_STRAIT_CLOSURE } }
+  if = { limit = { is_diplomatic_play_type = dp_native_uprising } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_NATIVE_UPRISING } }
+  if = { limit = { is_diplomatic_play_type = dp_annex_war } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_ANNEX_WAR } }
+  if = { limit = { is_diplomatic_play_type = dp_unify_germany } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_UNIFY_GERMANY } }
+  if = { limit = { is_diplomatic_play_type = dp_unify_italy } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_UNIFY_ITALY } }
+  if = { limit = { is_diplomatic_play_type = dp_unify_scandinavia } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_UNIFY_SCANDINAVIA } }
+  if = { limit = { is_diplomatic_play_type = dp_unify_ethiopia } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_UNIFY_ETHIOPIA } }
+  if = { limit = { is_diplomatic_play_type = dp_unify_china } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_UNIFY_CHINA } }
+  if = { limit = { is_diplomatic_play_type = dp_unify_arabia } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_UNIFY_ARABIA } }
+  if = { limit = { is_diplomatic_play_type = dp_unify_india } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_UNIFY_INDIA } }
+  if = { limit = { is_diplomatic_play_type = dp_unify_indonesia } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_UNIFY_INDONESIA } }
+  if = { limit = { is_diplomatic_play_type = dp_unify_andes } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_UNIFY_ANDES } }
+  if = { limit = { is_diplomatic_play_type = dp_leadership_germany } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_LEADERSHIP_GERMANY } }
+  if = { limit = { is_diplomatic_play_type = dp_leadership_italy } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_LEADERSHIP_ITALY } }
+  if = { limit = { is_diplomatic_play_type = dp_leadership_scandinavia } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_LEADERSHIP_SCANDINAVIA } }
+  if = { limit = { is_diplomatic_play_type = dp_leadership_andes } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_LEADERSHIP_ANDES } }
+  if = { limit = { is_diplomatic_play_type = dp_humiliation } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_HUMILIATION } }
+  if = { limit = { is_diplomatic_play_type = dp_sepoy_mutiny } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_SEPOY_MUTINY } }
+  if = { limit = { is_diplomatic_play_type = dp_balkan_war } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_BALKAN_WAR } }
+  if = { limit = { is_diplomatic_play_type = dp_enforce_trialist_manifesto } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_ENFORCE_TRIALIST_MANIFESTO } }
+  if = { limit = { is_diplomatic_play_type = dp_unify_yugoslavia } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_UNIFY_YUGOSLAVIA } }
+  if = { limit = { is_diplomatic_play_type = dp_leadership_yugoslavia } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_LEADERSHIP_YUGOSLAVIA } }
+  if = { limit = { is_diplomatic_play_type = dp_hungarian_revolution } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_HUNGARIAN_REVOLUTION } }
+  if = { limit = { is_diplomatic_play_type = dp_restore_union } set_variable = { name = nfp51_play_label value = flag:NFP51_PLAY_DP_RESTORE_UNION } }
+ }
+}
+
+# Reader root. Named countries were captured before changing scopes.
+nfp51_emit = {
+ save_scope_as = nfp51_reader
+ # The closing account replaces ONLY unpublished opening/join dispatches of
+ # this same crisis. Their old pages in published issues remain untouched.
+ if = { limit = { scope:nfp51_play = { var:nfp51_stage = 30 } }
+  every_in_list = { variable = nfp20_candidates
+   limit = { has_variable = nfp51_schema var:nfp20_used = 0
+    var:nfp51_crisis = scope:nfp51_play.var:nfp51_crisis
+    OR = { var:nfp20_type = 29 var:nfp20_type = 31 }
+   }
+   set_variable = { name = nfp20_used value = 1 }
+  }
+ }
+ if = { limit = { NOT = { has_variable = nfp20_source_serial } }
+  set_variable = { name = nfp20_source_serial value = 0 }
+ }
+ change_variable = { name = nfp20_candidate_seq add = 1 }
+ change_variable = { name = nfp20_source_serial add = 1 }
+ create_container = { tags = { nfp20_candidate } parent = scope:nfp51_reader save_scope_as = nfp51_candidate }
+ scope:nfp51_candidate = {
+  set_variable = { name = nfp20_schema value = 2 }
+  set_variable = { name = nfp20_id value = scope:nfp51_reader.var:nfp20_candidate_seq }
+  set_variable = { name = nfp20_source_serial value = scope:nfp51_reader.var:nfp20_source_serial }
+  set_variable = { name = nfp20_type value = $type$ }
+  set_variable = { name = nfp_section value = 2 }
+  set_variable = { name = nfp_body value = flag:NFP51_$stage$_1_CORE }
+  set_variable = { name = nfp20_priority value = $priority$ }
+  set_variable = { name = nfp20_foreign value = 0 }
+  set_variable = { name = nfp20_used value = 0 }
+  set_variable = { name = nfp20_source_definition value = scope:nfp51_initiator.country_definition }
+  set_variable = { name = nfp20_secondary value = scope:nfp51_target.country_definition }
+  set_variable = { name = nfp20_period value = nfp20_period }
+  set_variable = { name = nfp20_year value = year }
+  set_variable = { name = nfp20_month value = month }
+  set_variable = { name = nfp20_before value = 0 }
+  set_variable = { name = nfp20_after value = 1 }
+  set_variable = { name = nfp20_extra value = 0 }
+  set_variable = { name = nfp20_detail value = flag:NFP51_DETAIL }
+  set_variable = { name = nfp20_extra_detail value = flag:NFP20_NONE }
+  set_variable = { name = nfp20_urgent value = 0 }
+  set_variable = { name = nfp20_problem value = 0 }
+  set_variable = { name = nfp20_episode value = 0 }
+  set_variable = { name = nfp31_schema value = 1 }
+  set_variable = { name = nfp31_world value = 0 }
+  set_variable = { name = nfp31_legacy value = 0 }
+  set_variable = { name = nfp51_schema value = 1 }
+  set_variable = { name = nfp51_stage value = $type$ }
+  set_variable = { name = nfp51_relation value = scope:nfp51_reader.var:nfp51_relation }
+  set_variable = { name = nfp51_actor value = scope:nfp51_actor.country_definition }
+  set_variable = { name = nfp51_side value = scope:nfp51_side.country_definition }
+  set_variable = { name = nfp51_crisis value = scope:nfp51_play.var:nfp51_crisis }
+  set_variable = { name = nfp51_play_label value = scope:nfp51_play.var:nfp51_play_label }
+  set_variable = { name = nfp51_start_known value = scope:nfp51_play.var:nfp51_start_known }
+  set_variable = { name = nfp51_start_year value = scope:nfp51_play.var:nfp51_start_year }
+  set_variable = { name = nfp51_start_month value = scope:nfp51_play.var:nfp51_start_month }
+ }
+ scope:nfp51_candidate = {
+ if = { limit = { scope:nfp51_reader = { var:nfp51_relation = 0 } } set_variable = { name = nfp20_foreign value = 1 } set_variable = { name = nfp20_priority value = 80 } }
+ nfp63_capture = yes
+ }
+ add_to_variable_list = { name = nfp20_candidates target = scope:nfp51_candidate }
+ change_variable = { name = nfp20_queue_count add = 1 }
+ nfp20_prune = yes
+}
+
+# Play root. Classify actual relations at event time, without scanning populations.
+nfp51_distribute = {
+ scope:nfp51_initiator = { save_scope_as = nfp63_source }
+ scope:nfp51_target = { save_scope_as = nfp63_second }
+ every_country = {
+  limit = { is_player = yes }
+  nfp20_migrate = yes
+  nfp63_kind_set = { kind = $type$ }
+  nfp63_assess = yes
+  set_variable = { name = nfp51_relation value = 0 }
+  if = { limit = { OR = { this = scope:nfp51_initiator this = scope:nfp51_target } }
+   set_variable = { name = nfp51_relation value = 1 }
+  } else_if = { limit = { OR = {
+   any_scope_treaty = { binds = scope:nfp51_initiator any_scope_article = { has_type = alliance } }
+   any_scope_treaty = { binds = scope:nfp51_target any_scope_article = { has_type = alliance } }
+  } } set_variable = { name = nfp51_relation value = 2 }
+  } else_if = { limit = { OR = { is_in_same_power_bloc = scope:nfp51_initiator is_in_same_power_bloc = scope:nfp51_target } }
+   set_variable = { name = nfp51_relation value = 3 }
+  } else_if = { limit = { scope:nfp51_play = { var:nfp51_stage = 31 } this = scope:nfp51_actor }
+   set_variable = { name = nfp51_relation value = 4 }
+  } else_if = { limit = { scope:nfp51_play = { var:nfp51_stage = 31 }
+   any_scope_treaty = { binds = scope:nfp51_actor any_scope_article = { has_type = alliance } }
+  } set_variable = { name = nfp51_relation value = 5 }
+  } else_if = { limit = { scope:nfp51_play = { var:nfp51_stage = 31 } is_in_same_power_bloc = scope:nfp51_actor }
+   set_variable = { name = nfp51_relation value = 6 }
+  }
+  if = { limit = { OR = { var:nfp51_relation > 0 var:nfp63_allow = 1 } }
+   set_variable = { name = nfp63_allow value = 1 }
+   if = { limit = { var:nfp63_reason = 0 } set_variable = { name = nfp63_reason value = 4 } }
+   nfp51_emit = { type = $type$ stage = $stage$ priority = $priority$ }
+  }
+ }
+}
+
+nfp51_copy_article = {
+ if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp51_schema } }
+  set_variable = { name = nfp51_schema value = scope:nfp20_selected_fact.var:nfp51_schema }
+  set_variable = { name = nfp51_crisis value = scope:nfp20_selected_fact.var:nfp51_crisis }
+  set_variable = { name = nfp51_stage value = scope:nfp20_selected_fact.var:nfp51_stage }
+  set_variable = { name = nfp51_relation value = scope:nfp20_selected_fact.var:nfp51_relation }
+  set_variable = { name = nfp51_actor value = scope:nfp20_selected_fact.var:nfp51_actor }
+  set_variable = { name = nfp51_side value = scope:nfp20_selected_fact.var:nfp51_side }
+  set_variable = { name = nfp51_play_label value = scope:nfp20_selected_fact.var:nfp51_play_label }
+  set_variable = { name = nfp51_start_known value = scope:nfp20_selected_fact.var:nfp51_start_known }
+  set_variable = { name = nfp51_start_year value = scope:nfp20_selected_fact.var:nfp51_start_year }
+  set_variable = { name = nfp51_start_month value = scope:nfp20_selected_fact.var:nfp51_start_month }
+ }
+}
+# One play-owned record per joining country, at most 256 records.
+# Unlike an actor-local last-ID marker, this survives interleaved crises.
+# All records die with their parent play; no record is copied to an issue.
+nfp51_record_join = {
+ set_variable = { name = nfp51_should_emit value = 1 }
+ every_in_list = { variable = nfp51_joiners
+  limit = { var:nfp51_actor = { this = scope:nfp51_actor.country_definition } }
+  if = { limit = { var:nfp51_side = { this = scope:nfp51_side.country_definition } }
+   scope:nfp51_play = { set_variable = { name = nfp51_should_emit value = 0 } }
+  } else = {
+   set_variable = { name = nfp51_side value = scope:nfp51_side.country_definition }
+  }
+ }
+ if = { limit = { var:nfp51_joiner_count < 256
+  NOT = { any_in_list = { variable = nfp51_joiners
+   var:nfp51_actor = { this = scope:nfp51_actor.country_definition }
+  } }
+ }
+  create_container = { tags = { nfp51_joiner } parent = scope:nfp51_play save_scope_as = nfp51_join_record }
+  scope:nfp51_join_record = {
+   set_variable = { name = nfp51_actor value = scope:nfp51_actor.country_definition }
+   set_variable = { name = nfp51_side value = scope:nfp51_side.country_definition }
+  }
+  add_to_variable_list = { name = nfp51_joiners target = scope:nfp51_join_record }
+  change_variable = { name = nfp51_joiner_count add = 1 }
+ }
+}
+nfp51_format_article = {
+ if = { limit = { has_variable = nfp51_schema }
+  if = { limit = { var:nfp51_stage = 29 var:nfp30_variant = 1 }
+   set_variable = { name = nfp30_headline value = flag:NFP51_START_1_TITLE }
+   set_variable = { name = nfp30_lead value = flag:NFP51_START_1_LEAD }
+   set_variable = { name = nfp30_body value = flag:NFP51_START_1_CORE }
+   set_variable = { name = nfp30_metrics value = flag:NFP51_METRICS }
+  }
+  if = { limit = { var:nfp51_stage = 29 var:nfp30_variant = 2 }
+   set_variable = { name = nfp30_headline value = flag:NFP51_START_2_TITLE }
+   set_variable = { name = nfp30_lead value = flag:NFP51_START_2_LEAD }
+   set_variable = { name = nfp30_body value = flag:NFP51_START_2_CORE }
+   set_variable = { name = nfp30_metrics value = flag:NFP51_METRICS }
+  }
+  if = { limit = { var:nfp51_stage = 30 var:nfp30_variant = 1 }
+   set_variable = { name = nfp30_headline value = flag:NFP51_END_1_TITLE }
+   set_variable = { name = nfp30_lead value = flag:NFP51_END_1_LEAD }
+   set_variable = { name = nfp30_body value = flag:NFP51_END_1_CORE }
+   set_variable = { name = nfp30_metrics value = flag:NFP51_METRICS }
+  }
+  if = { limit = { var:nfp51_stage = 30 var:nfp30_variant = 2 }
+   set_variable = { name = nfp30_headline value = flag:NFP51_END_2_TITLE }
+   set_variable = { name = nfp30_lead value = flag:NFP51_END_2_LEAD }
+   set_variable = { name = nfp30_body value = flag:NFP51_END_2_CORE }
+   set_variable = { name = nfp30_metrics value = flag:NFP51_METRICS }
+  }
+  if = { limit = { var:nfp51_stage = 31 var:nfp30_variant = 1 }
+   set_variable = { name = nfp30_headline value = flag:NFP51_JOIN_1_TITLE }
+   set_variable = { name = nfp30_lead value = flag:NFP51_JOIN_1_LEAD }
+   set_variable = { name = nfp30_body value = flag:NFP51_JOIN_1_CORE }
+   set_variable = { name = nfp30_metrics value = flag:NFP51_METRICS }
+  }
+  if = { limit = { var:nfp51_stage = 31 var:nfp30_variant = 2 }
+   set_variable = { name = nfp30_headline value = flag:NFP51_JOIN_2_TITLE }
+   set_variable = { name = nfp30_lead value = flag:NFP51_JOIN_2_LEAD }
+   set_variable = { name = nfp30_body value = flag:NFP51_JOIN_2_CORE }
+   set_variable = { name = nfp30_metrics value = flag:NFP51_METRICS }
+  }
+ }
+}
+
+nfp51_format_blocks = {
+ if = { limit = { var:nfp51_stage = 29 }
+ nfp50_add_block = { a = NFP51_START_1_LEAD b = NFP51_START_2_LEAD }
+ nfp50_add_block = { a = NFP51_START_1_CORE b = NFP51_START_2_CORE }
+  if = { limit = { var:nfp51_relation = 1 }
+ nfp50_add_block = { a = NFP51_RELATION_OWN b = NFP51_RELATION_OWN }
+  }
+  if = { limit = { var:nfp51_relation = 2 }
+ nfp50_add_block = { a = NFP51_RELATION_ALLY b = NFP51_RELATION_ALLY }
+  }
+  if = { limit = { var:nfp51_relation = 3 }
+ nfp50_add_block = { a = NFP51_RELATION_BLOC b = NFP51_RELATION_BLOC }
+  }
+  if = { limit = { var:nfp51_relation = 4 }
+ nfp50_add_block = { a = NFP51_RELATION_JOINER b = NFP51_RELATION_JOINER }
+  }
+  if = { limit = { var:nfp51_relation = 5 }
+ nfp50_add_block = { a = NFP51_RELATION_JOINER_ALLY b = NFP51_RELATION_JOINER_ALLY }
+  }
+  if = { limit = { var:nfp51_relation = 6 }
+ nfp50_add_block = { a = NFP51_RELATION_JOINER_BLOC b = NFP51_RELATION_JOINER_BLOC }
+  }
+ nfp50_add_block = { a = NFP51_START_1_END b = NFP51_START_2_END }
+ }
+ if = { limit = { var:nfp51_stage = 30 }
+ nfp50_add_block = { a = NFP51_END_1_LEAD b = NFP51_END_2_LEAD }
+ nfp50_add_block = { a = NFP51_END_1_CORE b = NFP51_END_2_CORE }
+  if = { limit = { var:nfp51_start_known = 1 }
+ nfp50_add_block = { a = NFP51_START_TIMELINE b = NFP51_START_TIMELINE }
+  }
+  if = { limit = { var:nfp51_relation = 1 }
+ nfp50_add_block = { a = NFP51_RELATION_OWN b = NFP51_RELATION_OWN }
+  }
+  if = { limit = { var:nfp51_relation = 2 }
+ nfp50_add_block = { a = NFP51_RELATION_ALLY b = NFP51_RELATION_ALLY }
+  }
+  if = { limit = { var:nfp51_relation = 3 }
+ nfp50_add_block = { a = NFP51_RELATION_BLOC b = NFP51_RELATION_BLOC }
+  }
+  if = { limit = { var:nfp51_relation = 4 }
+ nfp50_add_block = { a = NFP51_RELATION_JOINER b = NFP51_RELATION_JOINER }
+  }
+  if = { limit = { var:nfp51_relation = 5 }
+ nfp50_add_block = { a = NFP51_RELATION_JOINER_ALLY b = NFP51_RELATION_JOINER_ALLY }
+  }
+  if = { limit = { var:nfp51_relation = 6 }
+ nfp50_add_block = { a = NFP51_RELATION_JOINER_BLOC b = NFP51_RELATION_JOINER_BLOC }
+  }
+ nfp50_add_block = { a = NFP51_END_1_END b = NFP51_END_2_END }
+ }
+ if = { limit = { var:nfp51_stage = 31 }
+ nfp50_add_block = { a = NFP51_JOIN_1_LEAD b = NFP51_JOIN_2_LEAD }
+ nfp50_add_block = { a = NFP51_JOIN_1_CORE b = NFP51_JOIN_2_CORE }
+  if = { limit = { var:nfp51_start_known = 1 }
+ nfp50_add_block = { a = NFP51_START_TIMELINE b = NFP51_START_TIMELINE }
+  }
+  if = { limit = { var:nfp51_relation = 1 }
+ nfp50_add_block = { a = NFP51_RELATION_OWN b = NFP51_RELATION_OWN }
+  }
+  if = { limit = { var:nfp51_relation = 2 }
+ nfp50_add_block = { a = NFP51_RELATION_ALLY b = NFP51_RELATION_ALLY }
+  }
+  if = { limit = { var:nfp51_relation = 3 }
+ nfp50_add_block = { a = NFP51_RELATION_BLOC b = NFP51_RELATION_BLOC }
+  }
+  if = { limit = { var:nfp51_relation = 4 }
+ nfp50_add_block = { a = NFP51_RELATION_JOINER b = NFP51_RELATION_JOINER }
+  }
+  if = { limit = { var:nfp51_relation = 5 }
+ nfp50_add_block = { a = NFP51_RELATION_JOINER_ALLY b = NFP51_RELATION_JOINER_ALLY }
+  }
+  if = { limit = { var:nfp51_relation = 6 }
+ nfp50_add_block = { a = NFP51_RELATION_JOINER_BLOC b = NFP51_RELATION_JOINER_BLOC }
+  }
+ nfp50_add_block = { a = NFP51_JOIN_1_END b = NFP51_JOIN_2_END }
+ }
+}

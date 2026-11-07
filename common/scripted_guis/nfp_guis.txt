@@ -1,0 +1,129 @@
+﻿nfp_close = {
+scope = country
+is_shown = { is_player = yes }
+is_valid = { is_player = yes }
+effect = { nfp38_close_reader = yes }
+}
+
+nfp_open = {
+scope = country
+is_shown = { is_player = yes }
+is_valid = { is_player = yes }
+effect = { nfp38_open_reader = yes }
+}
+
+nfp_apply = {
+scope = country
+is_shown = { is_player = yes }
+is_valid = { is_player = yes }
+effect = { nfp46_all_sections = yes
+if = { limit = {
+    OR = { var:nfp_subscribed = 1 var:nfp_urgent = 1 }
+    NOT = { has_variable = nfp43_welcome_done }
+} nfp43_confirm_subscription = yes }
+else = {
+    remove_variable = nfp_setup_pending
+    if = { limit = { has_variable = nfp_latest_issue } set_variable = { name = nfp_selected_issue value = var:nfp_latest_issue } }
+    set_variable = { name = nfp_window_open value = 1 }
+    nfp38_mark_selected_read = yes
+} }
+}
+
+
+
+nfp_latest = {
+scope = country
+is_shown = { is_player = yes }
+is_valid = { is_player = yes }
+effect = { nfp_refresh_archive = yes
+if = { limit = { has_variable = nfp_latest_issue } set_variable = { name = nfp_selected_issue value = var:nfp_latest_issue } }
+nfp38_mark_selected_read = yes }
+}
+
+nfp_toggle_subscribed = {
+scope = country
+is_shown = { is_player = yes }
+is_valid = { is_player = yes }
+effect = { if = { limit = { var:nfp_subscribed = 1 } set_variable = { name = nfp_subscribed value = 0 } }
+else = { set_variable = { name = nfp_subscribed value = 1 } } }
+}
+
+nfp_toggle_urgent = {
+    scope = country
+    is_shown = { is_player = yes }
+    is_valid = { is_player = yes }
+    effect = { if = {
+            limit = { var:nfp_urgent = 1 }
+            set_variable = { name = nfp_urgent value = 0 }
+        } else = { set_variable = { name = nfp_urgent value = 1 } } }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+nfp_select_issue = {
+    scope = country
+    saved_scopes = { nfp_issue }
+    is_shown = { is_player = yes }
+    is_valid = {
+        is_player = yes
+        exists = scope:nfp_issue
+        scope:nfp_issue = { has_tag = nfp_issue }
+    }
+    effect = { set_variable = { name = nfp_selected_issue value = scope:nfp_issue }  nfp38_mark_selected_read = yes }
+}
+
+nfp_toggle = {
+scope = country
+is_shown = { is_player = yes }
+is_valid = { is_player = yes }
+effect = { if = {
+limit = { OR = { var:nfp_window_open = 1 has_variable = nfp_setup_pending } }
+nfp38_close_reader = yes
+} else = { nfp38_open_reader = yes } }
+}
+
+nfp38_refresh_ui = {
+scope = country
+is_shown = { is_player = yes }
+is_valid = { is_player = yes }
+effect = { nfp38_assign_header = yes nfp38_refresh_unread = yes }
+}
+
+nfp40_event_open = {
+scope = country
+is_shown = { is_player = yes }
+is_valid = { is_player = yes }
+effect = { nfp40_event_open = yes }
+}
+
+nfp40_event_closed = {
+scope = country
+is_shown = { is_player = yes }
+is_valid = { is_player = yes }
+effect = { nfp40_event_closed = yes }
+}
+
+nfp40_reset_event_cover = {
+scope = country
+is_shown = { is_player = yes }
+is_valid = { is_player = yes }
+effect = { nfp40_reset_event_cover = yes }
+}
+nfp51_focus_special = {
+scope = country
+is_shown = { is_player = yes }
+is_valid = { is_player = yes }
+effect = { nfp51_focus_special = yes }
+}

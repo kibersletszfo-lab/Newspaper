@@ -1,0 +1,16 @@
+﻿# Candidate root. Watch exists only until market/good is retired.
+nfp46_warning_live = {
+    exists = var:nfp46_watch
+    var:nfp46_watch = {
+        var:nfp46_active = 1
+        var:nfp46_episode = prev.var:nfp20_episode
+    }
+}
+nfp46_recovery_live = {
+    exists = var:nfp46_watch
+    var:nfp46_watch = {
+        var:nfp46_active = 0
+        var:nfp46_good_streak >= 2
+        var:nfp46_episode = prev.var:nfp20_episode
+    }
+}

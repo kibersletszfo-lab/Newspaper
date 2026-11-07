@@ -1,0 +1,14 @@
+﻿# Candidate scope. World specials and both existing war families only.
+nfp51_special_candidate = {
+ var:nfp20_urgent = 1
+ OR = { var:nfp20_type = 10 var:nfp20_type = 23 has_variable = nfp52_schema }
+}
+nfp51_delivery_eligible = {
+ trigger_if = { limit = { scope:nfp_reader = { var:nfp20_print_kind = 3 } }
+  nfp51_special_candidate = yes
+ }
+ trigger_else = {
+  NOT = { has_variable = nfp52_schema }
+  OR = { var:nfp20_urgent = 0 scope:nfp_reader = { var:nfp_urgent = 0 } }
+ }
+}

@@ -1,0 +1,224 @@
+﻿# Newspaper Prototype 0.3.0, Victoria 3 1.13.11.
+# Country-owned snapshot records. No economy or balance effects.
+nfp_initialize = {
+    if = {
+        limit = { is_player = yes NOT = { has_variable = nfp_initialized } }
+        set_variable = nfp_initialized
+        set_variable = nfp_setup_pending
+        set_variable = { name = nfp_frequency value = 2 }
+        set_variable = { name = nfp_subscribed value = 1 }
+        set_variable = { name = nfp_urgent value = 1 }
+        set_variable = { name = nfp_window_open value = 1 }
+        set_variable = { name = nfp_sequence value = 0 }
+        set_variable = { name = nfp_archive_count value = 0 }
+        set_variable = { name = nfp_wars_started value = 0 }
+        set_variable = { name = nfp_wars_ended value = 0 }
+        set_variable = { name = nfp_laws value = 0 }
+        set_variable = { name = nfp_technologies value = 0 }
+        set_variable = { name = nfp_signal value = 0 }
+        set_variable = { name = nfp_economy value = 1 }
+        set_variable = { name = nfp_war value = 1 }
+        set_variable = { name = nfp_society value = 1 }
+        set_variable = { name = nfp_events value = 1 }
+        # Journal activation is owned by the engine eligibility triggers.
+        debug_log = "NFP: player subscription initialized"
+    }
+    nfp20_migrate = yes
+    nfp52_observe = yes
+    nfp45_normalize_schedule = yes
+    nfp46_all_sections = yes
+    nfp38_assign_header = yes
+    nfp38_refresh_unread = yes
+    nfp78_prepare_reader = yes
+}
+
+# Called in a player country. Temporary capture variables are copied to records.
+nfp_publish = {
+    set_variable = nfp51_publishing
+    nfp43_alliance_observe = yes
+    nfp20_collect_world = yes
+    save_scope_as = nfp_reader
+    change_variable = { name = nfp_sequence add = 1 }
+    set_variable = { name = nfp_capture_gdp value = gdp }
+    set_variable = { name = nfp_capture_population value = total_population }
+    set_variable = { name = nfp_capture_sol value = average_sol }
+    set_variable = { name = nfp_capture_literacy value = literacy_rate }
+    set_variable = { name = nfp_capture_at_war value = 0 }
+    if = {
+        limit = { is_at_war = yes }
+        set_variable = { name = nfp_capture_at_war value = 1 }
+    }
+    create_container = {
+        tags = { nfp_issue }
+        parent = scope:nfp_reader
+        save_scope_as = nfp_new_issue
+    }
+    scope:nfp_new_issue = {
+        set_variable = { name = nfp_number value = scope:nfp_reader.var:nfp_sequence }
+        set_variable = { name = nfp_year value = year }
+        set_variable = { name = nfp_month value = month }
+        set_variable = { name = nfp_kind value = $kind$ }
+        set_variable = { name = nfp_marker value = $marker$ }
+        set_variable = { name = nfp_gdp value = scope:nfp_reader.var:nfp_capture_gdp }
+        set_variable = { name = nfp_population value = scope:nfp_reader.var:nfp_capture_population }
+        set_variable = { name = nfp_sol value = scope:nfp_reader.var:nfp_capture_sol }
+        set_variable = { name = nfp_literacy value = scope:nfp_reader.var:nfp_capture_literacy }
+        set_variable = { name = nfp_at_war value = scope:nfp_reader.var:nfp_capture_at_war }
+        set_variable = { name = nfp_wars_started value = scope:nfp_reader.var:nfp_wars_started }
+        set_variable = { name = nfp_wars_ended value = scope:nfp_reader.var:nfp_wars_ended }
+        set_variable = { name = nfp_laws value = scope:nfp_reader.var:nfp_laws }
+        set_variable = { name = nfp_technologies value = scope:nfp_reader.var:nfp_technologies }
+        set_variable = { name = nfp_signal value = scope:nfp_reader.var:nfp_signal }
+        set_variable = { name = nfp_economy value = scope:nfp_reader.var:nfp_economy }
+        set_variable = { name = nfp_war value = scope:nfp_reader.var:nfp_war }
+        set_variable = { name = nfp_society value = scope:nfp_reader.var:nfp_society }
+        set_variable = { name = nfp_events value = scope:nfp_reader.var:nfp_events }
+    }
+    scope:nfp_reader = {
+        add_to_variable_list = { name = nfp_issues target = scope:nfp_new_issue }
+        change_variable = { name = nfp_archive_count add = 1 }
+        set_variable = { name = nfp_latest_issue value = scope:nfp_new_issue }
+        if = { limit = { has_variable = nfp43_welcome_print }
+            nfp43_build_welcome = yes
+        } else = {
+            nfp43_prepare_election = yes
+        nfp20_edit_issue = { kind = $kind$ }
+            nfp32_fill_quiet_issue = yes
+        }
+        nfp30_layout_issue = yes
+        nfp38_receive_issue = yes
+        nfp51_receive_special = yes
+        nfp45_record_regular = yes
+        if = { limit = { NOT = { has_variable = nfp_selected_issue } }
+            set_variable = { name = nfp_selected_issue value = scope:nfp_new_issue }
+        }
+        nfp_trim_archive = yes
+        nfp51_repair_special = yes
+        nfp_refresh_archive = yes
+        nfp38_refresh_unread = yes
+        remove_variable = nfp51_publishing
+        debug_log = "NFP: issue published, kind=$kind$, marker=$marker$"
+    }
+}
+
+# Own the article by its issue, not by a temporary war/character.
+
+nfp_trim_archive = {
+    if = {
+        limit = { var:nfp_archive_count > 12 }
+        save_scope_as = nfp_archive_owner
+        ordered_in_list = {
+            variable = nfp_issues
+            order_by = nfp_oldest_order
+            position = 0
+            check_range_bounds = no
+            save_scope_as = nfp_old_issue
+        }
+        if = {
+            limit = { exists = scope:nfp_old_issue }
+            if = {
+                limit = { var:nfp_selected_issue = scope:nfp_old_issue }
+                set_variable = { name = nfp_selected_issue value = var:nfp_latest_issue }
+            }
+            remove_list_variable = { name = nfp_issues target = scope:nfp_old_issue }
+            change_variable = { name = nfp_archive_count add = -1 }
+            scope:nfp_old_issue = {
+                every_in_list = { variable = nfp_articles every_in_list = { variable = nfp78_lines destroy_container = yes } destroy_container = yes }
+                destroy_container = yes
+            }
+        }
+    }
+}
+
+nfp_maybe_urgent = {
+ nfp51_repair_special = yes
+ nfp46_all_sections = yes
+ nfp31_migrate_queue = yes
+ save_scope_as = nfp_reader
+ if = { limit = { var:nfp_urgent = 1
+  NOT = { has_variable = nfp_setup_pending }
+  NOT = { has_variable = nfp51_publishing }
+  NOT = { has_variable = nfp51_urgent_active }
+  any_in_list = { variable = nfp20_candidates var:nfp20_used = 0
+   nfp20_candidate_age <= 12 nfp20_live_warning = yes nfp31_candidate_relevant = yes
+   nfp51_special_candidate = yes }
+ } nfp_publish = { kind = 3 marker = 0 } }
+}
+
+# Rebuild fixed GUI rows by issue number; GetList storage order is not display order.
+# At most eight surviving issues, on publish/open only. Safe for 0.1.1 saves.
+nfp_refresh_archive = {
+save_scope_as = nfp_archive_owner
+remove_variable = nfp_archive_row_1
+remove_variable = nfp_archive_row_2
+remove_variable = nfp_archive_row_3
+remove_variable = nfp_archive_row_4
+remove_variable = nfp_archive_row_5
+remove_variable = nfp_archive_row_6
+remove_variable = nfp_archive_row_7
+remove_variable = nfp_archive_row_8
+remove_variable = nfp_archive_row_9
+remove_variable = nfp_archive_row_10
+remove_variable = nfp_archive_row_11
+remove_variable = nfp_archive_row_12
+if = { limit = { var:nfp_archive_count >= 1 }
+ordered_in_list = { variable = nfp_issues order_by = nfp_oldest_order position = 0 check_range_bounds = no
+save_scope_as = nfp_archive_entry
+scope:nfp_archive_owner = { set_variable = { name = nfp_archive_row_1 value = scope:nfp_archive_entry } }
+} }
+if = { limit = { var:nfp_archive_count >= 2 }
+ordered_in_list = { variable = nfp_issues order_by = nfp_oldest_order position = 1 check_range_bounds = no
+save_scope_as = nfp_archive_entry
+scope:nfp_archive_owner = { set_variable = { name = nfp_archive_row_2 value = scope:nfp_archive_entry } }
+} }
+if = { limit = { var:nfp_archive_count >= 3 }
+ordered_in_list = { variable = nfp_issues order_by = nfp_oldest_order position = 2 check_range_bounds = no
+save_scope_as = nfp_archive_entry
+scope:nfp_archive_owner = { set_variable = { name = nfp_archive_row_3 value = scope:nfp_archive_entry } }
+} }
+if = { limit = { var:nfp_archive_count >= 4 }
+ordered_in_list = { variable = nfp_issues order_by = nfp_oldest_order position = 3 check_range_bounds = no
+save_scope_as = nfp_archive_entry
+scope:nfp_archive_owner = { set_variable = { name = nfp_archive_row_4 value = scope:nfp_archive_entry } }
+} }
+if = { limit = { var:nfp_archive_count >= 5 }
+ordered_in_list = { variable = nfp_issues order_by = nfp_oldest_order position = 4 check_range_bounds = no
+save_scope_as = nfp_archive_entry
+scope:nfp_archive_owner = { set_variable = { name = nfp_archive_row_5 value = scope:nfp_archive_entry } }
+} }
+if = { limit = { var:nfp_archive_count >= 6 }
+ordered_in_list = { variable = nfp_issues order_by = nfp_oldest_order position = 5 check_range_bounds = no
+save_scope_as = nfp_archive_entry
+scope:nfp_archive_owner = { set_variable = { name = nfp_archive_row_6 value = scope:nfp_archive_entry } }
+} }
+if = { limit = { var:nfp_archive_count >= 7 }
+ordered_in_list = { variable = nfp_issues order_by = nfp_oldest_order position = 6 check_range_bounds = no
+save_scope_as = nfp_archive_entry
+scope:nfp_archive_owner = { set_variable = { name = nfp_archive_row_7 value = scope:nfp_archive_entry } }
+} }
+if = { limit = { var:nfp_archive_count >= 8 }
+ordered_in_list = { variable = nfp_issues order_by = nfp_oldest_order position = 7 check_range_bounds = no
+save_scope_as = nfp_archive_entry
+scope:nfp_archive_owner = { set_variable = { name = nfp_archive_row_8 value = scope:nfp_archive_entry } }
+} }
+if = { limit = { var:nfp_archive_count >= 9 }
+ordered_in_list = { variable = nfp_issues order_by = nfp_oldest_order position = 8 check_range_bounds = no
+save_scope_as = nfp_archive_entry
+scope:nfp_archive_owner = { set_variable = { name = nfp_archive_row_9 value = scope:nfp_archive_entry } }
+} }
+if = { limit = { var:nfp_archive_count >= 10 }
+ordered_in_list = { variable = nfp_issues order_by = nfp_oldest_order position = 9 check_range_bounds = no
+save_scope_as = nfp_archive_entry
+scope:nfp_archive_owner = { set_variable = { name = nfp_archive_row_10 value = scope:nfp_archive_entry } }
+} }
+if = { limit = { var:nfp_archive_count >= 11 }
+ordered_in_list = { variable = nfp_issues order_by = nfp_oldest_order position = 10 check_range_bounds = no
+save_scope_as = nfp_archive_entry
+scope:nfp_archive_owner = { set_variable = { name = nfp_archive_row_11 value = scope:nfp_archive_entry } }
+} }
+if = { limit = { var:nfp_archive_count >= 12 }
+ordered_in_list = { variable = nfp_issues order_by = nfp_oldest_order position = 11 check_range_bounds = no
+save_scope_as = nfp_archive_entry
+scope:nfp_archive_owner = { set_variable = { name = nfp_archive_row_12 value = scope:nfp_archive_entry } }
+} }
+}

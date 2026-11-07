@@ -1,0 +1,2 @@
+﻿# Issue scope; ordered_in_list sorts highest first.
+nfp38_newest_order = { value = var:nfp_number }

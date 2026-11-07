@@ -1,0 +1,2 @@
+﻿gui/nfp_newspaper.gui = nfp_root
+gui/nfp_newspaper.gui = nfp40_session_root

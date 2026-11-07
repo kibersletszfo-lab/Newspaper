@@ -1,0 +1,4 @@
+﻿nfp50_family_gdp_per_capita_value = { value = var:nfp50_family_gdp divide = var:nfp50_family_population }
+nfp50_family_literacy_gain_value = { value = var:nfp20_after subtract = var:nfp20_before multiply = 100 }
+nfp50_family_literacy_gap_value = { value = var:nfp20_after subtract = var:nfp50_family_reader_literacy multiply = 100 }
+nfp50_family_gdp_growth_value = { value = var:nfp20_after divide = var:nfp20_before subtract = 1 multiply = 100 }

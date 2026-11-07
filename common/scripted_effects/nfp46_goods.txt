@@ -1,0 +1,410 @@
+﻿# Reader root. Old four-good unpublished observations are retired once;
+# old published articles, subscription, serials, other queues remain untouched.
+nfp46_goods_migrate = {
+    if = { limit = { NOT = { has_variable = nfp46_goods_ready } }
+        save_scope_as = nfp46_reader
+        every_in_list = { variable = nfp20_candidates
+            limit = { OR = { var:nfp20_type = 3 var:nfp20_type = 4 }
+                var:nfp20_problem >= 3 var:nfp20_problem <= 6 }
+            save_scope_as = nfp46_remove_candidate
+            scope:nfp46_reader = {
+                remove_list_variable = { name = nfp20_candidates target = scope:nfp46_remove_candidate }
+                change_variable = { name = nfp20_queue_count add = -1 }
+            }
+            destroy_container = yes
+        }
+        set_variable = { name = nfp46_goods_ready value = 1 }
+    }
+}
+
+# Watch scope; drop its candidates before destroying a reference target.
+nfp46_retire_watch = {
+    save_scope_as = nfp46_remove_watch
+    scope:nfp46_reader = {
+        every_in_list = { variable = nfp20_candidates
+            limit = { exists = var:nfp46_watch var:nfp46_watch = scope:nfp46_remove_watch }
+            save_scope_as = nfp46_remove_candidate
+            scope:nfp46_reader = {
+                remove_list_variable = { name = nfp20_candidates target = scope:nfp46_remove_candidate }
+                change_variable = { name = nfp20_queue_count add = -1 }
+            }
+            destroy_container = yes
+        }
+        remove_list_variable = { name = nfp46_goods_watches target = scope:nfp46_remove_watch }
+        change_variable = { name = nfp46_watch_count add = -1 }
+    }
+    destroy_container = yes
+}
+
+nfp46_observe_goods = {
+    save_scope_as = nfp46_reader
+    nfp46_goods_migrate = yes
+    if = { limit = { NOT = { has_variable = nfp46_watch_count } }
+        set_variable = { name = nfp46_watch_count value = 0 }
+    }
+    if = { limit = { exists = capital.market }
+        if = { limit = { OR = { NOT = { exists = var:nfp46_market }
+            NOT = { var:nfp46_market = capital.market } } }
+            every_in_list = { variable = nfp46_goods_watches nfp46_retire_watch = yes }
+            set_variable = { name = nfp46_market value = capital.market }
+        }
+        every_in_list = { variable = nfp46_goods_watches
+            set_variable = { name = nfp46_seen value = 0 }
+        }
+        capital.market = {
+            every_market_goods = {
+                limit = { OR = { market_goods_buy_orders > 0 market_goods_sell_orders > 0 }
+                    # These vanilla goods are state-local: market totals cannot
+                    # establish a shortage in a specific reader-owned state.
+                    goods = { NOT = { OR = { this = g:services this = g:transportation this = g:electricity } } }
+                }
+                save_scope_as = nfp46_market_good
+                goods = { save_scope_as = nfp46_good }
+                scope:nfp46_reader = { nfp46_observe_one_good = yes }
+            }
+        }
+        every_in_list = { variable = nfp46_goods_watches
+            limit = { var:nfp46_seen = 0 }
+            nfp46_retire_watch = yes
+        }
+    } else = {
+        every_in_list = { variable = nfp46_goods_watches nfp46_retire_watch = yes }
+        remove_variable = nfp46_market
+    }
+}
+
+# Reader root. One watch per active good, no global good-type variables.
+nfp46_observe_one_good = {
+    if = { limit = { NOT = { any_in_list = { variable = nfp46_goods_watches var:nfp46_good = scope:nfp46_good } }
+        var:nfp46_watch_count < 128 }
+        create_container = { tags = { nfp46_goods_watch } parent = scope:nfp46_reader save_scope_as = nfp46_new_watch }
+        scope:nfp46_new_watch = {
+            set_variable = { name = nfp46_good value = scope:nfp46_good }
+            set_variable = { name = nfp46_bad value = 0 }
+            set_variable = { name = nfp46_good_streak value = 0 }
+            set_variable = { name = nfp46_active value = 0 }
+            set_variable = { name = nfp46_episode value = 0 }
+            set_variable = { name = nfp46_published value = -1 }
+            set_variable = { name = nfp46_recovery_episode value = -1 }
+            set_variable = { name = nfp46_period value = -100000 }
+        }
+        nfp46_migrate_published_good = yes
+        add_to_variable_list = { name = nfp46_goods_watches target = scope:nfp46_new_watch }
+        change_variable = { name = nfp46_watch_count add = 1 }
+    }
+    every_in_list = { variable = nfp46_goods_watches limit = { var:nfp46_good = scope:nfp46_good }
+        set_variable = { name = nfp46_seen value = 1 }
+        if = { limit = { NOT = { has_variable = nfp50_supply_mark_episode } } nfp50_sample_supply = yes }
+        if = { limit = { NOT = { var:nfp46_period = nfp20_period } }
+            if = { limit = { NOT = { nfp46_watch_gap = 1 } }
+                set_variable = { name = nfp46_bad value = 0 }
+                set_variable = { name = nfp46_good_streak value = 0 }
+            }
+            set_variable = { name = nfp46_buy value = scope:nfp46_market_good.market_goods_buy_orders }
+            set_variable = { name = nfp46_sell value = scope:nfp46_market_good.market_goods_sell_orders }
+            set_variable = { name = nfp46_gap value = scope:nfp46_market_good.nfp46_supply_gap }
+            set_variable = { name = nfp46_native value = 0 }
+            if = { limit = { scope:nfp46_market_good = { market_goods_has_goods_shortage = yes } }
+                set_variable = { name = nfp46_native value = 1 }
+            }
+            nfp50_sample_supply = yes
+            nfp60_supply_tick = yes
+            set_variable = { name = nfp46_period value = nfp20_period }
+            if = { limit = { var:nfp46_buy > 0 OR = { var:nfp46_native = 1
+                scope:nfp46_market_good = { market_goods_sell_orders < nfp46_supply_ceiling } } }
+                set_variable = { name = nfp46_good_streak value = 0 }
+                change_variable = { name = nfp46_bad add = 1 }
+                if = { limit = { var:nfp46_bad = 1 var:nfp46_active = 0 }
+nfp60_supply_start = { partial = 0 }
+                    set_variable = { name = nfp46_buy_before value = var:nfp46_buy }
+                    set_variable = { name = nfp46_sell_before value = var:nfp46_sell }
+                    set_variable = { name = nfp46_gap_before value = var:nfp46_gap }
+                    set_variable = { name = nfp46_period_before value = nfp20_period }
+                }
+                if = { limit = { var:nfp46_bad >= 2 }
+                    if = { limit = { var:nfp46_active = 0 }
+                        set_variable = { name = nfp46_active value = 1 }
+                        change_variable = { name = nfp46_episode add = 1 }
+                        set_variable = { name = nfp46_mode value = 2 }
+                        if = { limit = { var:nfp46_native = 1 } set_variable = { name = nfp46_mode value = 1 } }
+                    }
+                    if = { limit = { NOT = { var:nfp46_published = var:nfp46_episode } }
+                        # Unpublished retry describes the new actual slice.
+                        set_variable = { name = nfp46_mode value = 2 }
+                        if = { limit = { var:nfp46_native = 1 } set_variable = { name = nfp46_mode value = 1 } }
+                        save_scope_as = nfp46_watch
+                        scope:nfp46_reader = {
+                            if = { limit = { NOT = { any_in_list = { variable = nfp20_candidates
+                                var:nfp20_used = 0 nfp20_candidate_age <= 12 var:nfp20_type = 3 exists = var:nfp46_watch
+                                var:nfp46_watch = scope:nfp46_watch var:nfp20_episode = scope:nfp46_watch.var:nfp46_episode
+                            } } }
+                                nfp46_emit_warning = yes
+                            }
+                        }
+                    }
+                }
+            } else = {
+                set_variable = { name = nfp46_bad value = 0 }
+                change_variable = { name = nfp46_good_streak add = 1 }
+                if = { limit = { var:nfp46_active = 1 var:nfp46_good_streak >= 2 }
+                    if = { limit = { var:nfp46_published = var:nfp46_episode }
+                        save_scope_as = nfp46_watch
+                        scope:nfp46_reader = { nfp46_emit_recovery = yes }
+                    }
+                    set_variable = { name = nfp46_active value = 0 }
+                }
+            }
+        }
+        # A candidate dropped by queue pruning or settings can be retried;
+        # published warnings are never reissued merely for remaining active.
+        if = { limit = { var:nfp46_active = 0 var:nfp46_published = var:nfp46_episode
+            NOT = { var:nfp46_recovery_episode = var:nfp46_episode } var:nfp46_good_streak >= 2 }
+            save_scope_as = nfp46_watch
+            scope:nfp46_reader = {
+                if = { limit = { NOT = { any_in_list = { variable = nfp20_candidates
+                    var:nfp20_used = 0 nfp20_candidate_age <= 12 var:nfp20_type = 4 exists = var:nfp46_watch
+                    var:nfp46_watch = scope:nfp46_watch var:nfp20_episode = scope:nfp46_watch.var:nfp46_episode
+                } } }
+                    nfp46_emit_recovery = yes
+                }
+            }
+        }
+        nfp50_supply_followup = yes
+    }
+}
+
+# Reader root; prepare source fields afresh for EACH emitted good. Existing
+# audience/queue logic remains authoritative, and numbers are copied at emit.
+nfp46_prepare_fact = {
+    nfp20_prepare = yes
+    set_variable = { name = nfp20_f_problem value = 7 }
+    set_variable = { name = nfp20_f_episode value = scope:nfp46_watch.var:nfp46_episode }
+    set_variable = { name = nfp20_f_before value = scope:nfp46_watch.var:nfp46_gap_before }
+    set_variable = { name = nfp20_f_after value = scope:nfp46_watch.var:nfp46_gap }
+    set_variable = { name = nfp20_f_extra value = 2 }
+    set_variable = { name = nfp20_f_detail value = flag:NFP46_GOOD_LABEL }
+}
+nfp46_emit_warning = {
+    nfp46_prepare_fact = yes
+    if = { limit = { scope:nfp46_watch = { var:nfp46_mode = 1 } }
+        nfp20_emit = { type = 3 section = 1 body = NFP46_SHORTAGE_BODY_1 severity = 85 global = no }
+    } else = {
+        nfp20_emit = { type = 3 section = 1 body = NFP46_SUPPLY_GAP_BODY_1 severity = 85 global = no }
+    }
+}
+nfp46_emit_recovery = {
+    nfp46_prepare_fact = yes
+    if = { limit = { scope:nfp46_watch = { var:nfp46_mode = 1 } }
+        nfp20_emit = { type = 4 section = 1 body = NFP46_SHORTAGE_RECOVERY_BODY_1 severity = 75 global = no }
+    } else = {
+        nfp20_emit = { type = 4 section = 1 body = NFP46_SUPPLY_GAP_RECOVERY_BODY_1 severity = 75 global = no }
+    }
+}
+
+# Candidate root: the sole live watch reference lives here, never in articles.
+nfp46_capture_goods = {
+    nfp50_capture_supply = yes
+nfp60_capture_supply = yes
+    if = { limit = { var:nfp20_problem = 7 }
+        set_variable = { name = nfp46_watch value = scope:nfp46_watch }
+        set_variable = { name = nfp46_good value = scope:nfp46_watch.var:nfp46_good }
+        set_variable = { name = nfp46_mode value = scope:nfp46_watch.var:nfp46_mode }
+        set_variable = { name = nfp46_buy_before value = scope:nfp46_watch.var:nfp46_buy_before }
+        set_variable = { name = nfp46_sell_before value = scope:nfp46_watch.var:nfp46_sell_before }
+        set_variable = { name = nfp46_gap_before value = scope:nfp46_watch.var:nfp46_gap_before }
+        set_variable = { name = nfp46_period_before value = scope:nfp46_watch.var:nfp46_period_before }
+        set_variable = { name = nfp46_buy_after value = scope:nfp46_watch.var:nfp46_buy }
+        set_variable = { name = nfp46_sell_after value = scope:nfp46_watch.var:nfp46_sell }
+        set_variable = { name = nfp46_gap_after value = scope:nfp46_watch.var:nfp46_gap }
+        set_variable = { name = nfp46_native_after value = scope:nfp46_watch.var:nfp46_native }
+    }
+}
+
+nfp46_mark_goods_published = {
+    nfp50_mark_supply = yes
+    if = { limit = { var:nfp20_problem = 7 exists = var:nfp46_watch }
+        save_scope_as = nfp46_published_fact
+        if = { limit = { var:nfp20_type = 3 }
+            var:nfp46_watch = {
+                set_variable = { name = nfp46_published value = scope:nfp46_published_fact.var:nfp20_episode }
+                # Continue the mode of the ACTUALLY printed warning.
+                set_variable = { name = nfp46_mode value = scope:nfp46_published_fact.var:nfp46_mode }
+            }
+        }
+        if = { limit = { var:nfp20_type = 4 }
+            var:nfp46_watch = {
+                set_variable = { name = nfp46_recovery_episode value = scope:nfp46_published_fact.var:nfp20_episode }
+if = { limit = { has_variable = nfp60_s_tracking var:nfp46_active = 0 var:nfp60_s_episode = scope:nfp46_published_fact.var:nfp20_episode } nfp60_supply_clear = yes }
+            }
+        }
+    }
+}
+
+# Preserve a still-present, already published legacy native episode.
+nfp46_migrate_published_good = {
+    if = { limit = {
+        scope:nfp46_good = { this = g:grain }
+        has_variable = nfp20_short_grain_active
+        has_variable = nfp20_short_grain_episode
+        has_variable = nfp20_short_grain_published
+    }
+      if = { limit = {
+        var:nfp20_short_grain_active = 1
+        var:nfp20_short_grain_episode > 0
+        var:nfp20_short_grain_published = var:nfp20_short_grain_episode
+        scope:nfp46_market_good = { market_goods_has_goods_shortage = yes }
+    }
+        scope:nfp46_new_watch = {
+            set_variable = { name = nfp46_active value = 1 }
+            set_variable = { name = nfp46_episode value = 1 }
+            set_variable = { name = nfp46_published value = 1 }
+            set_variable = { name = nfp46_mode value = 1 }
+            # First NEW factual slice; no reconstruction of historical orders.
+            set_variable = { name = nfp46_buy_before value = scope:nfp46_market_good.market_goods_buy_orders }
+            set_variable = { name = nfp46_sell_before value = scope:nfp46_market_good.market_goods_sell_orders }
+            set_variable = { name = nfp46_gap_before value = scope:nfp46_market_good.nfp46_supply_gap }
+            set_variable = { name = nfp46_period_before value = nfp20_period }
+        }
+      }
+    }
+    if = { limit = {
+        scope:nfp46_good = { this = g:coal }
+        has_variable = nfp20_short_coal_active
+        has_variable = nfp20_short_coal_episode
+        has_variable = nfp20_short_coal_published
+    }
+      if = { limit = {
+        var:nfp20_short_coal_active = 1
+        var:nfp20_short_coal_episode > 0
+        var:nfp20_short_coal_published = var:nfp20_short_coal_episode
+        scope:nfp46_market_good = { market_goods_has_goods_shortage = yes }
+    }
+        scope:nfp46_new_watch = {
+            set_variable = { name = nfp46_active value = 1 }
+            set_variable = { name = nfp46_episode value = 1 }
+            set_variable = { name = nfp46_published value = 1 }
+            set_variable = { name = nfp46_mode value = 1 }
+            # First NEW factual slice; no reconstruction of historical orders.
+            set_variable = { name = nfp46_buy_before value = scope:nfp46_market_good.market_goods_buy_orders }
+            set_variable = { name = nfp46_sell_before value = scope:nfp46_market_good.market_goods_sell_orders }
+            set_variable = { name = nfp46_gap_before value = scope:nfp46_market_good.nfp46_supply_gap }
+            set_variable = { name = nfp46_period_before value = nfp20_period }
+        }
+      }
+    }
+    if = { limit = {
+        scope:nfp46_good = { this = g:iron }
+        has_variable = nfp20_short_iron_active
+        has_variable = nfp20_short_iron_episode
+        has_variable = nfp20_short_iron_published
+    }
+      if = { limit = {
+        var:nfp20_short_iron_active = 1
+        var:nfp20_short_iron_episode > 0
+        var:nfp20_short_iron_published = var:nfp20_short_iron_episode
+        scope:nfp46_market_good = { market_goods_has_goods_shortage = yes }
+    }
+        scope:nfp46_new_watch = {
+            set_variable = { name = nfp46_active value = 1 }
+            set_variable = { name = nfp46_episode value = 1 }
+            set_variable = { name = nfp46_published value = 1 }
+            set_variable = { name = nfp46_mode value = 1 }
+            # First NEW factual slice; no reconstruction of historical orders.
+            set_variable = { name = nfp46_buy_before value = scope:nfp46_market_good.market_goods_buy_orders }
+            set_variable = { name = nfp46_sell_before value = scope:nfp46_market_good.market_goods_sell_orders }
+            set_variable = { name = nfp46_gap_before value = scope:nfp46_market_good.nfp46_supply_gap }
+            set_variable = { name = nfp46_period_before value = nfp20_period }
+        }
+      }
+    }
+    if = { limit = {
+        scope:nfp46_good = { this = g:tools }
+        has_variable = nfp20_short_tools_active
+        has_variable = nfp20_short_tools_episode
+        has_variable = nfp20_short_tools_published
+    }
+      if = { limit = {
+        var:nfp20_short_tools_active = 1
+        var:nfp20_short_tools_episode > 0
+        var:nfp20_short_tools_published = var:nfp20_short_tools_episode
+        scope:nfp46_market_good = { market_goods_has_goods_shortage = yes }
+    }
+        scope:nfp46_new_watch = {
+            set_variable = { name = nfp46_active value = 1 }
+            set_variable = { name = nfp46_episode value = 1 }
+            set_variable = { name = nfp46_published value = 1 }
+            set_variable = { name = nfp46_mode value = 1 }
+            # First NEW factual slice; no reconstruction of historical orders.
+            set_variable = { name = nfp46_buy_before value = scope:nfp46_market_good.market_goods_buy_orders }
+            set_variable = { name = nfp46_sell_before value = scope:nfp46_market_good.market_goods_sell_orders }
+            set_variable = { name = nfp46_gap_before value = scope:nfp46_market_good.nfp46_supply_gap }
+            set_variable = { name = nfp46_period_before value = nfp20_period }
+        }
+      }
+    }
+}
+
+nfp46_copy_goods = {
+    nfp50_copy_supply = yes
+    if = { limit = { var:nfp20_problem = 7 }
+        set_variable = { name = nfp46_good value = scope:nfp20_selected_fact.var:nfp46_good }
+        set_variable = { name = nfp46_mode value = scope:nfp20_selected_fact.var:nfp46_mode }
+        set_variable = { name = nfp46_buy_before value = scope:nfp20_selected_fact.var:nfp46_buy_before }
+        set_variable = { name = nfp46_sell_before value = scope:nfp20_selected_fact.var:nfp46_sell_before }
+        set_variable = { name = nfp46_gap_before value = scope:nfp20_selected_fact.var:nfp46_gap_before }
+        set_variable = { name = nfp46_period_before value = scope:nfp20_selected_fact.var:nfp46_period_before }
+        set_variable = { name = nfp46_buy_after value = scope:nfp20_selected_fact.var:nfp46_buy_after }
+        set_variable = { name = nfp46_sell_after value = scope:nfp20_selected_fact.var:nfp46_sell_after }
+        set_variable = { name = nfp46_gap_after value = scope:nfp20_selected_fact.var:nfp46_gap_after }
+        set_variable = { name = nfp46_native_after value = scope:nfp20_selected_fact.var:nfp46_native_after }
+    }
+}
+
+nfp46_format_goods = {
+    if = { limit = { has_variable = nfp46_mode }
+    if = { limit = { var:nfp20_problem = 7 var:nfp20_type = 3 var:nfp46_mode = 1 }
+        set_variable = { name = nfp30_headline value = flag:NFP46_SHORTAGE_TITLE_1 }
+        set_variable = { name = nfp30_lead value = flag:NFP46_SHORTAGE_LEAD_1 }
+        set_variable = { name = nfp30_body value = flag:NFP46_SHORTAGE_BODY_1 }
+        set_variable = { name = nfp30_metrics value = flag:NFP46_METRICS }
+        if = { limit = { var:nfp30_variant = 2 }
+            set_variable = { name = nfp30_headline value = flag:NFP46_SHORTAGE_TITLE_2 }
+            set_variable = { name = nfp30_lead value = flag:NFP46_SHORTAGE_LEAD_2 }
+            set_variable = { name = nfp30_body value = flag:NFP46_SHORTAGE_BODY_2 }
+        }
+    }
+    if = { limit = { var:nfp20_problem = 7 var:nfp20_type = 3 var:nfp46_mode = 2 }
+        set_variable = { name = nfp30_headline value = flag:NFP46_SUPPLY_GAP_TITLE_1 }
+        set_variable = { name = nfp30_lead value = flag:NFP46_SUPPLY_GAP_LEAD_1 }
+        set_variable = { name = nfp30_body value = flag:NFP46_SUPPLY_GAP_BODY_1 }
+        set_variable = { name = nfp30_metrics value = flag:NFP46_METRICS }
+        if = { limit = { var:nfp30_variant = 2 }
+            set_variable = { name = nfp30_headline value = flag:NFP46_SUPPLY_GAP_TITLE_2 }
+            set_variable = { name = nfp30_lead value = flag:NFP46_SUPPLY_GAP_LEAD_2 }
+            set_variable = { name = nfp30_body value = flag:NFP46_SUPPLY_GAP_BODY_2 }
+        }
+    }
+    if = { limit = { var:nfp20_problem = 7 var:nfp20_type = 4 var:nfp46_mode = 1 }
+        set_variable = { name = nfp30_headline value = flag:NFP46_SHORTAGE_RECOVERY_TITLE_1 }
+        set_variable = { name = nfp30_lead value = flag:NFP46_SHORTAGE_RECOVERY_LEAD_1 }
+        set_variable = { name = nfp30_body value = flag:NFP46_SHORTAGE_RECOVERY_BODY_1 }
+        set_variable = { name = nfp30_metrics value = flag:NFP46_METRICS }
+        if = { limit = { var:nfp30_variant = 2 }
+            set_variable = { name = nfp30_headline value = flag:NFP46_SHORTAGE_RECOVERY_TITLE_2 }
+            set_variable = { name = nfp30_lead value = flag:NFP46_SHORTAGE_RECOVERY_LEAD_2 }
+            set_variable = { name = nfp30_body value = flag:NFP46_SHORTAGE_RECOVERY_BODY_2 }
+        }
+    }
+    if = { limit = { var:nfp20_problem = 7 var:nfp20_type = 4 var:nfp46_mode = 2 }
+        set_variable = { name = nfp30_headline value = flag:NFP46_SUPPLY_GAP_RECOVERY_TITLE_1 }
+        set_variable = { name = nfp30_lead value = flag:NFP46_SUPPLY_GAP_RECOVERY_LEAD_1 }
+        set_variable = { name = nfp30_body value = flag:NFP46_SUPPLY_GAP_RECOVERY_BODY_1 }
+        set_variable = { name = nfp30_metrics value = flag:NFP46_METRICS }
+        if = { limit = { var:nfp30_variant = 2 }
+            set_variable = { name = nfp30_headline value = flag:NFP46_SUPPLY_GAP_RECOVERY_TITLE_2 }
+            set_variable = { name = nfp30_lead value = flag:NFP46_SUPPLY_GAP_RECOVERY_LEAD_2 }
+            set_variable = { name = nfp30_body value = flag:NFP46_SUPPLY_GAP_RECOVERY_BODY_2 }
+        }
+    }
+    }
+}

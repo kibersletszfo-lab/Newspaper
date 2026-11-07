@@ -1,0 +1,6 @@
+﻿# Additive observers; vanilla election handlers are not replaced.
+on_election_campaign_start = { on_actions = { nfp43_campaign_started } }
+on_election_campaign_end = { on_actions = { nfp43_campaign_ended } }
+nfp43_campaign_started = { effect = { nfp43_election_start = yes } }
+nfp43_campaign_ended = { trigger = { is_player = yes has_variable = nfp20_schema }
+    effect = { nfp43_clear_election_candidates = yes } }

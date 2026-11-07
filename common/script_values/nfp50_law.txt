@@ -1,0 +1,6 @@
+﻿# Read only native scalar getters; shares are stored as percentages.
+nfp50_law_gov_weight = { value = ig_government_power_share multiply = 100 }
+nfp50_law_ig_population = { value = interest_group_population }
+nfp50_law_ig_pop_pct = { value = interest_group_population_percentage multiply = 100 }
+nfp50_law_ig_clout = { value = ig_clout multiply = 100 }
+nfp50_law_movement_order = { value = political_movement_support }

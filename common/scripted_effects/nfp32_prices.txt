@@ -1,0 +1,219 @@
+﻿# Reader-owned bounded cache, updated once per calendar month (or market switch).
+# No candidates, fictional discoveries, world scans, or balance effects.
+nfp32_observe_prices = {
+    save_scope_as = nfp32_owner
+    if = { limit = { exists = capital.market }
+        if = { limit = { OR = {
+            NOT = { has_variable = nfp32_period }
+            NOT = { var:nfp32_period = nfp20_period }
+            NOT = { exists = var:nfp32_market }
+            NOT = { var:nfp32_market = capital.market }
+        } }
+            if = { limit = { OR = { NOT = { exists = var:nfp32_market } NOT = { var:nfp32_market = capital.market } } }
+                every_in_list = { variable = nfp32_prices destroy_container = yes }
+                clear_variable_list = nfp32_prices
+                set_variable = { name = nfp32_count value = 0 }
+            }
+            set_variable = { name = nfp32_market value = capital.market }
+            set_variable = { name = nfp32_market_owner value = capital.market.owner.country_definition }
+            capital.market = {
+                every_market_goods = {
+                    limit = { OR = { market_goods_buy_orders > 0 market_goods_sell_orders > 0 } }
+                    save_scope_as = nfp32_market_good
+                    goods = { save_scope_as = nfp32_good }
+                    scope:nfp32_owner = {
+                        if = { limit = { NOT = { any_in_list = { variable = nfp32_prices var:nfp32_good = scope:nfp32_good } } var:nfp32_count < 128 }
+                            change_variable = { name = nfp32_count add = 1 }
+                            create_container = { tags = { nfp32_price } parent = scope:nfp32_owner save_scope_as = nfp32_entry }
+                            scope:nfp32_entry = {
+                                set_variable = { name = nfp32_good value = scope:nfp32_good }
+                                set_variable = { name = nfp32_index value = scope:nfp32_owner.var:nfp32_count }
+                            }
+                            add_to_variable_list = { name = nfp32_prices target = scope:nfp32_entry }
+                        }
+                        every_in_list = { variable = nfp32_prices limit = { var:nfp32_good = scope:nfp32_good }
+                            set_variable = { name = nfp32_comparable value = 0 }
+                            if = { limit = { has_variable = nfp32_period nfp32_gap = 1 var:nfp32_current > 0 }
+                                set_variable = { name = nfp32_previous value = var:nfp32_current }
+                                set_variable = { name = nfp32_comparable value = 1 }
+                            }
+                            set_variable = { name = nfp32_current value = scope:nfp32_market_good.nfp32_price }
+                            set_variable = { name = nfp32_period value = nfp20_period }
+                        }
+                    }
+                }
+            }
+            set_variable = { name = nfp32_period value = nfp20_period }
+        }
+    } else = {
+        # Invalidate comparisons across missing-market intervals, even within month.
+        every_in_list = { variable = nfp32_prices destroy_container = yes }
+        clear_variable_list = nfp32_prices
+        remove_variable = nfp32_market
+        remove_variable = nfp32_market_owner
+        remove_variable = nfp32_period
+        set_variable = { name = nfp32_count value = 0 }
+    }
+}
+
+# Reader scope. Invoked after normal selection and before presentation.
+nfp32_fill_quiet_issue = {
+    if = { limit = { scope:nfp_new_issue = { var:nfp20_article_count = 0 var:nfp_kind < 3 } }
+        create_container = { tags = { nfp_article } parent = scope:nfp_new_issue save_scope_as = nfp_new_article }
+        scope:nfp_new_article = {
+            set_variable = { name = nfp32_schema value = 1 }
+            set_variable = { name = nfp32_rows value = 0 }
+            set_variable = { name = nfp32_comparisons value = 0 }
+            set_variable = { name = nfp_section value = 1 }
+            set_variable = { name = nfp_body value = flag:NFP30_PRICE_BODY_1 }
+            set_variable = { name = nfp20_schema value = 2 }
+            set_variable = { name = nfp20_type value = 12 }
+            set_variable = { name = nfp20_id value = scope:nfp_new_issue.var:nfp_number }
+            set_variable = { name = nfp20_source_serial value = 0 }
+            set_variable = { name = nfp20_foreign value = 0 }
+            set_variable = { name = nfp20_priority value = 0 }
+            set_variable = { name = nfp20_order value = 1 }
+            set_variable = { name = nfp20_source_definition value = scope:nfp_reader.country_definition }
+            set_variable = { name = nfp20_secondary value = scope:nfp_reader.country_definition }
+            set_variable = { name = nfp20_period value = nfp20_period }
+            set_variable = { name = nfp20_year value = year }
+            set_variable = { name = nfp20_month value = month }
+            set_variable = { name = nfp20_before value = 0 }
+            set_variable = { name = nfp20_after value = 0 }
+            set_variable = { name = nfp20_extra value = 0 }
+            set_variable = { name = nfp20_detail value = flag:NFP20_NONE }
+            set_variable = { name = nfp20_extra_detail value = flag:NFP20_NONE }
+            set_variable = { name = nfp20_urgent value = 0 }
+            set_variable = { name = nfp20_episode value = 0 }
+            set_variable = { name = nfp20_problem value = 0 }
+            set_variable = { name = nfp20_reason value = flag:NFP30_REASON_PRICES }
+            set_variable = { name = nfp31_reach value = flag:NFP30_REACH_PRICE_LOCAL }
+            set_variable = { name = nfp31_legacy value = 0 }
+            if = { limit = { scope:nfp_reader = { has_variable = nfp32_market_owner } }
+                set_variable = { name = nfp32_market_owner value = scope:nfp_reader.var:nfp32_market_owner }
+            }
+            set_variable = { name = nfp32_row_1 value = flag:NFP30_PRICE_ROW_EMPTY }
+            set_variable = { name = nfp32_row_2 value = flag:NFP30_PRICE_ROW_EMPTY }
+            set_variable = { name = nfp32_row_3 value = flag:NFP30_PRICE_ROW_EMPTY }
+            set_variable = { name = nfp32_row_4 value = flag:NFP30_PRICE_ROW_EMPTY }
+            set_variable = { name = nfp32_row_5 value = flag:NFP30_PRICE_ROW_EMPTY }
+            set_variable = { name = nfp32_row_6 value = flag:NFP30_PRICE_ROW_EMPTY }
+        }
+        ordered_in_list = { variable = nfp32_prices
+            limit = { var:nfp32_period = nfp20_period var:nfp32_current > 0 }
+            order_by = nfp32_order
+            check_range_bounds = no
+            if = { limit = { scope:nfp_new_article = { var:nfp32_rows < 6 } }
+                save_scope_as = nfp32_selected_price
+                scope:nfp_new_article = {
+                    change_variable = { name = nfp32_rows add = 1 }
+                    if = { limit = { var:nfp32_rows = 1 }
+                        set_variable = { name = nfp32_good_1 value = scope:nfp32_selected_price.var:nfp32_good }
+                        set_variable = { name = nfp32_current_1 value = scope:nfp32_selected_price.var:nfp32_current }
+                        set_variable = { name = nfp32_row_1 value = flag:NFP30_PRICE_CURRENT_1 }
+                        if = { limit = { scope:nfp32_selected_price = { var:nfp32_comparable = 1 var:nfp32_previous > 0 } }
+                            change_variable = { name = nfp32_comparisons add = 1 }
+                            set_variable = { name = nfp32_previous_1 value = scope:nfp32_selected_price.var:nfp32_previous }
+                            set_variable = { name = nfp32_delta_1 value = scope:nfp32_selected_price.nfp32_change }
+                            set_variable = { name = nfp32_row_1 value = flag:NFP30_PRICE_COMPARE_1 }
+                            set_variable = { name = nfp32_direction_1 value = flag:NFP30_PRICE_SAME }
+                            if = { limit = { var:nfp32_current_1 > var:nfp32_previous_1 } set_variable = { name = nfp32_direction_1 value = flag:NFP30_PRICE_UP } }
+                            else_if = { limit = { var:nfp32_current_1 < var:nfp32_previous_1 } set_variable = { name = nfp32_direction_1 value = flag:NFP30_PRICE_DOWN } }
+                        }
+                    }
+                    if = { limit = { var:nfp32_rows = 2 }
+                        set_variable = { name = nfp32_good_2 value = scope:nfp32_selected_price.var:nfp32_good }
+                        set_variable = { name = nfp32_current_2 value = scope:nfp32_selected_price.var:nfp32_current }
+                        set_variable = { name = nfp32_row_2 value = flag:NFP30_PRICE_CURRENT_2 }
+                        if = { limit = { scope:nfp32_selected_price = { var:nfp32_comparable = 1 var:nfp32_previous > 0 } }
+                            change_variable = { name = nfp32_comparisons add = 1 }
+                            set_variable = { name = nfp32_previous_2 value = scope:nfp32_selected_price.var:nfp32_previous }
+                            set_variable = { name = nfp32_delta_2 value = scope:nfp32_selected_price.nfp32_change }
+                            set_variable = { name = nfp32_row_2 value = flag:NFP30_PRICE_COMPARE_2 }
+                            set_variable = { name = nfp32_direction_2 value = flag:NFP30_PRICE_SAME }
+                            if = { limit = { var:nfp32_current_2 > var:nfp32_previous_2 } set_variable = { name = nfp32_direction_2 value = flag:NFP30_PRICE_UP } }
+                            else_if = { limit = { var:nfp32_current_2 < var:nfp32_previous_2 } set_variable = { name = nfp32_direction_2 value = flag:NFP30_PRICE_DOWN } }
+                        }
+                    }
+                    if = { limit = { var:nfp32_rows = 3 }
+                        set_variable = { name = nfp32_good_3 value = scope:nfp32_selected_price.var:nfp32_good }
+                        set_variable = { name = nfp32_current_3 value = scope:nfp32_selected_price.var:nfp32_current }
+                        set_variable = { name = nfp32_row_3 value = flag:NFP30_PRICE_CURRENT_3 }
+                        if = { limit = { scope:nfp32_selected_price = { var:nfp32_comparable = 1 var:nfp32_previous > 0 } }
+                            change_variable = { name = nfp32_comparisons add = 1 }
+                            set_variable = { name = nfp32_previous_3 value = scope:nfp32_selected_price.var:nfp32_previous }
+                            set_variable = { name = nfp32_delta_3 value = scope:nfp32_selected_price.nfp32_change }
+                            set_variable = { name = nfp32_row_3 value = flag:NFP30_PRICE_COMPARE_3 }
+                            set_variable = { name = nfp32_direction_3 value = flag:NFP30_PRICE_SAME }
+                            if = { limit = { var:nfp32_current_3 > var:nfp32_previous_3 } set_variable = { name = nfp32_direction_3 value = flag:NFP30_PRICE_UP } }
+                            else_if = { limit = { var:nfp32_current_3 < var:nfp32_previous_3 } set_variable = { name = nfp32_direction_3 value = flag:NFP30_PRICE_DOWN } }
+                        }
+                    }
+                    if = { limit = { var:nfp32_rows = 4 }
+                        set_variable = { name = nfp32_good_4 value = scope:nfp32_selected_price.var:nfp32_good }
+                        set_variable = { name = nfp32_current_4 value = scope:nfp32_selected_price.var:nfp32_current }
+                        set_variable = { name = nfp32_row_4 value = flag:NFP30_PRICE_CURRENT_4 }
+                        if = { limit = { scope:nfp32_selected_price = { var:nfp32_comparable = 1 var:nfp32_previous > 0 } }
+                            change_variable = { name = nfp32_comparisons add = 1 }
+                            set_variable = { name = nfp32_previous_4 value = scope:nfp32_selected_price.var:nfp32_previous }
+                            set_variable = { name = nfp32_delta_4 value = scope:nfp32_selected_price.nfp32_change }
+                            set_variable = { name = nfp32_row_4 value = flag:NFP30_PRICE_COMPARE_4 }
+                            set_variable = { name = nfp32_direction_4 value = flag:NFP30_PRICE_SAME }
+                            if = { limit = { var:nfp32_current_4 > var:nfp32_previous_4 } set_variable = { name = nfp32_direction_4 value = flag:NFP30_PRICE_UP } }
+                            else_if = { limit = { var:nfp32_current_4 < var:nfp32_previous_4 } set_variable = { name = nfp32_direction_4 value = flag:NFP30_PRICE_DOWN } }
+                        }
+                    }
+                    if = { limit = { var:nfp32_rows = 5 }
+                        set_variable = { name = nfp32_good_5 value = scope:nfp32_selected_price.var:nfp32_good }
+                        set_variable = { name = nfp32_current_5 value = scope:nfp32_selected_price.var:nfp32_current }
+                        set_variable = { name = nfp32_row_5 value = flag:NFP30_PRICE_CURRENT_5 }
+                        if = { limit = { scope:nfp32_selected_price = { var:nfp32_comparable = 1 var:nfp32_previous > 0 } }
+                            change_variable = { name = nfp32_comparisons add = 1 }
+                            set_variable = { name = nfp32_previous_5 value = scope:nfp32_selected_price.var:nfp32_previous }
+                            set_variable = { name = nfp32_delta_5 value = scope:nfp32_selected_price.nfp32_change }
+                            set_variable = { name = nfp32_row_5 value = flag:NFP30_PRICE_COMPARE_5 }
+                            set_variable = { name = nfp32_direction_5 value = flag:NFP30_PRICE_SAME }
+                            if = { limit = { var:nfp32_current_5 > var:nfp32_previous_5 } set_variable = { name = nfp32_direction_5 value = flag:NFP30_PRICE_UP } }
+                            else_if = { limit = { var:nfp32_current_5 < var:nfp32_previous_5 } set_variable = { name = nfp32_direction_5 value = flag:NFP30_PRICE_DOWN } }
+                        }
+                    }
+                    if = { limit = { var:nfp32_rows = 6 }
+                        set_variable = { name = nfp32_good_6 value = scope:nfp32_selected_price.var:nfp32_good }
+                        set_variable = { name = nfp32_current_6 value = scope:nfp32_selected_price.var:nfp32_current }
+                        set_variable = { name = nfp32_row_6 value = flag:NFP30_PRICE_CURRENT_6 }
+                        if = { limit = { scope:nfp32_selected_price = { var:nfp32_comparable = 1 var:nfp32_previous > 0 } }
+                            change_variable = { name = nfp32_comparisons add = 1 }
+                            set_variable = { name = nfp32_previous_6 value = scope:nfp32_selected_price.var:nfp32_previous }
+                            set_variable = { name = nfp32_delta_6 value = scope:nfp32_selected_price.nfp32_change }
+                            set_variable = { name = nfp32_row_6 value = flag:NFP30_PRICE_COMPARE_6 }
+                            set_variable = { name = nfp32_direction_6 value = flag:NFP30_PRICE_SAME }
+                            if = { limit = { var:nfp32_current_6 > var:nfp32_previous_6 } set_variable = { name = nfp32_direction_6 value = flag:NFP30_PRICE_UP } }
+                            else_if = { limit = { var:nfp32_current_6 < var:nfp32_previous_6 } set_variable = { name = nfp32_direction_6 value = flag:NFP30_PRICE_DOWN } }
+                        }
+                    }
+                }
+            }
+        }
+        scope:nfp_new_issue = {
+            add_to_variable_list = { name = nfp_articles target = scope:nfp_new_article }
+            set_variable = { name = nfp20_article_count value = 1 }
+            set_variable = { name = nfp20_section_count_1 value = 1 }
+            set_variable = { name = nfp32_fallback value = 1 }
+        }
+    }
+}
+
+# Article scope, after the ordinary formatter, before the cover/page links.
+nfp32_format_report = {
+    if = { limit = { has_variable = nfp32_schema }
+        set_variable = { name = nfp30_headline value = flag:NFP30_PRICE_TITLE_1 }
+        set_variable = { name = nfp30_lead value = flag:NFP30_PRICE_LEAD_1 }
+        set_variable = { name = nfp30_body value = flag:NFP30_PRICE_BODY_1 }
+        set_variable = { name = nfp30_metrics value = flag:NFP30_PRICE_METRICS }
+        if = { limit = { var:nfp30_variant = 2 }
+            set_variable = { name = nfp30_headline value = flag:NFP30_PRICE_TITLE_2 }
+            set_variable = { name = nfp30_lead value = flag:NFP30_PRICE_LEAD_2 }
+            set_variable = { name = nfp30_body value = flag:NFP30_PRICE_BODY_2 }
+        }
+    }
+}

@@ -1,0 +1,8 @@
+﻿nfp_open_decision = {
+    is_shown = { is_player = yes }
+    possible = { always = yes }
+    when_taken = {
+        nfp38_open_reader = yes
+    }
+    ai_chance = { value = 0 }
+}

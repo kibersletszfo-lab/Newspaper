@@ -1,0 +1,202 @@
+﻿# Country root = player reader. Observation containers retain definitions,
+# not nullable live countries. At most two current links per active country;
+# vanished links are removed immediately after producing an immutable candidate.
+
+nfp43_alliance_observe = {
+    if = { limit = { is_player = yes has_variable = nfp20_schema }
+        save_scope_as = nfp43_reader
+        every_in_list = { variable = nfp43_links
+            set_variable = { name = nfp43_seen value = 0 }
+        }
+        every_country = {
+            limit = { NOT = { this = scope:nfp43_reader }
+                OR = { any_scope_treaty = { binds = scope:nfp43_reader any_scope_article = { has_type = alliance } }
+                    is_in_same_power_bloc = scope:nfp43_reader }
+            }
+            save_scope_as = nfp43_partner
+            if = { limit = { any_scope_treaty = { binds = scope:nfp43_reader any_scope_article = { has_type = alliance } } }
+                scope:nfp43_reader = { nfp43_observe_link = { kind = 1 } }
+            }
+            if = { limit = { is_in_same_power_bloc = scope:nfp43_reader }
+                scope:nfp43_reader = { nfp43_observe_link = { kind = 2 } }
+            }
+        }
+        every_in_list = { variable = nfp43_links
+            limit = { var:nfp43_seen = 0 }
+            save_scope_as = nfp43_remove_link
+            scope:nfp43_reader = {
+                set_variable = { name = nfp43_partner_definition value = scope:nfp43_remove_link.var:nfp43_partner_definition }
+                set_variable = { name = nfp43_kind value = scope:nfp43_remove_link.var:nfp43_kind }
+                nfp43_emit_link = { type = 22 body = NFP43_LOST priority = 170 before = 1 after = 0 urgent = 0 }
+                remove_list_variable = { name = nfp43_links target = scope:nfp43_remove_link }
+            }
+            destroy_container = yes
+        }
+        set_variable = nfp43_alliance_ready
+    }
+}
+
+# Reader root, partner named country scope supplied by the country iterator.
+nfp43_observe_link = {
+    set_variable = { name = nfp43_partner_definition value = scope:nfp43_partner.country_definition }
+    set_variable = { name = nfp43_kind value = $kind$ }
+    if = { limit = { NOT = { any_in_list = { variable = nfp43_links
+        var:nfp43_partner_definition = { this = scope:nfp43_reader.var:nfp43_partner_definition }
+        var:nfp43_kind = $kind$
+    } } }
+        create_container = { tags = { nfp43_alliance_link }
+            parent = scope:nfp43_reader save_scope_as = nfp43_new_link }
+        scope:nfp43_new_link = {
+            set_variable = { name = nfp43_partner_definition value = scope:nfp43_partner.country_definition }
+            set_variable = { name = nfp43_kind value = $kind$ }
+        }
+        add_to_variable_list = { name = nfp43_links target = scope:nfp43_new_link }
+        if = { limit = { has_variable = nfp43_alliance_ready }
+            nfp43_emit_link = { type = 21 body = NFP43_GAINED priority = 160 before = 0 after = 1 urgent = 0 }
+        }
+    }
+    every_in_list = { variable = nfp43_links
+        limit = { var:nfp43_partner_definition = { this = scope:nfp43_reader.var:nfp43_partner_definition }
+            var:nfp43_kind = $kind$ }
+        set_variable = { name = nfp43_seen value = 1 }
+    }
+}
+
+# Player root. One candidate owned by this reader, using the existing queue,
+# age, pruning, regional-interest principal bypass and publication copy fields.
+# It is a domestic strategic relation story, not a globally broadcast fact.
+nfp43_emit_link = {
+    save_scope_as = nfp43_reader
+    # Capture present relations once, including a cold alliance or a vanished link.
+    # An extinct partner has no current country: keep self as the safe fallback.
+    save_scope_as = nfp63_source
+    save_scope_as = nfp63_second
+    every_country = {
+        limit = { country_definition = { this = scope:nfp43_reader.var:nfp43_partner_definition } }
+        save_scope_as = nfp63_second
+    }
+    nfp63_kind_set = { kind = $type$ }
+    nfp63_assess = yes
+    change_variable = { name = nfp20_candidate_seq add = 1 }
+    if = { limit = { NOT = { has_variable = nfp20_source_serial } }
+    set_variable = { name = nfp20_source_serial value = 0 }
+}
+change_variable = { name = nfp20_source_serial add = 1 }
+    create_container = { tags = { nfp20_candidate }
+        parent = scope:nfp43_reader save_scope_as = nfp43_new_candidate }
+    scope:nfp43_new_candidate = {
+        set_variable = { name = nfp20_schema value = 2 }
+        set_variable = { name = nfp20_id value = scope:nfp43_reader.var:nfp20_candidate_seq }
+        set_variable = { name = nfp20_source_serial value = scope:nfp43_reader.var:nfp20_source_serial }
+        set_variable = { name = nfp20_type value = $type$ }
+        set_variable = { name = nfp_section value = 4 }
+        if = { limit = { var:nfp20_type = 23 } set_variable = { name = nfp_section value = 2 } }
+        set_variable = { name = nfp_body value = flag:$body$ }
+        set_variable = { name = nfp20_priority value = $priority$ }
+        set_variable = { name = nfp20_foreign value = 0 }
+        set_variable = { name = nfp20_used value = 0 }
+        set_variable = { name = nfp31_schema value = 1 }
+        set_variable = { name = nfp31_world value = 0 }
+        set_variable = { name = nfp31_legacy value = 0 }
+        set_variable = { name = nfp20_source_definition value = scope:nfp43_reader.country_definition }
+        set_variable = { name = nfp20_secondary value = scope:nfp43_reader.var:nfp43_partner_definition }
+        set_variable = { name = nfp20_period value = nfp20_period }
+        set_variable = { name = nfp20_year value = year }
+        set_variable = { name = nfp20_month value = month }
+        set_variable = { name = nfp20_before value = $before$ }
+        set_variable = { name = nfp20_after value = $after$ }
+        set_variable = { name = nfp20_extra value = scope:nfp43_reader.var:nfp43_kind }
+        set_variable = { name = nfp20_detail value = flag:NFP43_RELATION }
+        set_variable = { name = nfp20_extra_detail value = flag:NFP20_NONE }
+        if = { limit = { var:nfp20_type = 23 }
+            set_variable = { name = nfp20_extra_detail value = scope:nfp43_attacker.country_definition }
+        }
+        set_variable = { name = nfp20_urgent value = $urgent$ }
+        set_variable = { name = nfp20_problem value = 0 }
+        set_variable = { name = nfp20_episode value = 0 }
+    }
+    scope:nfp43_new_candidate = {
+        nfp63_capture = yes
+        # Keep the established direct-story priority; only its tone snapshot changes.
+        set_variable = { name = nfp20_priority value = $priority$ }
+    }
+    add_to_variable_list = { name = nfp20_candidates target = scope:nfp43_new_candidate }
+    change_variable = { name = nfp20_queue_count add = 1 }
+    nfp20_prune = yes
+}
+
+# Article root: deterministic variant already assigned by nfp30_format_article.
+nfp43_format_alliance = {
+    if = { limit = { var:nfp20_type = 21 var:nfp20_extra = 1 var:nfp30_variant = 1 }
+        set_variable = { name = nfp30_headline value = flag:NFP43_GAINED_ALLIANCE_1_TITLE }
+        set_variable = { name = nfp30_lead value = flag:NFP43_GAINED_ALLIANCE_1_LEAD }
+        set_variable = { name = nfp30_body value = flag:NFP43_GAINED_ALLIANCE_1_BODY }
+        set_variable = { name = nfp30_metrics value = flag:NFP43_GAINED_METRICS }
+    }
+    if = { limit = { var:nfp20_type = 21 var:nfp20_extra = 1 var:nfp30_variant = 2 }
+        set_variable = { name = nfp30_headline value = flag:NFP43_GAINED_ALLIANCE_2_TITLE }
+        set_variable = { name = nfp30_lead value = flag:NFP43_GAINED_ALLIANCE_2_LEAD }
+        set_variable = { name = nfp30_body value = flag:NFP43_GAINED_ALLIANCE_2_BODY }
+        set_variable = { name = nfp30_metrics value = flag:NFP43_GAINED_METRICS }
+    }
+    if = { limit = { var:nfp20_type = 21 var:nfp20_extra = 2 var:nfp30_variant = 1 }
+        set_variable = { name = nfp30_headline value = flag:NFP43_GAINED_BLOC_1_TITLE }
+        set_variable = { name = nfp30_lead value = flag:NFP43_GAINED_BLOC_1_LEAD }
+        set_variable = { name = nfp30_body value = flag:NFP43_GAINED_BLOC_1_BODY }
+        set_variable = { name = nfp30_metrics value = flag:NFP43_GAINED_METRICS }
+    }
+    if = { limit = { var:nfp20_type = 21 var:nfp20_extra = 2 var:nfp30_variant = 2 }
+        set_variable = { name = nfp30_headline value = flag:NFP43_GAINED_BLOC_2_TITLE }
+        set_variable = { name = nfp30_lead value = flag:NFP43_GAINED_BLOC_2_LEAD }
+        set_variable = { name = nfp30_body value = flag:NFP43_GAINED_BLOC_2_BODY }
+        set_variable = { name = nfp30_metrics value = flag:NFP43_GAINED_METRICS }
+    }
+    if = { limit = { var:nfp20_type = 22 var:nfp20_extra = 1 var:nfp30_variant = 1 }
+        set_variable = { name = nfp30_headline value = flag:NFP43_LOST_ALLIANCE_1_TITLE }
+        set_variable = { name = nfp30_lead value = flag:NFP43_LOST_ALLIANCE_1_LEAD }
+        set_variable = { name = nfp30_body value = flag:NFP43_LOST_ALLIANCE_1_BODY }
+        set_variable = { name = nfp30_metrics value = flag:NFP43_LOST_METRICS }
+    }
+    if = { limit = { var:nfp20_type = 22 var:nfp20_extra = 1 var:nfp30_variant = 2 }
+        set_variable = { name = nfp30_headline value = flag:NFP43_LOST_ALLIANCE_2_TITLE }
+        set_variable = { name = nfp30_lead value = flag:NFP43_LOST_ALLIANCE_2_LEAD }
+        set_variable = { name = nfp30_body value = flag:NFP43_LOST_ALLIANCE_2_BODY }
+        set_variable = { name = nfp30_metrics value = flag:NFP43_LOST_METRICS }
+    }
+    if = { limit = { var:nfp20_type = 22 var:nfp20_extra = 2 var:nfp30_variant = 1 }
+        set_variable = { name = nfp30_headline value = flag:NFP43_LOST_BLOC_1_TITLE }
+        set_variable = { name = nfp30_lead value = flag:NFP43_LOST_BLOC_1_LEAD }
+        set_variable = { name = nfp30_body value = flag:NFP43_LOST_BLOC_1_BODY }
+        set_variable = { name = nfp30_metrics value = flag:NFP43_LOST_METRICS }
+    }
+    if = { limit = { var:nfp20_type = 22 var:nfp20_extra = 2 var:nfp30_variant = 2 }
+        set_variable = { name = nfp30_headline value = flag:NFP43_LOST_BLOC_2_TITLE }
+        set_variable = { name = nfp30_lead value = flag:NFP43_LOST_BLOC_2_LEAD }
+        set_variable = { name = nfp30_body value = flag:NFP43_LOST_BLOC_2_BODY }
+        set_variable = { name = nfp30_metrics value = flag:NFP43_LOST_METRICS }
+    }
+    if = { limit = { var:nfp20_type = 23 var:nfp20_extra = 1 var:nfp30_variant = 1 }
+        set_variable = { name = nfp30_headline value = flag:NFP43_WAR_ALLIANCE_1_TITLE }
+        set_variable = { name = nfp30_lead value = flag:NFP43_WAR_ALLIANCE_1_LEAD }
+        set_variable = { name = nfp30_body value = flag:NFP43_WAR_ALLIANCE_1_BODY }
+        set_variable = { name = nfp30_metrics value = flag:NFP43_WAR_METRICS }
+    }
+    if = { limit = { var:nfp20_type = 23 var:nfp20_extra = 1 var:nfp30_variant = 2 }
+        set_variable = { name = nfp30_headline value = flag:NFP43_WAR_ALLIANCE_2_TITLE }
+        set_variable = { name = nfp30_lead value = flag:NFP43_WAR_ALLIANCE_2_LEAD }
+        set_variable = { name = nfp30_body value = flag:NFP43_WAR_ALLIANCE_2_BODY }
+        set_variable = { name = nfp30_metrics value = flag:NFP43_WAR_METRICS }
+    }
+    if = { limit = { var:nfp20_type = 23 var:nfp20_extra = 2 var:nfp30_variant = 1 }
+        set_variable = { name = nfp30_headline value = flag:NFP43_WAR_BLOC_1_TITLE }
+        set_variable = { name = nfp30_lead value = flag:NFP43_WAR_BLOC_1_LEAD }
+        set_variable = { name = nfp30_body value = flag:NFP43_WAR_BLOC_1_BODY }
+        set_variable = { name = nfp30_metrics value = flag:NFP43_WAR_METRICS }
+    }
+    if = { limit = { var:nfp20_type = 23 var:nfp20_extra = 2 var:nfp30_variant = 2 }
+        set_variable = { name = nfp30_headline value = flag:NFP43_WAR_BLOC_2_TITLE }
+        set_variable = { name = nfp30_lead value = flag:NFP43_WAR_BLOC_2_LEAD }
+        set_variable = { name = nfp30_body value = flag:NFP43_WAR_BLOC_2_BODY }
+        set_variable = { name = nfp30_metrics value = flag:NFP43_WAR_METRICS }
+    }
+}

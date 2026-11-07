@@ -1,0 +1,40 @@
+﻿# Native country formation callback and confirmed American civil-war onset.
+on_country_formed = { on_actions = { nfp52_country_formed } }
+nfp52_country_formed = { effect = {
+ save_scope_as = nfp52_formed
+ if = { limit = { c:GER ?= this }
+ every_country = { limit = { is_player = yes has_variable = nfp20_schema } nfp52_record_42 = yes }
+ }
+ if = { limit = { c:ITA ?= this }
+ every_country = { limit = { is_player = yes has_variable = nfp20_schema } nfp52_record_43 = yes }
+ }
+ if = { limit = { c:CAN ?= this }
+ every_country = { limit = { is_player = yes has_variable = nfp20_schema } nfp52_record_51 = yes }
+ }
+ if = { limit = { c:AST ?= this }
+ every_country = { limit = { is_player = yes has_variable = nfp20_schema } nfp52_record_52 = yes }
+ }
+ if = { limit = { c:ROM ?= this }
+ every_country = { limit = { is_player = yes has_variable = nfp20_schema } nfp52_record_53 = yes }
+ }
+ if = { limit = { c:ETH ?= this }
+ every_country = { limit = { is_player = yes has_variable = nfp20_schema } nfp52_record_54 = yes }
+ }
+ if = { limit = { c:YUG ?= this }
+ every_country = { limit = { is_player = yes has_variable = nfp20_schema } nfp52_record_55 = yes }
+ }
+ every_country = { limit = { is_player = yes has_variable = nfp20_schema } nfp_maybe_urgent = yes }
+} }
+on_diplo_play_war_start = { on_actions = { nfp52_american_civil_war } }
+nfp52_american_civil_war = {
+ trigger = { nfp52_us_civil_war_play = yes }
+ effect = {
+  # Mark this play as well as the global dispatch, so native child on_action
+  # evaluation order cannot produce an additional generic first-war article.
+  set_variable = nfp52_acw_play
+  set_global_variable = nfp52_acw_known
+  every_country = { limit = { is_player = yes has_variable = nfp20_schema }
+   nfp52_record_41 = yes nfp_maybe_urgent = yes
+  }
+ }
+}

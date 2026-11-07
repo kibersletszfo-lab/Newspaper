@@ -1,0 +1,24 @@
+﻿# Root = Diplomatic Play, native 1.13.11 code on_action.
+on_diplo_play_war_start = { on_actions = { nfp43_ally_war_start } }
+nfp43_ally_war_start = {
+    trigger = { NOT = { nfp52_us_civil_war_play = yes }  exists = initiator exists = target NOT = { has_variable = nfp43_war_recorded } }
+    effect = {
+        set_variable = nfp43_war_recorded
+        initiator = { save_scope_as = nfp43_attacker }
+        target = { save_scope_as = nfp43_defender }
+        every_country = {
+            limit = { is_player = yes has_variable = nfp20_schema
+                NOT = { this = scope:nfp43_defender } NOT = { this = scope:nfp43_attacker }
+                OR = { any_scope_treaty = { binds = scope:nfp43_defender any_scope_article = { has_type = alliance } }
+                    is_in_same_power_bloc = scope:nfp43_defender }
+            }
+            set_variable = { name = nfp43_partner_definition value = scope:nfp43_defender.country_definition }
+            set_variable = { name = nfp43_kind value = 2 }
+            if = { limit = { any_scope_treaty = { binds = scope:nfp43_defender any_scope_article = { has_type = alliance } } }
+                set_variable = { name = nfp43_kind value = 1 }
+            }
+            nfp43_emit_link = { type = 23 body = NFP43_WAR priority = 190 before = 0 after = 1 urgent = 1 }
+            nfp_maybe_urgent = yes
+        }
+    }
+}

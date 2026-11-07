@@ -1,0 +1,44 @@
+﻿# Native 1.13.11 notifications can invoke the backdown callback more than
+# once for different recipients. The diplomatic-play marker deduplicates them.
+on_diplomatic_play_started = { on_actions = { nfp51_started } }
+on_diplo_play_back_down = { on_actions = { nfp51_backed_down } }
+on_diplo_play_back_down_involved = { on_actions = { nfp51_backed_down } }
+on_diplo_play_join_side = { on_actions = { nfp51_joined } }
+nfp51_started = {
+ trigger = { exists = initiator exists = target NOT = { has_variable = nfp51_started } }
+ effect = {
+  set_variable = nfp51_started
+  nfp51_seed_play = yes
+  set_variable = { name = nfp51_start_known value = 1 }
+  set_variable = { name = nfp51_start_year value = year }
+  set_variable = { name = nfp51_start_month value = month }
+  change_variable = { name = nfp51_start_month add = 1 }
+  set_variable = { name = nfp51_stage value = 29 }
+  initiator = { save_scope_as = nfp51_actor save_scope_as = nfp51_side }
+  nfp51_distribute = { type = 29 stage = START priority = 195 }
+ }
+}
+nfp51_backed_down = {
+ trigger = { exists = initiator exists = target exists = scope:actor NOT = { has_variable = nfp51_ended } }
+ effect = {
+  set_variable = nfp51_ended
+  scope:actor = { save_scope_as = nfp51_actor save_scope_as = nfp51_side }
+  nfp51_seed_play = yes
+  set_variable = { name = nfp51_stage value = 30 }
+  nfp51_distribute = { type = 30 stage = END priority = 205 }
+ }
+}
+nfp51_joined = {
+ trigger = { exists = initiator exists = target exists = scope:actor exists = scope:target
+  NOT = { has_variable = nfp51_ended } }
+ effect = {
+  scope:actor = { save_scope_as = nfp51_actor }
+  scope:target = { save_scope_as = nfp51_side }
+  nfp51_seed_play = yes
+  set_variable = { name = nfp51_stage value = 31 }
+  nfp51_record_join = yes
+  if = { limit = { var:nfp51_should_emit = 1 }
+   nfp51_distribute = { type = 31 stage = JOIN priority = 185 }
+  }
+ }
+}

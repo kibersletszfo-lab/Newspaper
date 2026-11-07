@@ -1,0 +1,6 @@
+﻿nfp43_delta_1 = { value = var:nfp43_now_1 subtract = var:nfp43_previous_1 }
+nfp43_delta_2 = { value = var:nfp43_now_2 subtract = var:nfp43_previous_2 }
+nfp43_delta_3 = { value = var:nfp43_now_3 subtract = var:nfp43_previous_3 }
+nfp43_delta_4 = { value = var:nfp43_now_4 subtract = var:nfp43_previous_4 }
+nfp43_delta_5 = { value = var:nfp43_now_5 subtract = var:nfp43_previous_5 }
+nfp43_delta_6 = { value = var:nfp43_now_6 subtract = var:nfp43_previous_6 }

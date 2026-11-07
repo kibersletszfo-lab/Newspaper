@@ -1,0 +1,18 @@
+﻿# Additive callbacks; vanilla handlers preserved. Root Building or State respectively.
+on_building_built = { on_actions = { nfp60_building_built } }
+nfp60_building_built = {
+trigger = { state = { OR = { has_variable = nfp60_i_tracking has_variable = nfp60_a_tracking } } }
+effect = { nfp60_building_event = { kind = built } }
+}
+on_building_expanded = { on_actions = { nfp60_building_expanded } }
+nfp60_building_expanded = {
+trigger = { state = { OR = { has_variable = nfp60_i_tracking has_variable = nfp60_a_tracking } } }
+effect = { nfp60_building_event = { kind = expanded } }
+}
+on_production_method_changed = { on_actions = { nfp60_building_pm } }
+nfp60_building_pm = {
+trigger = { state = { OR = { has_variable = nfp60_i_tracking has_variable = nfp60_a_tracking } } }
+effect = { nfp60_building_event = { kind = pm } }
+}
+on_state_owner_change = { on_actions = { nfp60_state_owner_changed } }
+nfp60_state_owner_changed = { effect = { nfp60_state_owner_reset = yes } }

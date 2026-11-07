@@ -1,0 +1,36 @@
+﻿# Reader country. One active presentation prevents overwrite by another event.
+nfp51_receive_special = {
+ if = { limit = { scope:nfp_new_issue = { var:nfp_kind = 3 var:nfp20_article_count = 1 } }
+  set_variable = { name = nfp51_pending_special value = scope:nfp_new_issue }
+  set_variable = { name = nfp51_active_issue value = scope:nfp_new_issue }
+  set_variable = nfp51_urgent_active
+  set_variable = nfp51_special_attention
+ }
+}
+nfp51_focus_special = {
+ if = { limit = { exists = var:nfp51_pending_special has_variable = nfp51_special_attention }
+  set_variable = { name = nfp_selected_issue value = var:nfp51_pending_special }
+  set_variable = { name = nfp_window_open value = 1 }
+  remove_variable = nfp_setup_pending
+  remove_variable = nfp51_special_attention
+  remove_variable = nfp51_pending_special
+  nfp38_mark_selected_read = yes
+ }
+}
+# A pending issue hidden behind a native event/menu is not acknowledged by closing
+# some other window. Once presented, closing delivers the next queued special.
+nfp51_finish_special = {
+ if = { limit = { has_variable = nfp51_urgent_active NOT = { has_variable = nfp51_special_attention } }
+  remove_variable = nfp51_urgent_active
+  remove_variable = nfp51_active_issue
+  nfp_maybe_urgent = yes
+ }
+}
+nfp51_repair_special = {
+ if = { limit = { has_variable = nfp51_urgent_active NOT = { exists = var:nfp51_active_issue } }
+  remove_variable = nfp51_urgent_active
+  remove_variable = nfp51_active_issue
+  remove_variable = nfp51_pending_special
+  remove_variable = nfp51_special_attention
+ }
+}

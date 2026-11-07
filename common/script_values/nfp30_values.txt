@@ -1,0 +1,2 @@
+﻿# Deterministic and fixed when an article is printed: odd ID -> 2, even -> 1.
+nfp30_variant_value = { value = var:nfp20_id modulo = 2 add = 1 }

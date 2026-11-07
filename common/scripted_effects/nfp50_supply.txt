@@ -1,0 +1,286 @@
+﻿# Watch scope; called within the existing once-per-month observation.
+nfp50_sample_supply = {
+    set_variable = { name = nfp50_supply_critical value = 0 }
+    # Exactly the vanilla goods-shortage red-alert semantics, including reader.
+    if = { limit = { scope:nfp46_market_good = {
+        market_goods_shortage_ratio > 0.33
+        country_has_local_shortage = scope:nfp46_reader
+        NOT = { goods = { this = g:merchant_marine } }
+    } } set_variable = { name = nfp50_supply_critical value = 1 } }
+    # Migration initializes only new observation bookkeeping, never old facts.
+    if = { limit = { NOT = { has_variable = nfp50_supply_mark_episode } }
+        set_variable = { name = nfp50_supply_mark_episode value = var:nfp46_episode }
+        set_variable = { name = nfp50_supply_last_stage value = 0 }
+        if = { limit = { var:nfp46_bad >= 3 } set_variable = { name = nfp50_supply_last_stage value = 1 } }
+        if = { limit = { var:nfp46_bad >= 6 } set_variable = { name = nfp50_supply_last_stage value = 2 } }
+        set_variable = { name = nfp50_supply_last_critical value = var:nfp50_supply_critical }
+        set_variable = { name = nfp50_supply_last_period value = nfp20_period }
+    }
+}
+
+# Candidate scope, only current problem7 facts emitted from the market observer.
+nfp50_capture_supply = {
+    if = { limit = { var:nfp20_problem = 7 }
+        set_variable = { name = nfp50_supply value = 1 }
+        set_variable = { name = nfp50_supply_observations value = scope:nfp46_watch.var:nfp46_bad }
+        set_variable = { name = nfp50_supply_good_observations value = scope:nfp46_watch.var:nfp46_good_streak }
+        set_variable = { name = nfp50_supply_stage value = 0 }
+        if = { limit = { var:nfp50_supply_observations >= 3 } set_variable = { name = nfp50_supply_stage value = 1 } }
+        if = { limit = { var:nfp50_supply_observations >= 6 } set_variable = { name = nfp50_supply_stage value = 2 } }
+        set_variable = { name = nfp50_supply_critical value = scope:nfp46_watch.var:nfp50_supply_critical }
+        set_variable = { name = nfp50_supply_period value = var:nfp20_period }
+        set_variable = { name = nfp50_supply_followup value = 0 }
+        if = { limit = { var:nfp20_type = 3 scope:nfp46_watch = { var:nfp46_published = var:nfp46_episode } }
+            set_variable = { name = nfp50_supply_followup value = 1 }
+        }
+        set_variable = { name = nfp50_supply_production value = scope:nfp46_market_good.market_goods_production }
+        set_variable = { name = nfp50_supply_consumption value = scope:nfp46_market_good.market_goods_consumption }
+        set_variable = { name = nfp50_supply_imports value = scope:nfp46_market_good.market_goods_imports }
+        set_variable = { name = nfp50_supply_exports value = scope:nfp46_market_good.market_goods_exports }
+        set_variable = { name = nfp50_supply_price value = scope:nfp46_market_good.nfp32_price }
+        set_variable = { name = nfp50_supply_premium value = scope:nfp46_market_good.nfp50_supply_premium }
+        set_variable = { name = nfp50_supply_import_fraction value = scope:nfp46_market_good.nfp50_supply_import_fraction }
+        set_variable = { name = nfp50_supply_government value = 0 }
+        set_variable = { name = nfp50_supply_military value = 0 }
+        if = { limit = { scope:nfp46_market_good = { is_consumed_by_government_buildings = yes } }
+            set_variable = { name = nfp50_supply_government value = 1 }
+        }
+        if = { limit = { scope:nfp46_market_good = { is_consumed_by_military_buildings = yes } }
+            set_variable = { name = nfp50_supply_military value = 1 }
+        }
+    }
+}
+
+# Candidate scope. Publication state is taken from the actual printed snapshot.
+nfp50_mark_supply = {
+    if = { limit = { has_variable = nfp50_supply exists = var:nfp46_watch var:nfp20_type = 3 }
+        save_scope_as = nfp50_supply_printed
+        var:nfp46_watch = {
+            set_variable = { name = nfp50_supply_mark_episode value = scope:nfp50_supply_printed.var:nfp20_episode }
+            set_variable = { name = nfp50_supply_last_stage value = scope:nfp50_supply_printed.var:nfp50_supply_stage }
+            set_variable = { name = nfp50_supply_last_critical value = scope:nfp50_supply_printed.var:nfp50_supply_critical }
+            # Cooldown starts when delivered, not at the potentially older event.
+            set_variable = { name = nfp50_supply_last_period value = nfp20_period }
+        }
+    }
+}
+
+# Watch scope. Bounded followups add ordinary candidates through the old pipeline.
+nfp50_supply_followup = {
+    if = { limit = { NOT = { has_variable = nfp50_supply_follow_seen } }
+        set_variable = { name = nfp50_supply_follow_seen value = -100000 }
+    }
+    if = { limit = { NOT = { var:nfp50_supply_follow_seen = nfp20_period } }
+        set_variable = { name = nfp50_supply_follow_seen value = nfp20_period }
+        if = { limit = { var:nfp46_active = 1 var:nfp46_bad >= 2 var:nfp46_published = var:nfp46_episode }
+            # An old pre-update published episode gets a conservative baseline.
+            if = { limit = { NOT = { var:nfp50_supply_mark_episode = var:nfp46_episode } }
+                set_variable = { name = nfp50_supply_mark_episode value = var:nfp46_episode }
+                set_variable = { name = nfp50_supply_last_stage value = 0 }
+                set_variable = { name = nfp50_supply_last_critical value = var:nfp50_supply_critical }
+                set_variable = { name = nfp50_supply_last_period value = nfp20_period }
+            }
+            if = { limit = { OR = {
+                AND = { var:nfp50_supply_critical = 1 var:nfp50_supply_last_critical = 0 }
+                AND = { nfp50_supply_pub_gap >= 3 OR = {
+                    AND = { var:nfp46_bad >= 3 var:nfp50_supply_last_stage < 1 }
+                    AND = { var:nfp46_bad >= 6 var:nfp50_supply_last_stage < 2 }
+                } }
+            } }
+                save_scope_as = nfp46_watch
+                scope:nfp46_reader = {
+                    if = { limit = { NOT = { any_in_list = { variable = nfp20_candidates
+                        var:nfp20_used = 0 nfp20_candidate_age <= 12 var:nfp20_type = 3 exists = var:nfp46_watch
+                        var:nfp46_watch = scope:nfp46_watch var:nfp20_episode = scope:nfp46_watch.var:nfp46_episode
+                    } } }
+                        nfp50_emit_supply_followup = yes
+                    }
+                }
+            }
+        }
+    }
+}
+
+# Reader scope. Restore the previous printed warning mode until this fact is
+# actually selected. A pruned pending followup cannot change recovery wording.
+nfp50_emit_supply_followup = {
+    scope:nfp46_watch = {
+        set_variable = { name = nfp50_supply_previous_mode value = var:nfp46_mode }
+        set_variable = { name = nfp46_mode value = 2 }
+        if = { limit = { var:nfp46_native = 1 } set_variable = { name = nfp46_mode value = 1 } }
+    }
+    nfp46_emit_warning = yes
+    scope:nfp46_watch = {
+        set_variable = { name = nfp46_mode value = var:nfp50_supply_previous_mode }
+        remove_variable = nfp50_supply_previous_mode
+    }
+}
+
+nfp50_copy_supply = {
+    if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_supply } }
+        set_variable = { name = nfp50_supply value = 1 }
+        set_variable = { name = nfp50_supply_observations value = scope:nfp20_selected_fact.var:nfp50_supply_observations }
+        set_variable = { name = nfp50_supply_good_observations value = scope:nfp20_selected_fact.var:nfp50_supply_good_observations }
+        set_variable = { name = nfp50_supply_stage value = scope:nfp20_selected_fact.var:nfp50_supply_stage }
+        set_variable = { name = nfp50_supply_critical value = scope:nfp20_selected_fact.var:nfp50_supply_critical }
+        set_variable = { name = nfp50_supply_production value = scope:nfp20_selected_fact.var:nfp50_supply_production }
+        set_variable = { name = nfp50_supply_consumption value = scope:nfp20_selected_fact.var:nfp50_supply_consumption }
+        set_variable = { name = nfp50_supply_imports value = scope:nfp20_selected_fact.var:nfp50_supply_imports }
+        set_variable = { name = nfp50_supply_exports value = scope:nfp20_selected_fact.var:nfp50_supply_exports }
+        set_variable = { name = nfp50_supply_price value = scope:nfp20_selected_fact.var:nfp50_supply_price }
+        set_variable = { name = nfp50_supply_premium value = scope:nfp20_selected_fact.var:nfp50_supply_premium }
+        set_variable = { name = nfp50_supply_import_fraction value = scope:nfp20_selected_fact.var:nfp50_supply_import_fraction }
+        set_variable = { name = nfp50_supply_government value = scope:nfp20_selected_fact.var:nfp50_supply_government }
+        set_variable = { name = nfp50_supply_military value = scope:nfp20_selected_fact.var:nfp50_supply_military }
+        set_variable = { name = nfp50_supply_followup value = scope:nfp20_selected_fact.var:nfp50_supply_followup }
+        set_variable = { name = nfp50_supply_period value = scope:nfp20_selected_fact.var:nfp50_supply_period }
+    }
+}
+
+nfp50_format_supply = {
+ if = { limit = { var:nfp20_type = 4 }
+ set_variable = { name = nfp30_metrics value = flag:NFP59_REC_DETAILS }
+nfp60_supply_details = yes
+ if = { limit = { var:nfp46_buy_after > 0 }
+ set_variable = { name = nfp30_headline value = flag:NFP59_REC_TITLE }
+ set_variable = { name = nfp30_lead value = flag:NFP59_REC_INTRO }
+nfp50_add_block = { a = NFP59_REC_INTRO b = NFP59_REC_INTRO }
+ if = { limit = { var:nfp46_mode = 1 }
+nfp50_add_block = { a = NFP59_REC_NATIVE b = NFP59_REC_NATIVE }
+ } else = {
+nfp50_add_block = { a = NFP59_REC_GAP b = NFP59_REC_GAP }
+ }
+ if = { limit = { var:nfp46_sell_after > var:nfp46_sell_before }
+nfp50_add_block = { a = NFP59_REC_SELL b = NFP59_REC_SELL }
+ }
+ if = { limit = { var:nfp46_buy_after < var:nfp46_buy_before }
+nfp50_add_block = { a = NFP59_REC_BUY b = NFP59_REC_BUY }
+ }
+ if = { limit = { var:nfp50_supply_imports > 0 }
+nfp50_add_block = { a = NFP59_REC_TRADE b = NFP59_REC_TRADE }
+ } else = {
+nfp50_add_block = { a = NFP59_REC_NO_IMPORT b = NFP59_REC_NO_IMPORT }
+ }
+ if = { limit = { var:nfp50_supply_military = 1 var:nfp50_supply_government = 1 }
+nfp50_add_block = { a = NFP59_REC_BOTH b = NFP59_REC_BOTH }
+ } else_if = { limit = { var:nfp50_supply_military = 1 }
+nfp50_add_block = { a = NFP59_REC_MILITARY b = NFP59_REC_MILITARY }
+ } else_if = { limit = { var:nfp50_supply_government = 1 }
+nfp50_add_block = { a = NFP59_REC_GOVERNMENT b = NFP59_REC_GOVERNMENT }
+ }
+nfp60_format_supply = yes
+nfp50_add_block = { a = NFP59_REC_END b = NFP59_REC_END }
+ } else = {
+ set_variable = { name = nfp30_headline value = flag:NFP59_REC_ZERO_TITLE }
+ set_variable = { name = nfp30_lead value = flag:NFP59_REC_ZERO_INTRO }
+nfp50_add_block = { a = NFP59_REC_ZERO_INTRO b = NFP59_REC_ZERO_INTRO }
+nfp50_add_block = { a = NFP59_REC_ZERO_FACT b = NFP59_REC_ZERO_FACT }
+nfp50_add_block = { a = NFP59_REC_ZERO_END b = NFP59_REC_ZERO_END }
+ }
+ } else = {
+
+ if = { limit = { var:nfp20_type = 3 var:nfp46_native_after = 0 }
+ set_variable = { name = nfp30_headline value = flag:NFP58_GAP_TITLE }
+ set_variable = { name = nfp30_lead value = flag:NFP58_GAP_INTRO }
+ set_variable = { name = nfp30_metrics value = flag:NFP57_SUP_DETAILS }
+nfp50_add_block = { a = NFP58_GAP_INTRO b = NFP58_GAP_INTRO }
+nfp50_add_block = { a = NFP58_GAP_FACT b = NFP58_GAP_FACT }
+ if = { limit = { var:nfp50_supply_observations >= 6 }
+nfp50_add_block = { a = NFP58_GAP_CHRONIC b = NFP58_GAP_CHRONIC }
+ } else_if = { limit = { var:nfp50_supply_observations >= 3 }
+nfp50_add_block = { a = NFP58_GAP_LONG b = NFP58_GAP_LONG }
+ }
+ if = { limit = { var:nfp50_supply_critical = 1 }
+nfp50_add_block = { a = NFP58_GAP_CRITICAL b = NFP58_GAP_CRITICAL }
+ }
+ if = { limit = { var:nfp50_supply_imports > 0 }
+nfp50_add_block = { a = NFP58_GAP_TRADE b = NFP58_GAP_TRADE }
+ } else = {
+nfp50_add_block = { a = NFP58_GAP_NO_IMPORT b = NFP58_GAP_NO_IMPORT }
+ }
+ if = { limit = { var:nfp50_supply_military = 1 var:nfp50_supply_government = 1 }
+nfp50_add_block = { a = NFP58_GAP_BOTH b = NFP58_GAP_BOTH }
+ } else_if = { limit = { var:nfp50_supply_military = 1 }
+nfp50_add_block = { a = NFP58_GAP_MILITARY b = NFP58_GAP_MILITARY }
+ } else_if = { limit = { var:nfp50_supply_government = 1 }
+nfp50_add_block = { a = NFP58_GAP_GOVERNMENT b = NFP58_GAP_GOVERNMENT }
+ }
+nfp50_add_block = { a = NFP58_GAP_END b = NFP58_GAP_END }
+ } else = {
+
+ if = { limit = { var:nfp20_type = 3 var:nfp46_native_after = 1 }
+ set_variable = { name = nfp30_headline value = flag:NFP57_SUP_TITLE }
+ set_variable = { name = nfp30_lead value = flag:NFP57_SUP_INTRO }
+ set_variable = { name = nfp30_metrics value = flag:NFP57_SUP_DETAILS }
+nfp50_add_block = { a = NFP57_SUP_INTRO b = NFP57_SUP_INTRO }
+nfp50_add_block = { a = NFP57_SUP_FACT b = NFP57_SUP_FACT }
+ if = { limit = { var:nfp50_supply_observations >= 6 }
+nfp50_add_block = { a = NFP57_SUP_CHRONIC b = NFP57_SUP_CHRONIC }
+ } else_if = { limit = { var:nfp50_supply_observations >= 3 }
+nfp50_add_block = { a = NFP57_SUP_LONG b = NFP57_SUP_LONG }
+ }
+ if = { limit = { var:nfp50_supply_critical = 1 }
+nfp50_add_block = { a = NFP57_SUP_CRITICAL b = NFP57_SUP_CRITICAL }
+ }
+ if = { limit = { var:nfp50_supply_imports > 0 }
+nfp50_add_block = { a = NFP57_SUP_TRADE b = NFP57_SUP_TRADE }
+ } else = {
+nfp50_add_block = { a = NFP57_SUP_NO_IMPORT b = NFP57_SUP_NO_IMPORT }
+ }
+ if = { limit = { var:nfp50_supply_military = 1 var:nfp50_supply_government = 1 }
+nfp50_add_block = { a = NFP57_SUP_BOTH b = NFP57_SUP_BOTH }
+ } else_if = { limit = { var:nfp50_supply_military = 1 }
+nfp50_add_block = { a = NFP57_SUP_MILITARY b = NFP57_SUP_MILITARY }
+ } else_if = { limit = { var:nfp50_supply_government = 1 }
+nfp50_add_block = { a = NFP57_SUP_GOVERNMENT b = NFP57_SUP_GOVERNMENT }
+ }
+nfp50_add_block = { a = NFP57_SUP_END b = NFP57_SUP_END }
+ } else = {
+
+    if = { limit = { var:nfp20_type = 3 }
+        if = { limit = { var:nfp50_supply_followup = 1 }
+        nfp50_add_block = { a = NFP50_SUPPLY_FOLLOW_1 b = NFP50_SUPPLY_FOLLOW_2 }
+        } else = {
+        nfp50_add_block = { a = NFP50_SUPPLY_INTRO_1 b = NFP50_SUPPLY_INTRO_2 }
+        }
+        if = { limit = { var:nfp46_native_after = 1 }
+        nfp50_add_block = { a = NFP50_SUPPLY_NATIVE_1 b = NFP50_SUPPLY_NATIVE_2 }
+        } else = {
+        nfp50_add_block = { a = NFP50_SUPPLY_GAP_1 b = NFP50_SUPPLY_GAP_2 }
+        }
+        if = { limit = { var:nfp50_supply_observations >= 3 }
+        nfp50_add_context = { a = NFP50_SUPPLY_LONG_1 b = NFP50_SUPPLY_LONG_2 }
+        }
+        if = { limit = { var:nfp50_supply_critical = 1 }
+        nfp50_add_context = { a = NFP50_SUPPLY_CRITICAL_1 b = NFP50_SUPPLY_CRITICAL_2 }
+        }
+    } else = {
+        nfp50_add_block = { a = NFP50_SUPPLY_RECOVERY_INTRO_1 b = NFP50_SUPPLY_RECOVERY_INTRO_2 }
+        nfp50_add_block = { a = NFP50_SUPPLY_RECOVERY_1 b = NFP50_SUPPLY_RECOVERY_2 }
+    }
+    if = { limit = { var:nfp50_supply_imports > 0 }
+        nfp50_add_context = { a = NFP50_SUPPLY_TRADE_1 b = NFP50_SUPPLY_TRADE_2 }
+    } else = {
+        nfp50_add_context = { a = NFP50_SUPPLY_NO_IMPORT_1 b = NFP50_SUPPLY_NO_IMPORT_2 }
+    }
+        nfp50_add_context = { a = NFP50_SUPPLY_PRICE_1 b = NFP50_SUPPLY_PRICE_2 }
+
+    if = { limit = { var:nfp50_supply_military = 1 var:nfp50_supply_government = 1 }
+        nfp50_add_context = { a = NFP50_SUPPLY_BOTH_1 b = NFP50_SUPPLY_BOTH_2 }
+    } else_if = { limit = { var:nfp50_supply_military = 1 }
+        nfp50_add_context = { a = NFP50_SUPPLY_MILITARY_1 b = NFP50_SUPPLY_MILITARY_2 }
+    } else_if = { limit = { var:nfp50_supply_government = 1 }
+        nfp50_add_context = { a = NFP50_SUPPLY_GOVERNMENT_1 b = NFP50_SUPPLY_GOVERNMENT_2 }
+    }
+    if = { limit = { var:nfp20_type = 3 }
+        nfp50_add_block = { a = NFP50_SUPPLY_END_1 b = NFP50_SUPPLY_END_2 }
+    } else = {
+        nfp50_add_block = { a = NFP50_SUPPLY_RECOVERY_END_1 b = NFP50_SUPPLY_RECOVERY_END_2 }
+    }
+
+ }
+
+ }
+
+ }
+}

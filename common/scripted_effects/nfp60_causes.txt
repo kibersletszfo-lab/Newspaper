@@ -1,0 +1,533 @@
+﻿# Frozen primitives only in article payload; live refs stay on State watches.
+nfp60_clear_state = {
+remove_variable = nfp60_$p$_start
+remove_variable = nfp60_$p$_partial
+remove_variable = nfp60_$p$_episode
+remove_variable = nfp60_$p$_cap_before
+remove_variable = nfp60_$p$_usage_before
+remove_variable = nfp60_$p$_access_before
+remove_variable = nfp60_$p$_rail_before
+remove_variable = nfp60_$p$_port_before
+remove_variable = nfp60_$p$_urban_before
+remove_variable = nfp60_$p$_rail_staffup
+remove_variable = nfp60_$p$_port_staffup
+remove_variable = nfp60_$p$_event_first
+remove_variable = nfp60_$p$_event_last
+remove_variable = nfp60_$p$_rail_built
+remove_variable = nfp60_$p$_rail_expanded
+remove_variable = nfp60_$p$_rail_pm
+remove_variable = nfp60_$p$_port_built
+remove_variable = nfp60_$p$_port_expanded
+remove_variable = nfp60_$p$_port_pm
+remove_variable = nfp60_$p$_urban_built
+remove_variable = nfp60_$p$_urban_expanded
+remove_variable = nfp60_$p$_urban_pm
+remove_variable = nfp60_$p$_owner
+remove_variable = nfp60_$p$_tracking
+remove_variable = nfp60_$p$_last
+remove_variable = nfp60_$p$_next
+remove_variable = nfp60_$p$_rail_ref
+remove_variable = nfp60_$p$_port_ref
+remove_variable = nfp60_$p$_rail_low
+remove_variable = nfp60_$p$_port_low
+}
+nfp60_measure_state = {
+save_scope_as = nfp60_measure_state
+set_variable = { name = nfp60_now_rail value = 0 }
+set_variable = { name = nfp60_now_port value = 0 }
+set_variable = { name = nfp60_now_urban value = 0 }
+every_scope_building = { limit = { is_building_type = building_railway }
+save_scope_as = nfp60_measure_building
+scope:nfp60_measure_state = {
+change_variable = { name = nfp60_now_rail add = scope:nfp60_measure_building.level }
+}
+}
+every_scope_building = { limit = { is_building_type = building_port }
+save_scope_as = nfp60_measure_building
+scope:nfp60_measure_state = {
+change_variable = { name = nfp60_now_port add = scope:nfp60_measure_building.level }
+}
+}
+every_scope_building = { limit = { is_building_type = building_urban_center }
+save_scope_as = nfp60_measure_building
+scope:nfp60_measure_state = {
+change_variable = { name = nfp60_now_urban add = scope:nfp60_measure_building.level }
+}
+}
+
+}
+nfp60_start_state = {
+nfp60_clear_state = { p = $p$ }
+set_variable = { name = nfp60_$p$_start value = 0 }
+set_variable = { name = nfp60_$p$_partial value = 0 }
+set_variable = { name = nfp60_$p$_episode value = 0 }
+set_variable = { name = nfp60_$p$_cap_before value = 0 }
+set_variable = { name = nfp60_$p$_usage_before value = 0 }
+set_variable = { name = nfp60_$p$_access_before value = 0 }
+set_variable = { name = nfp60_$p$_rail_before value = 0 }
+set_variable = { name = nfp60_$p$_port_before value = 0 }
+set_variable = { name = nfp60_$p$_urban_before value = 0 }
+set_variable = { name = nfp60_$p$_rail_staffup value = 0 }
+set_variable = { name = nfp60_$p$_port_staffup value = 0 }
+set_variable = { name = nfp60_$p$_event_first value = 0 }
+set_variable = { name = nfp60_$p$_event_last value = 0 }
+set_variable = { name = nfp60_$p$_rail_built value = 0 }
+set_variable = { name = nfp60_$p$_rail_expanded value = 0 }
+set_variable = { name = nfp60_$p$_rail_pm value = 0 }
+set_variable = { name = nfp60_$p$_port_built value = 0 }
+set_variable = { name = nfp60_$p$_port_expanded value = 0 }
+set_variable = { name = nfp60_$p$_port_pm value = 0 }
+set_variable = { name = nfp60_$p$_urban_built value = 0 }
+set_variable = { name = nfp60_$p$_urban_expanded value = 0 }
+set_variable = { name = nfp60_$p$_urban_pm value = 0 }
+set_variable = { name = nfp60_$p$_tracking value = 1 }
+set_variable = { name = nfp60_$p$_owner value = owner }
+set_variable = { name = nfp60_$p$_start value = nfp20_period }
+set_variable = { name = nfp60_$p$_last value = nfp20_period }
+set_variable = { name = nfp60_$p$_next value = nfp20_period }
+change_variable = { name = nfp60_$p$_next add = 1 }
+set_variable = { name = nfp60_$p$_episode value = var:$episode$ }
+if = { limit = { var:$active$ = 0 }
+change_variable = { name = nfp60_$p$_episode add = 1 }
+
+}
+if = { limit = { OR = { var:$active$ = 1 var:$bad$ > 0 } }
+set_variable = { name = nfp60_$p$_partial value = 1 }
+
+}
+set_variable = { name = nfp60_$p$_cap_before value = infrastructure }
+set_variable = { name = nfp60_$p$_usage_before value = infrastructure_usage }
+set_variable = { name = nfp60_$p$_access_before value = market_access }
+set_variable = { name = nfp60_$p$_rail_before value = var:nfp60_now_rail }
+set_variable = { name = nfp60_$p$_port_before value = var:nfp60_now_port }
+set_variable = { name = nfp60_$p$_urban_before value = var:nfp60_now_urban }
+every_scope_building = { limit = { is_building_type = building_railway }
+save_scope_as = nfp60_baseline_building
+scope:nfp60_measure_state = {
+set_variable = { name = nfp60_$p$_rail_ref value = scope:nfp60_baseline_building }
+set_variable = { name = nfp60_$p$_rail_low value = 0 }
+}
+if = { limit = { occupancy < 0.8 }
+scope:nfp60_measure_state = {
+set_variable = { name = nfp60_$p$_rail_low value = 1 }
+}
+}
+}
+every_scope_building = { limit = { is_building_type = building_port }
+save_scope_as = nfp60_baseline_building
+scope:nfp60_measure_state = {
+set_variable = { name = nfp60_$p$_port_ref value = scope:nfp60_baseline_building }
+set_variable = { name = nfp60_$p$_port_low value = 0 }
+}
+if = { limit = { occupancy < 0.8 }
+scope:nfp60_measure_state = {
+set_variable = { name = nfp60_$p$_port_low value = 1 }
+}
+}
+}
+
+}
+nfp60_state_begin = {
+if = { limit = { OR = { infrastructure_delta < 0 market_access < 0.9 var:nfp20_infra_active = 1 var:nfp20_access_active = 1 has_variable = nfp60_i_tracking has_variable = nfp60_a_tracking } }
+nfp60_measure_state = yes
+if = { limit = { has_variable = nfp60_i_tracking }
+if = { limit = { NOT = { var:nfp60_i_owner = owner } }
+nfp60_clear_state = { p = i }
+}
+
+}
+if = { limit = { OR = { infrastructure_delta < 0 var:nfp20_infra_active = 1 } }
+if = { limit = { NOT = { has_variable = nfp60_i_tracking } }
+nfp60_start_state = { p = i active = nfp20_infra_active episode = nfp20_infra_episode bad = nfp20_infra_bad }
+
+}
+
+}
+if = { limit = { has_variable = nfp60_i_tracking }
+if = { limit = { NOT = { var:nfp60_i_last = nfp20_period } NOT = { var:nfp60_i_next = nfp20_period } }
+nfp60_start_state = { p = i active = nfp20_infra_active episode = nfp20_infra_episode bad = nfp20_infra_bad }
+set_variable = { name = nfp60_i_partial value = 1 }
+
+}
+set_variable = { name = nfp60_i_last value = nfp20_period }
+set_variable = { name = nfp60_i_next value = nfp20_period }
+change_variable = { name = nfp60_i_next add = 1 }
+set_variable = { name = nfp60_i_rail_staffup value = 0 }
+if = { limit = { has_variable = nfp60_i_rail_low var:nfp60_i_rail_low = 1 exists = var:nfp60_i_rail_ref }
+if = { limit = { var:nfp60_i_rail_ref = { state = scope:nfp60_measure_state occupancy >= 0.8 } }
+set_variable = { name = nfp60_i_rail_staffup value = 1 }
+
+}
+
+}
+set_variable = { name = nfp60_i_port_staffup value = 0 }
+if = { limit = { has_variable = nfp60_i_port_low var:nfp60_i_port_low = 1 exists = var:nfp60_i_port_ref }
+if = { limit = { var:nfp60_i_port_ref = { state = scope:nfp60_measure_state occupancy >= 0.8 } }
+set_variable = { name = nfp60_i_port_staffup value = 1 }
+
+}
+
+}
+
+}
+if = { limit = { has_variable = nfp60_a_tracking }
+if = { limit = { NOT = { var:nfp60_a_owner = owner } }
+nfp60_clear_state = { p = a }
+}
+
+}
+if = { limit = { OR = { market_access < 0.9 var:nfp20_access_active = 1 } }
+if = { limit = { NOT = { has_variable = nfp60_a_tracking } }
+nfp60_start_state = { p = a active = nfp20_access_active episode = nfp20_access_episode bad = nfp20_access_bad }
+
+}
+
+}
+if = { limit = { has_variable = nfp60_a_tracking }
+if = { limit = { NOT = { var:nfp60_a_last = nfp20_period } NOT = { var:nfp60_a_next = nfp20_period } }
+nfp60_start_state = { p = a active = nfp20_access_active episode = nfp20_access_episode bad = nfp20_access_bad }
+set_variable = { name = nfp60_a_partial value = 1 }
+
+}
+set_variable = { name = nfp60_a_last value = nfp20_period }
+set_variable = { name = nfp60_a_next value = nfp20_period }
+change_variable = { name = nfp60_a_next add = 1 }
+set_variable = { name = nfp60_a_rail_staffup value = 0 }
+if = { limit = { has_variable = nfp60_a_rail_low var:nfp60_a_rail_low = 1 exists = var:nfp60_a_rail_ref }
+if = { limit = { var:nfp60_a_rail_ref = { state = scope:nfp60_measure_state occupancy >= 0.8 } }
+set_variable = { name = nfp60_a_rail_staffup value = 1 }
+
+}
+
+}
+set_variable = { name = nfp60_a_port_staffup value = 0 }
+if = { limit = { has_variable = nfp60_a_port_low var:nfp60_a_port_low = 1 exists = var:nfp60_a_port_ref }
+if = { limit = { var:nfp60_a_port_ref = { state = scope:nfp60_measure_state occupancy >= 0.8 } }
+set_variable = { name = nfp60_a_port_staffup value = 1 }
+
+}
+
+}
+
+}
+
+}
+
+}
+nfp60_state_finish = {
+if = { limit = { has_variable = nfp60_i_tracking var:nfp20_infra_active = 0 NOT = { infrastructure_delta < 0 } }
+nfp60_clear_state = { p = i }
+}
+if = { limit = { has_variable = nfp60_a_tracking var:nfp20_access_active = 0 NOT = { market_access < 0.9 } }
+nfp60_clear_state = { p = a }
+}
+if = { limit = { NOT = { has_variable = nfp60_i_tracking } NOT = { has_variable = nfp60_a_tracking } }
+remove_variable = nfp60_now_rail
+remove_variable = nfp60_now_port
+remove_variable = nfp60_now_urban
+}
+
+}
+nfp60_state_event = {
+if = { limit = { has_variable = nfp60_i_tracking }
+if = { limit = { var:nfp60_i_owner = owner }
+if = { limit = { var:nfp60_i_$type$_$kind$ = 0 var:nfp60_i_event_first = 0 }
+set_variable = { name = nfp60_i_event_first value = nfp20_period }
+
+}
+if = { limit = { var:nfp60_i_$type$_$kind$ < 99 }
+change_variable = { name = nfp60_i_$type$_$kind$ add = 1 }
+
+}
+set_variable = { name = nfp60_i_event_last value = nfp20_period }
+
+}
+
+}
+if = { limit = { has_variable = nfp60_a_tracking }
+if = { limit = { var:nfp60_a_owner = owner }
+if = { limit = { var:nfp60_a_$type$_$kind$ = 0 var:nfp60_a_event_first = 0 }
+set_variable = { name = nfp60_a_event_first value = nfp20_period }
+
+}
+if = { limit = { var:nfp60_a_$type$_$kind$ < 99 }
+change_variable = { name = nfp60_a_$type$_$kind$ add = 1 }
+
+}
+set_variable = { name = nfp60_a_event_last value = nfp20_period }
+
+}
+
+}
+
+}
+nfp60_building_event = {
+if = { limit = { is_building_type = building_railway }
+state = { nfp60_state_event = { type = rail kind = $kind$ } }
+}
+if = { limit = { is_building_type = building_port }
+state = { nfp60_state_event = { type = port kind = $kind$ } }
+}
+if = { limit = { is_building_type = building_urban_center }
+state = { nfp60_state_event = { type = urban kind = $kind$ } }
+}
+
+}
+nfp60_state_owner_reset = {
+nfp60_clear_state = { p = i }
+nfp60_clear_state = { p = a }
+remove_variable = nfp60_now_rail
+remove_variable = nfp60_now_port
+remove_variable = nfp60_now_urban
+}
+nfp60_supply_clear = {
+remove_variable = nfp60_s_tracking
+remove_variable = nfp60_s_owner
+remove_variable = nfp60_s_start
+remove_variable = nfp60_s_partial
+remove_variable = nfp60_s_episode
+remove_variable = nfp60_s_prod_before
+remove_variable = nfp60_s_cons_before
+remove_variable = nfp60_s_imp_before
+remove_variable = nfp60_s_exp_before
+remove_variable = nfp60_s_price_before
+
+}
+nfp60_supply_start = {
+nfp60_supply_clear = yes
+set_variable = { name = nfp60_s_tracking value = 1 }
+set_variable = { name = nfp60_s_owner value = scope:nfp46_reader }
+set_variable = { name = nfp60_s_start value = nfp20_period }
+set_variable = { name = nfp60_s_partial value = $partial$ }
+set_variable = { name = nfp60_s_episode value = var:nfp46_episode }
+if = { limit = { var:nfp46_active = 0 }
+change_variable = { name = nfp60_s_episode add = 1 }
+
+}
+set_variable = { name = nfp60_s_prod_before value = scope:nfp46_market_good.market_goods_production }
+set_variable = { name = nfp60_s_cons_before value = scope:nfp46_market_good.market_goods_consumption }
+set_variable = { name = nfp60_s_imp_before value = scope:nfp46_market_good.market_goods_imports }
+set_variable = { name = nfp60_s_exp_before value = scope:nfp46_market_good.market_goods_exports }
+set_variable = { name = nfp60_s_price_before value = scope:nfp46_market_good.nfp32_price }
+
+}
+nfp60_supply_tick = {
+if = { limit = { has_variable = nfp60_s_tracking }
+if = { limit = { OR = { NOT = { var:nfp60_s_owner = scope:nfp46_reader } NOT = { nfp46_watch_gap = 1 } } }
+nfp60_supply_clear = yes
+}
+
+}
+if = { limit = { var:nfp46_active = 1 NOT = { has_variable = nfp60_s_tracking } }
+nfp60_supply_start = { partial = 1 }
+}
+
+}
+nfp60_capture_supply = {
+if = { limit = { var:nfp20_problem = 7 }
+if = { limit = { scope:nfp46_watch = { has_variable = nfp60_s_tracking var:nfp60_s_owner = scope:nfp46_reader var:nfp60_s_episode = var:nfp46_episode } }
+set_variable = { name = nfp60_supply value = 1 }
+set_variable = { name = nfp60_s_start value = scope:nfp46_watch.var:nfp60_s_start }
+set_variable = { name = nfp60_s_partial value = scope:nfp46_watch.var:nfp60_s_partial }
+set_variable = { name = nfp60_s_episode value = scope:nfp46_watch.var:nfp60_s_episode }
+set_variable = { name = nfp60_s_prod_before value = scope:nfp46_watch.var:nfp60_s_prod_before }
+set_variable = { name = nfp60_s_cons_before value = scope:nfp46_watch.var:nfp60_s_cons_before }
+set_variable = { name = nfp60_s_imp_before value = scope:nfp46_watch.var:nfp60_s_imp_before }
+set_variable = { name = nfp60_s_exp_before value = scope:nfp46_watch.var:nfp60_s_exp_before }
+set_variable = { name = nfp60_s_price_before value = scope:nfp46_watch.var:nfp60_s_price_before }
+set_variable = { name = nfp60_s_prod_after value = var:nfp50_supply_production }
+set_variable = { name = nfp60_s_cons_after value = var:nfp50_supply_consumption }
+set_variable = { name = nfp60_s_imp_after value = var:nfp50_supply_imports }
+set_variable = { name = nfp60_s_exp_after value = var:nfp50_supply_exports }
+set_variable = { name = nfp60_s_price_after value = var:nfp50_supply_price }
+
+}
+
+}
+
+}
+nfp60_capture_state = {
+if = { limit = { var:nfp20_problem = 1 scope:nfp20_source = { exists = var:nfp20_f_problem_state } }
+if = { limit = { scope:nfp20_source.var:nfp20_f_problem_state = { has_variable = nfp60_i_tracking owner = scope:nfp20_source var:nfp60_i_owner = owner var:nfp60_i_episode = scope:nfp20_source.var:nfp20_f_episode } }
+set_variable = { name = nfp60_state value = 1 }
+set_variable = { name = nfp60_st_start value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_start }
+set_variable = { name = nfp60_st_partial value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_partial }
+set_variable = { name = nfp60_st_episode value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_episode }
+set_variable = { name = nfp60_st_cap_before value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_cap_before }
+set_variable = { name = nfp60_st_usage_before value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_usage_before }
+set_variable = { name = nfp60_st_access_before value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_access_before }
+set_variable = { name = nfp60_st_rail_before value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_rail_before }
+set_variable = { name = nfp60_st_port_before value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_port_before }
+set_variable = { name = nfp60_st_urban_before value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_urban_before }
+set_variable = { name = nfp60_st_rail_staffup value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_rail_staffup }
+set_variable = { name = nfp60_st_port_staffup value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_port_staffup }
+set_variable = { name = nfp60_st_event_first value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_event_first }
+set_variable = { name = nfp60_st_event_last value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_event_last }
+set_variable = { name = nfp60_st_rail_built value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_rail_built }
+set_variable = { name = nfp60_st_rail_expanded value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_rail_expanded }
+set_variable = { name = nfp60_st_rail_pm value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_rail_pm }
+set_variable = { name = nfp60_st_port_built value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_port_built }
+set_variable = { name = nfp60_st_port_expanded value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_port_expanded }
+set_variable = { name = nfp60_st_port_pm value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_port_pm }
+set_variable = { name = nfp60_st_urban_built value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_urban_built }
+set_variable = { name = nfp60_st_urban_expanded value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_urban_expanded }
+set_variable = { name = nfp60_st_urban_pm value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_i_urban_pm }
+set_variable = { name = nfp60_st_cap_after value = scope:nfp20_source.var:nfp20_f_problem_state.infrastructure }
+set_variable = { name = nfp60_st_usage_after value = scope:nfp20_source.var:nfp20_f_problem_state.infrastructure_usage }
+set_variable = { name = nfp60_st_access_after value = scope:nfp20_source.var:nfp20_f_problem_state.market_access }
+set_variable = { name = nfp60_st_rail_after value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_now_rail }
+set_variable = { name = nfp60_st_port_after value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_now_port }
+set_variable = { name = nfp60_st_urban_after value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_now_urban }
+
+}
+
+}
+if = { limit = { var:nfp20_problem = 2 scope:nfp20_source = { exists = var:nfp20_f_problem_state } }
+if = { limit = { scope:nfp20_source.var:nfp20_f_problem_state = { has_variable = nfp60_a_tracking owner = scope:nfp20_source var:nfp60_a_owner = owner var:nfp60_a_episode = scope:nfp20_source.var:nfp20_f_episode } }
+set_variable = { name = nfp60_state value = 1 }
+set_variable = { name = nfp60_st_start value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_start }
+set_variable = { name = nfp60_st_partial value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_partial }
+set_variable = { name = nfp60_st_episode value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_episode }
+set_variable = { name = nfp60_st_cap_before value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_cap_before }
+set_variable = { name = nfp60_st_usage_before value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_usage_before }
+set_variable = { name = nfp60_st_access_before value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_access_before }
+set_variable = { name = nfp60_st_rail_before value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_rail_before }
+set_variable = { name = nfp60_st_port_before value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_port_before }
+set_variable = { name = nfp60_st_urban_before value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_urban_before }
+set_variable = { name = nfp60_st_rail_staffup value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_rail_staffup }
+set_variable = { name = nfp60_st_port_staffup value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_port_staffup }
+set_variable = { name = nfp60_st_event_first value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_event_first }
+set_variable = { name = nfp60_st_event_last value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_event_last }
+set_variable = { name = nfp60_st_rail_built value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_rail_built }
+set_variable = { name = nfp60_st_rail_expanded value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_rail_expanded }
+set_variable = { name = nfp60_st_rail_pm value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_rail_pm }
+set_variable = { name = nfp60_st_port_built value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_port_built }
+set_variable = { name = nfp60_st_port_expanded value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_port_expanded }
+set_variable = { name = nfp60_st_port_pm value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_port_pm }
+set_variable = { name = nfp60_st_urban_built value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_urban_built }
+set_variable = { name = nfp60_st_urban_expanded value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_urban_expanded }
+set_variable = { name = nfp60_st_urban_pm value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_a_urban_pm }
+set_variable = { name = nfp60_st_cap_after value = scope:nfp20_source.var:nfp20_f_problem_state.infrastructure }
+set_variable = { name = nfp60_st_usage_after value = scope:nfp20_source.var:nfp20_f_problem_state.infrastructure_usage }
+set_variable = { name = nfp60_st_access_after value = scope:nfp20_source.var:nfp20_f_problem_state.market_access }
+set_variable = { name = nfp60_st_rail_after value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_now_rail }
+set_variable = { name = nfp60_st_port_after value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_now_port }
+set_variable = { name = nfp60_st_urban_after value = scope:nfp20_source.var:nfp20_f_problem_state.var:nfp60_now_urban }
+
+}
+
+}
+
+}
+nfp60_copy_causes = {
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp60_state } }
+set_variable = { name = nfp60_state value = 1 }
+set_variable = { name = nfp60_st_start value = scope:nfp20_selected_fact.var:nfp60_st_start }
+set_variable = { name = nfp60_st_partial value = scope:nfp20_selected_fact.var:nfp60_st_partial }
+set_variable = { name = nfp60_st_episode value = scope:nfp20_selected_fact.var:nfp60_st_episode }
+set_variable = { name = nfp60_st_cap_before value = scope:nfp20_selected_fact.var:nfp60_st_cap_before }
+set_variable = { name = nfp60_st_usage_before value = scope:nfp20_selected_fact.var:nfp60_st_usage_before }
+set_variable = { name = nfp60_st_access_before value = scope:nfp20_selected_fact.var:nfp60_st_access_before }
+set_variable = { name = nfp60_st_rail_before value = scope:nfp20_selected_fact.var:nfp60_st_rail_before }
+set_variable = { name = nfp60_st_port_before value = scope:nfp20_selected_fact.var:nfp60_st_port_before }
+set_variable = { name = nfp60_st_urban_before value = scope:nfp20_selected_fact.var:nfp60_st_urban_before }
+set_variable = { name = nfp60_st_rail_staffup value = scope:nfp20_selected_fact.var:nfp60_st_rail_staffup }
+set_variable = { name = nfp60_st_port_staffup value = scope:nfp20_selected_fact.var:nfp60_st_port_staffup }
+set_variable = { name = nfp60_st_event_first value = scope:nfp20_selected_fact.var:nfp60_st_event_first }
+set_variable = { name = nfp60_st_event_last value = scope:nfp20_selected_fact.var:nfp60_st_event_last }
+set_variable = { name = nfp60_st_rail_built value = scope:nfp20_selected_fact.var:nfp60_st_rail_built }
+set_variable = { name = nfp60_st_rail_expanded value = scope:nfp20_selected_fact.var:nfp60_st_rail_expanded }
+set_variable = { name = nfp60_st_rail_pm value = scope:nfp20_selected_fact.var:nfp60_st_rail_pm }
+set_variable = { name = nfp60_st_port_built value = scope:nfp20_selected_fact.var:nfp60_st_port_built }
+set_variable = { name = nfp60_st_port_expanded value = scope:nfp20_selected_fact.var:nfp60_st_port_expanded }
+set_variable = { name = nfp60_st_port_pm value = scope:nfp20_selected_fact.var:nfp60_st_port_pm }
+set_variable = { name = nfp60_st_urban_built value = scope:nfp20_selected_fact.var:nfp60_st_urban_built }
+set_variable = { name = nfp60_st_urban_expanded value = scope:nfp20_selected_fact.var:nfp60_st_urban_expanded }
+set_variable = { name = nfp60_st_urban_pm value = scope:nfp20_selected_fact.var:nfp60_st_urban_pm }
+set_variable = { name = nfp60_st_cap_after value = scope:nfp20_selected_fact.var:nfp60_st_cap_after }
+set_variable = { name = nfp60_st_usage_after value = scope:nfp20_selected_fact.var:nfp60_st_usage_after }
+set_variable = { name = nfp60_st_access_after value = scope:nfp20_selected_fact.var:nfp60_st_access_after }
+set_variable = { name = nfp60_st_rail_after value = scope:nfp20_selected_fact.var:nfp60_st_rail_after }
+set_variable = { name = nfp60_st_port_after value = scope:nfp20_selected_fact.var:nfp60_st_port_after }
+set_variable = { name = nfp60_st_urban_after value = scope:nfp20_selected_fact.var:nfp60_st_urban_after }
+
+}
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp60_supply } }
+set_variable = { name = nfp60_supply value = 1 }
+set_variable = { name = nfp60_s_start value = scope:nfp20_selected_fact.var:nfp60_s_start }
+set_variable = { name = nfp60_s_partial value = scope:nfp20_selected_fact.var:nfp60_s_partial }
+set_variable = { name = nfp60_s_episode value = scope:nfp20_selected_fact.var:nfp60_s_episode }
+set_variable = { name = nfp60_s_prod_before value = scope:nfp20_selected_fact.var:nfp60_s_prod_before }
+set_variable = { name = nfp60_s_prod_after value = scope:nfp20_selected_fact.var:nfp60_s_prod_after }
+set_variable = { name = nfp60_s_cons_before value = scope:nfp20_selected_fact.var:nfp60_s_cons_before }
+set_variable = { name = nfp60_s_cons_after value = scope:nfp20_selected_fact.var:nfp60_s_cons_after }
+set_variable = { name = nfp60_s_imp_before value = scope:nfp20_selected_fact.var:nfp60_s_imp_before }
+set_variable = { name = nfp60_s_imp_after value = scope:nfp20_selected_fact.var:nfp60_s_imp_after }
+set_variable = { name = nfp60_s_exp_before value = scope:nfp20_selected_fact.var:nfp60_s_exp_before }
+set_variable = { name = nfp60_s_exp_after value = scope:nfp20_selected_fact.var:nfp60_s_exp_after }
+set_variable = { name = nfp60_s_price_before value = scope:nfp20_selected_fact.var:nfp60_s_price_before }
+set_variable = { name = nfp60_s_price_after value = scope:nfp20_selected_fact.var:nfp60_s_price_after }
+
+}
+
+}
+
+nfp60_format_supply = {
+if = { limit = { has_variable = nfp60_supply }
+set_variable = { name = nfp60_prod_dir value = 0 }
+if = { limit = { var:nfp60_s_prod_after > var:nfp60_s_prod_before }
+set_variable = { name = nfp60_prod_dir value = 1 }
+
+}
+if = { limit = { var:nfp60_s_prod_after < var:nfp60_s_prod_before }
+set_variable = { name = nfp60_prod_dir value = -1 }
+
+}
+set_variable = { name = nfp60_cons_dir value = 0 }
+if = { limit = { var:nfp60_s_cons_after > var:nfp60_s_cons_before }
+set_variable = { name = nfp60_cons_dir value = 1 }
+
+}
+if = { limit = { var:nfp60_s_cons_after < var:nfp60_s_cons_before }
+set_variable = { name = nfp60_cons_dir value = -1 }
+
+}
+set_variable = { name = nfp60_imp_dir value = 0 }
+if = { limit = { var:nfp60_s_imp_after > var:nfp60_s_imp_before }
+set_variable = { name = nfp60_imp_dir value = 1 }
+
+}
+if = { limit = { var:nfp60_s_imp_after < var:nfp60_s_imp_before }
+set_variable = { name = nfp60_imp_dir value = -1 }
+
+}
+set_variable = { name = nfp60_exp_dir value = 0 }
+if = { limit = { var:nfp60_s_exp_after > var:nfp60_s_exp_before }
+set_variable = { name = nfp60_exp_dir value = 1 }
+
+}
+if = { limit = { var:nfp60_s_exp_after < var:nfp60_s_exp_before }
+set_variable = { name = nfp60_exp_dir value = -1 }
+
+}
+set_variable = { name = nfp60_supply_known value = 0 }
+if = { limit = { OR = { NOT = { var:nfp60_prod_dir = 0 } NOT = { var:nfp60_cons_dir = 0 } NOT = { var:nfp60_imp_dir = 0 } NOT = { var:nfp60_exp_dir = 0 } } }
+set_variable = { name = nfp60_supply_known value = 1 }
+
+}
+nfp50_add_context = { a = NFP60_SUP_CAUSES b = NFP60_SUP_CAUSES }
+
+}
+
+}
+nfp60_supply_details = {
+if = { limit = { has_variable = nfp60_supply }
+if = { limit = { NOT = { var:nfp30_metrics = flag:NFP60_SUP_DETAILS } }
+set_variable = { name = nfp60_previous_metrics value = var:nfp30_metrics }
+
+}
+set_variable = { name = nfp30_metrics value = flag:NFP60_SUP_DETAILS }
+
+}
+
+}

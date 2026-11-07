@@ -1,0 +1,1451 @@
+namespace = nfp_test
+
+nfp_test.1 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 1 } }
+}
+
+nfp_test.2 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 2 } }
+}
+
+nfp_test.3 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 3 } }
+}
+
+nfp_test.4 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 4 } }
+}
+
+nfp_test.5 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 5 } }
+}
+
+nfp_test.6 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 6 } }
+}
+
+nfp_test.7 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 7 } }
+}
+
+nfp_test.8 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 8 } }
+}
+
+nfp_test.9 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 9 } }
+}
+
+nfp_test.10 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 10 } }
+}
+
+nfp_test.11 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 11 } }
+}
+
+nfp_test.12 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 12 } }
+}
+
+nfp_test.13 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 13 } }
+}
+
+nfp_test.14 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 14 } }
+}
+
+nfp_test.15 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 15 } }
+}
+
+nfp_test.16 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 16 } }
+}
+
+nfp_test.17 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 17 } }
+}
+
+nfp_test.18 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 18 } }
+}
+
+nfp_test.19 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 19 } }
+}
+
+nfp_test.20 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 20 } }
+}
+
+nfp_test.21 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 21 } }
+}
+
+nfp_test.22 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 22 } }
+}
+
+nfp_test.23 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 23 } }
+}
+
+nfp_test.24 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 24 } }
+}
+
+nfp_test.25 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 25 } }
+}
+
+nfp_test.26 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 26 } }
+}
+
+nfp_test.27 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 27 } }
+}
+
+nfp_test.28 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 28 } }
+}
+
+nfp_test.29 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 29 } }
+}
+
+nfp_test.30 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 30 } }
+}
+
+nfp_test.31 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 31 } }
+}
+
+nfp_test.32 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 32 } }
+}
+
+nfp_test.33 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 33 } }
+}
+
+nfp_test.34 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 34 } }
+}
+
+nfp_test.35 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 35 } }
+}
+
+nfp_test.36 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 36 } }
+}
+
+nfp_test.37 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 37 } }
+}
+
+nfp_test.38 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 38 } }
+}
+
+nfp_test.39 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 39 } }
+}
+
+nfp_test.40 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 40 } }
+}
+
+nfp_test.41 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 41 } }
+}
+
+nfp_test.42 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 42 } }
+}
+
+nfp_test.43 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 43 } }
+}
+
+nfp_test.44 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 44 } }
+}
+
+nfp_test.45 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 45 } }
+}
+
+nfp_test.46 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 46 } }
+}
+
+nfp_test.47 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 47 } }
+}
+
+nfp_test.48 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 48 } }
+}
+
+nfp_test.49 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 49 } }
+}
+
+nfp_test.50 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 50 } }
+}
+
+nfp_test.51 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 51 } }
+}
+
+nfp_test.52 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 52 } }
+}
+
+nfp_test.53 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 53 } }
+}
+
+nfp_test.54 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 54 } }
+}
+
+nfp_test.55 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 55 } }
+}
+
+nfp_test.56 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 56 } }
+}
+
+nfp_test.57 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 57 } }
+}
+
+nfp_test.58 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 58 } }
+}
+
+nfp_test.59 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 59 } }
+}
+
+nfp_test.60 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 60 } }
+}
+
+nfp_test.61 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 61 } }
+}
+
+nfp_test.62 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 62 } }
+}
+
+nfp_test.63 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 63 } }
+}
+
+nfp_test.64 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 64 } }
+}
+
+nfp_test.65 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 65 } }
+}
+
+nfp_test.66 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 66 } }
+}
+
+nfp_test.67 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 67 } }
+}
+
+nfp_test.68 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 68 } }
+}
+
+nfp_test.69 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 69 } }
+}
+
+nfp_test.70 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 70 } }
+}
+
+nfp_test.71 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 71 } }
+}
+
+nfp_test.72 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 72 } }
+}
+
+nfp_test.73 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 73 } }
+}
+
+nfp_test.74 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 74 } }
+}
+
+nfp_test.75 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 75 } }
+}
+
+nfp_test.76 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 76 } }
+}
+
+nfp_test.77 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 77 } }
+}
+
+nfp_test.78 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 78 } }
+}
+
+nfp_test.79 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 79 } }
+}
+
+nfp_test.80 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 80 } }
+}
+
+nfp_test.81 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 81 } }
+}
+
+nfp_test.82 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 82 } }
+}
+
+nfp_test.83 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 83 } }
+}
+
+nfp_test.84 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 84 } }
+}
+
+nfp_test.85 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 85 } }
+}
+
+nfp_test.86 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 86 } }
+}
+
+nfp_test.87 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 87 } }
+}
+
+nfp_test.88 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 88 } }
+}
+
+nfp_test.89 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 89 } }
+}
+
+nfp_test.90 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 90 } }
+}
+
+nfp_test.91 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 91 } }
+}
+
+nfp_test.92 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 92 } }
+}
+
+nfp_test.93 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 93 } }
+}
+
+nfp_test.94 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 94 } }
+}
+
+nfp_test.95 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 95 } }
+}
+
+nfp_test.96 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 96 } }
+}
+
+nfp_test.97 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 97 } }
+}
+
+nfp_test.98 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 98 } }
+}
+
+nfp_test.99 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 99 } }
+}
+
+nfp_test.100 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 100 } }
+}
+
+nfp_test.101 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 101 } }
+}
+
+nfp_test.102 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 102 } }
+}
+
+nfp_test.103 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 103 } }
+}
+
+nfp_test.104 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 104 } }
+}
+
+nfp_test.105 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 105 } }
+}
+
+nfp_test.106 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 106 } }
+}
+
+nfp_test.107 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 107 } }
+}
+
+nfp_test.108 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 108 } }
+}
+
+nfp_test.109 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 109 } }
+}
+
+nfp_test.110 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 110 } }
+}
+
+nfp_test.111 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 111 } }
+}
+
+nfp_test.112 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 112 } }
+}
+
+nfp_test.113 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 113 } }
+}
+
+nfp_test.114 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 114 } }
+}
+
+nfp_test.115 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 115 } }
+}
+
+nfp_test.116 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 116 } }
+}
+
+nfp_test.117 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 117 } }
+}
+
+nfp_test.118 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 118 } }
+}
+
+nfp_test.119 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 119 } }
+}
+
+nfp_test.120 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 120 } }
+}
+
+nfp_test.121 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 121 } }
+}
+
+nfp_test.122 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 122 } }
+}
+
+nfp_test.123 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 123 } }
+}
+
+nfp_test.124 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 124 } }
+}
+
+nfp_test.125 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 125 } }
+}
+
+nfp_test.126 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 126 } }
+}
+
+nfp_test.127 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 127 } }
+}
+
+nfp_test.128 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 128 } }
+}
+
+nfp_test.129 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 129 } }
+}
+
+nfp_test.130 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 130 } }
+}
+
+nfp_test.131 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 131 } }
+}
+
+nfp_test.132 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 132 } }
+}
+
+nfp_test.133 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 133 } }
+}
+
+nfp_test.134 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 134 } }
+}
+
+nfp_test.135 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 135 } }
+}
+
+nfp_test.136 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 136 } }
+}
+
+nfp_test.137 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 137 } }
+}
+
+nfp_test.138 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 138 } }
+}
+
+nfp_test.139 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 139 } }
+}
+
+nfp_test.140 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 140 } }
+}
+
+nfp_test.141 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 141 } }
+}
+
+nfp_test.142 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 142 } }
+}
+
+nfp_test.143 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 143 } }
+}
+
+nfp_test.144 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 144 } }
+}
+
+nfp_test.145 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 145 } }
+}
+
+nfp_test.146 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 146 } }
+}
+
+nfp_test.147 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 147 } }
+}
+
+nfp_test.148 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 148 } }
+}
+
+nfp_test.149 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 149 } }
+}
+
+nfp_test.150 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 150 } }
+}
+
+nfp_test.151 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 151 } }
+}
+
+nfp_test.152 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 152 } }
+}
+
+nfp_test.153 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 153 } }
+}
+
+nfp_test.154 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 154 } }
+}
+
+nfp_test.155 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 155 } }
+}
+
+nfp_test.156 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 156 } }
+}
+
+nfp_test.157 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 157 } }
+}
+
+nfp_test.158 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 158 } }
+}
+
+nfp_test.159 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 159 } }
+}
+
+nfp_test.160 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 160 } }
+}
+
+nfp_test.161 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 161 } }
+}
+
+nfp_test.162 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 162 } }
+}
+
+nfp_test.163 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 163 } }
+}
+
+nfp_test.164 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 164 } }
+}
+
+nfp_test.165 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 165 } }
+}
+
+nfp_test.166 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 166 } }
+}
+
+nfp_test.167 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 167 } }
+}
+
+nfp_test.168 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 168 } }
+}
+
+nfp_test.169 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 169 } }
+}
+
+nfp_test.170 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 170 } }
+}
+
+nfp_test.171 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 171 } }
+}
+
+nfp_test.172 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 172 } }
+}
+
+nfp_test.173 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 173 } }
+}
+
+nfp_test.174 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 174 } }
+}
+
+nfp_test.175 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 175 } }
+}
+
+nfp_test.176 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 176 } }
+}
+
+nfp_test.177 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 177 } }
+}
+
+nfp_test.178 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 178 } }
+}
+
+nfp_test.179 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 179 } }
+}
+
+nfp_test.180 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 180 } }
+}
+
+nfp_test.181 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 181 } }
+}
+
+nfp_test.182 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 182 } }
+}
+
+nfp_test.183 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 183 } }
+}
+
+nfp_test.184 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 184 } }
+}
+
+nfp_test.185 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 185 } }
+}
+
+nfp_test.186 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 186 } }
+}
+
+nfp_test.187 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 187 } }
+}
+
+nfp_test.188 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 188 } }
+}
+
+nfp_test.189 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 189 } }
+}
+
+nfp_test.190 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 190 } }
+}
+
+nfp_test.191 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 191 } }
+}
+
+nfp_test.192 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 192 } }
+}
+
+nfp_test.193 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 193 } }
+}
+
+nfp_test.194 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 194 } }
+}
+
+nfp_test.195 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 195 } }
+}
+
+nfp_test.196 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 196 } }
+}
+
+nfp_test.197 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 197 } }
+}
+
+nfp_test.198 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 198 } }
+}
+
+nfp_test.199 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 199 } }
+}
+
+nfp_test.200 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 200 } }
+}
+
+nfp_test.201 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 201 } }
+}
+
+nfp_test.202 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 202 } }
+}
+
+nfp_test.203 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 203 } }
+}
+
+nfp_test.204 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 204 } }
+}
+
+nfp_test.205 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 205 } }
+}
+
+nfp_test.206 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 206 } }
+}
+
+nfp_test.207 = {
+ type = country_event
+ hidden = yes
+ orphan = yes
+ immediate = { nfp_test_preview = { number = 207 } }
+}
+

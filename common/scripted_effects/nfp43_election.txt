@@ -1,0 +1,278 @@
+﻿# Reader country. New generation invalidates old party baselines without scanning them.
+nfp43_election_start = {
+    if = { limit = { is_player = yes }
+        if = { limit = { NOT = { has_variable = nfp43_campaign } }
+            set_variable = { name = nfp43_campaign value = 0 }
+        }
+        change_variable = { name = nfp43_campaign add = 1 }
+        nfp43_clear_election_candidates = yes
+        remove_variable = nfp43_election_printed_today
+    }
+}
+
+# Reader country; one pending bulletin at most. Called before refresh and campaign end.
+nfp43_clear_election_candidates = {
+    save_scope_as = nfp43_election_owner
+    every_in_list = { variable = nfp20_candidates
+        limit = { var:nfp20_type = 24 }
+        save_scope_as = nfp43_election_remove
+        scope:nfp43_election_owner = {
+            remove_list_variable = { name = nfp20_candidates target = scope:nfp43_election_remove }
+            change_variable = { name = nfp20_queue_count add = -1 }
+        }
+        destroy_container = yes
+    }
+}
+
+# Player country, immediately before nfp20_edit_issue, after nfp_reader is captured.
+# Sampling at print time uses the latest game value, without a daily world scan.
+nfp43_prepare_election = {
+    nfp43_clear_election_candidates = yes
+    if = { limit = { is_player = yes in_election_campaign = yes var:nfp_society = 1
+        scope:nfp_new_issue = { var:nfp_kind < 3 }
+        NOT = { has_variable = nfp43_election_printed_today }
+        any_active_party = { party_has_members = yes }
+    }
+        if = { limit = { NOT = { has_variable = nfp43_campaign } }
+            # Loading during a campaign establishes a fresh baseline; no invented past.
+            set_variable = { name = nfp43_campaign value = 1 }
+        }
+        nfp20_prepare = yes
+        set_variable = { name = nfp20_f_before value = 0 }
+        set_variable = { name = nfp20_f_after value = 0 }
+        set_variable = { name = nfp20_f_extra value = 0 }
+        set_variable = { name = nfp20_f_detail value = flag:NFP20_NONE }
+        nfp20_emit = { type = 24 section = 3 body = NFP43_ELECTION_BODY_1 severity = 70 global = no }
+        # Generic pruning may evict a low-priority newborn when the queue is full.
+        if = { limit = { exists = scope:nfp20_candidate }
+        scope:nfp20_candidate = {
+            set_variable = { name = nfp43_campaign value = scope:nfp_reader.var:nfp43_campaign }
+            set_variable = { name = nfp43_rows value = 0 }
+            set_variable = { name = nfp43_previous_issue value = 0 }
+            if = { limit = { scope:nfp_reader = { has_variable = nfp43_last_campaign
+                var:nfp43_last_campaign = var:nfp43_campaign } }
+                set_variable = { name = nfp43_previous_issue value = scope:nfp_reader.var:nfp43_last_issue }
+            }
+            set_variable = { name = nfp43_row_1 value = flag:NFP43_ELECTION_ROW_EMPTY }
+            set_variable = { name = nfp43_now_1 value = 0 }
+            set_variable = { name = nfp43_previous_1 value = 0 }
+            set_variable = { name = nfp43_delta_1 value = 0 }
+            set_variable = { name = nfp43_row_2 value = flag:NFP43_ELECTION_ROW_EMPTY }
+            set_variable = { name = nfp43_now_2 value = 0 }
+            set_variable = { name = nfp43_previous_2 value = 0 }
+            set_variable = { name = nfp43_delta_2 value = 0 }
+            set_variable = { name = nfp43_row_3 value = flag:NFP43_ELECTION_ROW_EMPTY }
+            set_variable = { name = nfp43_now_3 value = 0 }
+            set_variable = { name = nfp43_previous_3 value = 0 }
+            set_variable = { name = nfp43_delta_3 value = 0 }
+            set_variable = { name = nfp43_row_4 value = flag:NFP43_ELECTION_ROW_EMPTY }
+            set_variable = { name = nfp43_now_4 value = 0 }
+            set_variable = { name = nfp43_previous_4 value = 0 }
+            set_variable = { name = nfp43_delta_4 value = 0 }
+            set_variable = { name = nfp43_row_5 value = flag:NFP43_ELECTION_ROW_EMPTY }
+            set_variable = { name = nfp43_now_5 value = 0 }
+            set_variable = { name = nfp43_previous_5 value = 0 }
+            set_variable = { name = nfp43_delta_5 value = 0 }
+            set_variable = { name = nfp43_row_6 value = flag:NFP43_ELECTION_ROW_EMPTY }
+            set_variable = { name = nfp43_now_6 value = 0 }
+            set_variable = { name = nfp43_previous_6 value = 0 }
+            set_variable = { name = nfp43_delta_6 value = 0 }
+        }
+        ordered_active_party = {
+            limit = { party_has_members = yes }
+            order_by = momentum
+            check_range_bounds = no
+            if = { limit = { scope:nfp20_candidate = { var:nfp43_rows < 6 } }
+                save_scope_as = nfp43_observed_party
+                scope:nfp20_candidate = {
+                    change_variable = { name = nfp43_rows add = 1 }
+                    if = { limit = { var:nfp43_rows = 1 }
+                        set_variable = { name = nfp43_party_1 value = scope:nfp43_observed_party }
+                        set_variable = { name = nfp43_now_1 value = scope:nfp43_observed_party.momentum }
+                        set_variable = { name = nfp43_row_1 value = flag:NFP43_ELECTION_ROW_CURRENT_1 }
+                        if = { limit = { scope:nfp_reader = { has_variable = nfp43_last_issue } scope:nfp43_observed_party = {
+                            has_variable = nfp43_baseline_campaign
+                            var:nfp43_baseline_campaign = scope:nfp_reader.var:nfp43_campaign
+                            var:nfp43_baseline_issue = scope:nfp_reader.var:nfp43_last_issue
+                        } }
+                            set_variable = { name = nfp43_previous_1 value = scope:nfp43_observed_party.var:nfp43_baseline_momentum }
+                            set_variable = { name = nfp43_delta_1 value = nfp43_delta_1 }
+                            set_variable = { name = nfp43_row_1 value = flag:NFP43_ELECTION_ROW_COMPARE_1 }
+                        }
+                    }
+                    if = { limit = { var:nfp43_rows = 2 }
+                        set_variable = { name = nfp43_party_2 value = scope:nfp43_observed_party }
+                        set_variable = { name = nfp43_now_2 value = scope:nfp43_observed_party.momentum }
+                        set_variable = { name = nfp43_row_2 value = flag:NFP43_ELECTION_ROW_CURRENT_2 }
+                        if = { limit = { scope:nfp_reader = { has_variable = nfp43_last_issue } scope:nfp43_observed_party = {
+                            has_variable = nfp43_baseline_campaign
+                            var:nfp43_baseline_campaign = scope:nfp_reader.var:nfp43_campaign
+                            var:nfp43_baseline_issue = scope:nfp_reader.var:nfp43_last_issue
+                        } }
+                            set_variable = { name = nfp43_previous_2 value = scope:nfp43_observed_party.var:nfp43_baseline_momentum }
+                            set_variable = { name = nfp43_delta_2 value = nfp43_delta_2 }
+                            set_variable = { name = nfp43_row_2 value = flag:NFP43_ELECTION_ROW_COMPARE_2 }
+                        }
+                    }
+                    if = { limit = { var:nfp43_rows = 3 }
+                        set_variable = { name = nfp43_party_3 value = scope:nfp43_observed_party }
+                        set_variable = { name = nfp43_now_3 value = scope:nfp43_observed_party.momentum }
+                        set_variable = { name = nfp43_row_3 value = flag:NFP43_ELECTION_ROW_CURRENT_3 }
+                        if = { limit = { scope:nfp_reader = { has_variable = nfp43_last_issue } scope:nfp43_observed_party = {
+                            has_variable = nfp43_baseline_campaign
+                            var:nfp43_baseline_campaign = scope:nfp_reader.var:nfp43_campaign
+                            var:nfp43_baseline_issue = scope:nfp_reader.var:nfp43_last_issue
+                        } }
+                            set_variable = { name = nfp43_previous_3 value = scope:nfp43_observed_party.var:nfp43_baseline_momentum }
+                            set_variable = { name = nfp43_delta_3 value = nfp43_delta_3 }
+                            set_variable = { name = nfp43_row_3 value = flag:NFP43_ELECTION_ROW_COMPARE_3 }
+                        }
+                    }
+                    if = { limit = { var:nfp43_rows = 4 }
+                        set_variable = { name = nfp43_party_4 value = scope:nfp43_observed_party }
+                        set_variable = { name = nfp43_now_4 value = scope:nfp43_observed_party.momentum }
+                        set_variable = { name = nfp43_row_4 value = flag:NFP43_ELECTION_ROW_CURRENT_4 }
+                        if = { limit = { scope:nfp_reader = { has_variable = nfp43_last_issue } scope:nfp43_observed_party = {
+                            has_variable = nfp43_baseline_campaign
+                            var:nfp43_baseline_campaign = scope:nfp_reader.var:nfp43_campaign
+                            var:nfp43_baseline_issue = scope:nfp_reader.var:nfp43_last_issue
+                        } }
+                            set_variable = { name = nfp43_previous_4 value = scope:nfp43_observed_party.var:nfp43_baseline_momentum }
+                            set_variable = { name = nfp43_delta_4 value = nfp43_delta_4 }
+                            set_variable = { name = nfp43_row_4 value = flag:NFP43_ELECTION_ROW_COMPARE_4 }
+                        }
+                    }
+                    if = { limit = { var:nfp43_rows = 5 }
+                        set_variable = { name = nfp43_party_5 value = scope:nfp43_observed_party }
+                        set_variable = { name = nfp43_now_5 value = scope:nfp43_observed_party.momentum }
+                        set_variable = { name = nfp43_row_5 value = flag:NFP43_ELECTION_ROW_CURRENT_5 }
+                        if = { limit = { scope:nfp_reader = { has_variable = nfp43_last_issue } scope:nfp43_observed_party = {
+                            has_variable = nfp43_baseline_campaign
+                            var:nfp43_baseline_campaign = scope:nfp_reader.var:nfp43_campaign
+                            var:nfp43_baseline_issue = scope:nfp_reader.var:nfp43_last_issue
+                        } }
+                            set_variable = { name = nfp43_previous_5 value = scope:nfp43_observed_party.var:nfp43_baseline_momentum }
+                            set_variable = { name = nfp43_delta_5 value = nfp43_delta_5 }
+                            set_variable = { name = nfp43_row_5 value = flag:NFP43_ELECTION_ROW_COMPARE_5 }
+                        }
+                    }
+                    if = { limit = { var:nfp43_rows = 6 }
+                        set_variable = { name = nfp43_party_6 value = scope:nfp43_observed_party }
+                        set_variable = { name = nfp43_now_6 value = scope:nfp43_observed_party.momentum }
+                        set_variable = { name = nfp43_row_6 value = flag:NFP43_ELECTION_ROW_CURRENT_6 }
+                        if = { limit = { scope:nfp_reader = { has_variable = nfp43_last_issue } scope:nfp43_observed_party = {
+                            has_variable = nfp43_baseline_campaign
+                            var:nfp43_baseline_campaign = scope:nfp_reader.var:nfp43_campaign
+                            var:nfp43_baseline_issue = scope:nfp_reader.var:nfp43_last_issue
+                        } }
+                            set_variable = { name = nfp43_previous_6 value = scope:nfp43_observed_party.var:nfp43_baseline_momentum }
+                            set_variable = { name = nfp43_delta_6 value = nfp43_delta_6 }
+                            set_variable = { name = nfp43_row_6 value = flag:NFP43_ELECTION_ROW_COMPARE_6 }
+                        }
+                    }
+                }
+            }
+        }
+        }
+    }
+}
+
+# Published article scope. The candidate is selected by the existing queue policy.
+nfp43_copy_election = {
+    if = { limit = { var:nfp20_type = 24 }
+        set_variable = { name = nfp43_campaign value = scope:nfp20_selected_fact.var:nfp43_campaign }
+        set_variable = { name = nfp43_rows value = scope:nfp20_selected_fact.var:nfp43_rows }
+        set_variable = { name = nfp43_previous_issue value = scope:nfp20_selected_fact.var:nfp43_previous_issue }
+        set_variable = { name = nfp43_row_1 value = scope:nfp20_selected_fact.var:nfp43_row_1 }
+        set_variable = { name = nfp43_now_1 value = scope:nfp20_selected_fact.var:nfp43_now_1 }
+        set_variable = { name = nfp43_previous_1 value = scope:nfp20_selected_fact.var:nfp43_previous_1 }
+        set_variable = { name = nfp43_delta_1 value = scope:nfp20_selected_fact.var:nfp43_delta_1 }
+        set_variable = { name = nfp43_row_2 value = scope:nfp20_selected_fact.var:nfp43_row_2 }
+        set_variable = { name = nfp43_now_2 value = scope:nfp20_selected_fact.var:nfp43_now_2 }
+        set_variable = { name = nfp43_previous_2 value = scope:nfp20_selected_fact.var:nfp43_previous_2 }
+        set_variable = { name = nfp43_delta_2 value = scope:nfp20_selected_fact.var:nfp43_delta_2 }
+        set_variable = { name = nfp43_row_3 value = scope:nfp20_selected_fact.var:nfp43_row_3 }
+        set_variable = { name = nfp43_now_3 value = scope:nfp20_selected_fact.var:nfp43_now_3 }
+        set_variable = { name = nfp43_previous_3 value = scope:nfp20_selected_fact.var:nfp43_previous_3 }
+        set_variable = { name = nfp43_delta_3 value = scope:nfp20_selected_fact.var:nfp43_delta_3 }
+        set_variable = { name = nfp43_row_4 value = scope:nfp20_selected_fact.var:nfp43_row_4 }
+        set_variable = { name = nfp43_now_4 value = scope:nfp20_selected_fact.var:nfp43_now_4 }
+        set_variable = { name = nfp43_previous_4 value = scope:nfp20_selected_fact.var:nfp43_previous_4 }
+        set_variable = { name = nfp43_delta_4 value = scope:nfp20_selected_fact.var:nfp43_delta_4 }
+        set_variable = { name = nfp43_row_5 value = scope:nfp20_selected_fact.var:nfp43_row_5 }
+        set_variable = { name = nfp43_now_5 value = scope:nfp20_selected_fact.var:nfp43_now_5 }
+        set_variable = { name = nfp43_previous_5 value = scope:nfp20_selected_fact.var:nfp43_previous_5 }
+        set_variable = { name = nfp43_delta_5 value = scope:nfp20_selected_fact.var:nfp43_delta_5 }
+        set_variable = { name = nfp43_row_6 value = scope:nfp20_selected_fact.var:nfp43_row_6 }
+        set_variable = { name = nfp43_now_6 value = scope:nfp20_selected_fact.var:nfp43_now_6 }
+        set_variable = { name = nfp43_previous_6 value = scope:nfp20_selected_fact.var:nfp43_previous_6 }
+        set_variable = { name = nfp43_delta_6 value = scope:nfp20_selected_fact.var:nfp43_delta_6 }
+        if = { limit = { scope:nfp20_selected_fact = { exists = var:nfp43_party_1 } }
+            set_variable = { name = nfp43_party_1 value = scope:nfp20_selected_fact.var:nfp43_party_1 }
+            var:nfp43_party_1 = {
+                set_variable = { name = nfp43_baseline_campaign value = scope:nfp_new_article.var:nfp43_campaign }
+                set_variable = { name = nfp43_baseline_issue value = scope:nfp_new_issue.var:nfp_number }
+                set_variable = { name = nfp43_baseline_momentum value = scope:nfp_new_article.var:nfp43_now_1 }
+            }
+        }
+        if = { limit = { scope:nfp20_selected_fact = { exists = var:nfp43_party_2 } }
+            set_variable = { name = nfp43_party_2 value = scope:nfp20_selected_fact.var:nfp43_party_2 }
+            var:nfp43_party_2 = {
+                set_variable = { name = nfp43_baseline_campaign value = scope:nfp_new_article.var:nfp43_campaign }
+                set_variable = { name = nfp43_baseline_issue value = scope:nfp_new_issue.var:nfp_number }
+                set_variable = { name = nfp43_baseline_momentum value = scope:nfp_new_article.var:nfp43_now_2 }
+            }
+        }
+        if = { limit = { scope:nfp20_selected_fact = { exists = var:nfp43_party_3 } }
+            set_variable = { name = nfp43_party_3 value = scope:nfp20_selected_fact.var:nfp43_party_3 }
+            var:nfp43_party_3 = {
+                set_variable = { name = nfp43_baseline_campaign value = scope:nfp_new_article.var:nfp43_campaign }
+                set_variable = { name = nfp43_baseline_issue value = scope:nfp_new_issue.var:nfp_number }
+                set_variable = { name = nfp43_baseline_momentum value = scope:nfp_new_article.var:nfp43_now_3 }
+            }
+        }
+        if = { limit = { scope:nfp20_selected_fact = { exists = var:nfp43_party_4 } }
+            set_variable = { name = nfp43_party_4 value = scope:nfp20_selected_fact.var:nfp43_party_4 }
+            var:nfp43_party_4 = {
+                set_variable = { name = nfp43_baseline_campaign value = scope:nfp_new_article.var:nfp43_campaign }
+                set_variable = { name = nfp43_baseline_issue value = scope:nfp_new_issue.var:nfp_number }
+                set_variable = { name = nfp43_baseline_momentum value = scope:nfp_new_article.var:nfp43_now_4 }
+            }
+        }
+        if = { limit = { scope:nfp20_selected_fact = { exists = var:nfp43_party_5 } }
+            set_variable = { name = nfp43_party_5 value = scope:nfp20_selected_fact.var:nfp43_party_5 }
+            var:nfp43_party_5 = {
+                set_variable = { name = nfp43_baseline_campaign value = scope:nfp_new_article.var:nfp43_campaign }
+                set_variable = { name = nfp43_baseline_issue value = scope:nfp_new_issue.var:nfp_number }
+                set_variable = { name = nfp43_baseline_momentum value = scope:nfp_new_article.var:nfp43_now_5 }
+            }
+        }
+        if = { limit = { scope:nfp20_selected_fact = { exists = var:nfp43_party_6 } }
+            set_variable = { name = nfp43_party_6 value = scope:nfp20_selected_fact.var:nfp43_party_6 }
+            var:nfp43_party_6 = {
+                set_variable = { name = nfp43_baseline_campaign value = scope:nfp_new_article.var:nfp43_campaign }
+                set_variable = { name = nfp43_baseline_issue value = scope:nfp_new_issue.var:nfp_number }
+                set_variable = { name = nfp43_baseline_momentum value = scope:nfp_new_article.var:nfp43_now_6 }
+            }
+        }
+        scope:nfp_reader = {
+            set_variable = { name = nfp43_last_issue value = scope:nfp_new_issue.var:nfp_number }
+            set_variable = { name = nfp43_last_campaign value = var:nfp43_campaign }
+            set_variable = { name = nfp43_election_printed_today days = 1 }
+        }
+    }
+}
+
+nfp43_format_election = {
+    if = { limit = { var:nfp20_type = 24 }
+        set_variable = { name = nfp30_headline value = flag:NFP43_ELECTION_TITLE_1 }
+        set_variable = { name = nfp30_lead value = flag:NFP43_ELECTION_LEAD_1 }
+        set_variable = { name = nfp30_body value = flag:NFP43_ELECTION_BODY_1 }
+        set_variable = { name = nfp30_metrics value = flag:NFP43_ELECTION_METRICS }
+        if = { limit = { var:nfp30_variant = 2 }
+            set_variable = { name = nfp30_headline value = flag:NFP43_ELECTION_TITLE_2 }
+            set_variable = { name = nfp30_lead value = flag:NFP43_ELECTION_LEAD_2 }
+            set_variable = { name = nfp30_body value = flag:NFP43_ELECTION_BODY_2 }
+        }
+    }
+}

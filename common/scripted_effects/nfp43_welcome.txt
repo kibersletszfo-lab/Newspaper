@@ -1,0 +1,99 @@
+﻿# Reader country. Invoked only by explicit subscription confirmation.
+nfp43_confirm_subscription = {
+    # Persistent campaign/country marker is written before publication.
+    set_variable = { name = nfp43_welcome_done value = 1 }
+    set_variable = { name = nfp43_welcome_print value = 1 }
+    # NFP43_EXTENSION_SUBSCRIPTION_SEEDS
+    nfp_publish = { kind = 1 marker = 0 }
+    remove_variable = nfp43_welcome_print
+    remove_variable = nfp_setup_pending
+    # Delivery stays unread, respecting the existing no-auto-open contract.
+    set_variable = { name = nfp_window_open value = 0 }
+}
+
+# Reader country; nfp_new_issue is the freshly created ordinary issue.
+nfp43_build_welcome = {
+    scope:nfp_new_issue = {
+        set_variable = { name = nfp43_welcome_schema value = 1 }
+        set_variable = { name = nfp20_schema value = 2 }
+        set_variable = { name = nfp20_article_count value = 4 }
+        set_variable = { name = nfp20_history_count value = scope:nfp_reader.var:nfp20_count }
+        set_variable = { name = nfp20_dropped value = scope:nfp_reader.var:nfp20_dropped }
+        set_variable = { name = nfp20_summary_before value = scope:nfp_reader.var:nfp20_gdp_0 }
+        set_variable = { name = nfp20_summary_after value = scope:nfp_reader.var:nfp20_gdp_0 }
+        set_variable = { name = nfp20_summary_intervals value = 0 }
+        set_variable = { name = nfp20_section_count_1 value = 1 }
+        set_variable = { name = nfp20_section_count_2 value = 1 }
+        set_variable = { name = nfp20_section_count_3 value = 1 }
+        set_variable = { name = nfp20_section_count_4 value = 1 }
+    }
+    nfp43_add_welcome_article = { section = 1 type = 25 priority = 104 body = NFP43_WELCOME_1_BODY }
+    nfp43_add_welcome_article = { section = 2 type = 26 priority = 103 body = NFP43_WELCOME_2_BODY }
+    nfp43_add_welcome_article = { section = 3 type = 27 priority = 102 body = NFP43_WELCOME_3_BODY }
+    nfp43_add_welcome_article = { section = 4 type = 28 priority = 101 body = NFP43_WELCOME_4_BODY }
+}
+
+# The article belongs to its issue, so existing archive cleanup destroys it.
+nfp43_add_welcome_article = {
+    create_container = { tags = { nfp_article } parent = scope:nfp_new_issue save_scope_as = nfp_new_article }
+    scope:nfp_new_article = {
+        set_variable = { name = nfp43_welcome_schema value = 1 }
+        set_variable = { name = nfp_section value = $section$ }
+        set_variable = { name = nfp89_regular value = scope:nfp_reader.var:nfp_signal }
+        set_variable = { name = nfp89_urgent value = scope:nfp_reader.var:nfp_urgent }
+        set_variable = { name = nfp_body value = flag:$body$ }
+        set_variable = { name = nfp20_schema value = 2 }
+        set_variable = { name = nfp20_type value = $type$ }
+        set_variable = { name = nfp20_id value = scope:nfp_new_issue.var:nfp_number }
+        set_variable = { name = nfp20_source_serial value = 0 }
+        set_variable = { name = nfp20_priority value = $priority$ }
+        set_variable = { name = nfp20_order value = $section$ }
+        set_variable = { name = nfp20_foreign value = 0 }
+        set_variable = { name = nfp20_source_definition value = scope:nfp_reader.country_definition }
+        set_variable = { name = nfp20_secondary value = scope:nfp_reader.country_definition }
+        set_variable = { name = nfp20_period value = nfp20_period }
+        set_variable = { name = nfp20_year value = year }
+        set_variable = { name = nfp20_month value = month }
+        set_variable = { name = nfp20_before value = 0 }
+        set_variable = { name = nfp20_after value = 0 }
+        set_variable = { name = nfp20_extra value = 0 }
+        set_variable = { name = nfp20_detail value = flag:NFP20_NONE }
+        set_variable = { name = nfp20_extra_detail value = flag:NFP20_NONE }
+        set_variable = { name = nfp20_urgent value = 0 }
+        set_variable = { name = nfp20_episode value = 0 }
+        set_variable = { name = nfp20_problem value = 0 }
+        set_variable = { name = nfp20_reason value = flag:NFP43_WELCOME_REASON }
+        set_variable = { name = nfp31_reach value = flag:NFP43_WELCOME_REACH }
+        set_variable = { name = nfp31_legacy value = 0 }
+    }
+    scope:nfp_new_issue = { add_to_variable_list = { name = nfp_articles target = scope:nfp_new_article } }
+}
+
+# Article scope, after the usual formatter and before saved page/lead links.
+nfp43_format_welcome = {
+    if = { limit = { has_variable = nfp43_welcome_schema }
+        set_variable = { name = nfp30_variant value = 1 }
+        set_variable = { name = nfp30_domestic value = 1 }
+        set_variable = { name = nfp30_metrics value = flag:NFP43_WELCOME_METRICS }
+        if = { limit = { var:nfp_section = 1 }
+            set_variable = { name = nfp30_headline value = flag:NFP43_WELCOME_1_TITLE }
+            set_variable = { name = nfp30_lead value = flag:NFP43_WELCOME_1_LEAD }
+            set_variable = { name = nfp30_body value = flag:NFP43_WELCOME_1_BODY }
+        }
+        if = { limit = { var:nfp_section = 2 }
+            set_variable = { name = nfp30_headline value = flag:NFP43_WELCOME_2_TITLE }
+            set_variable = { name = nfp30_lead value = flag:NFP43_WELCOME_2_LEAD }
+            set_variable = { name = nfp30_body value = flag:NFP43_WELCOME_2_BODY }
+        }
+        if = { limit = { var:nfp_section = 3 }
+            set_variable = { name = nfp30_headline value = flag:NFP43_WELCOME_3_TITLE }
+            set_variable = { name = nfp30_lead value = flag:NFP43_WELCOME_3_LEAD }
+            set_variable = { name = nfp30_body value = flag:NFP43_WELCOME_3_BODY }
+        }
+        if = { limit = { var:nfp_section = 4 }
+            set_variable = { name = nfp30_headline value = flag:NFP43_WELCOME_4_TITLE }
+            set_variable = { name = nfp30_lead value = flag:NFP43_WELCOME_4_LEAD }
+            set_variable = { name = nfp30_body value = flag:NFP43_WELCOME_4_BODY }
+        }
+    }
+}

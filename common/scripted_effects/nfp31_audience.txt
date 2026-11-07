@@ -1,0 +1,85 @@
+﻿# Audience snapshot for a new fact; root = source country, before reader loop.
+nfp31_prepare_audience = {
+    set_variable = { name = nfp31_f_type value = $type$ }
+    set_variable = { name = nfp31_f_world value = 0 }
+    remove_variable = nfp31_f_primary_region
+    remove_variable = nfp31_f_secondary_region
+    if = { limit = { exists = capital }
+        set_variable = { name = nfp31_f_primary_region value = capital.region }
+    }
+    if = { limit = { var:nfp31_f_type = 10 exists = var:nfp20_f_secondary_country }
+        var:nfp20_f_secondary_country = {
+            if = { limit = { exists = capital }
+                scope:nfp20_source = { set_variable = { name = nfp31_f_secondary_region value = prev.capital.region } }
+            }
+        }
+        if = { limit = { country_rank = rank_value:great_power
+            var:nfp20_f_secondary_country = { country_rank = rank_value:great_power } }
+            set_variable = { name = nfp31_f_world value = 1 }
+        }
+    }
+    # Rank 7 is the existing N08 saved Great Power category, not prestige position.
+    if = { limit = { var:nfp31_f_type = 8 OR = { var:nfp20_f_before = 7 var:nfp20_f_after = 7 } }
+        set_variable = { name = nfp31_f_world value = 1 }
+    }
+}
+
+# Container root = candidate. Values persist; no source-country reference is retained.
+nfp31_capture_audience = {
+    set_variable = { name = nfp31_schema value = 1 }
+    set_variable = { name = nfp31_world value = scope:nfp20_source.var:nfp31_f_world }
+    set_variable = { name = nfp31_legacy value = 0 }
+    if = { limit = { scope:nfp20_source = { has_variable = nfp31_f_primary_region } }
+        set_variable = { name = nfp31_primary_region value = scope:nfp20_source.var:nfp31_f_primary_region }
+    }
+    if = { limit = { scope:nfp20_source = { has_variable = nfp31_f_secondary_region } }
+        set_variable = { name = nfp31_secondary_region value = scope:nfp20_source.var:nfp31_f_secondary_region }
+    }
+}
+
+# Reader root. One-time adaptation of ONLY unprinted legacy candidates, at most 64.
+# Old facts have no historical geography/ranks of both war leaders: reconstruct
+# capital regions once from matching persistent country definitions; never invent
+# historical GP-vs-GP status. Extinct sources remain ineligible abroad unless loud.
+nfp31_migrate_queue = {
+    every_in_list = { variable = nfp20_candidates
+        limit = { NOT = { has_variable = nfp31_schema } }
+        save_scope_as = nfp31_legacy_fact
+        set_variable = { name = nfp31_schema value = 1 }
+        set_variable = { name = nfp31_legacy value = 1 }
+        set_variable = { name = nfp31_world value = 0 }
+        if = { limit = { var:nfp20_type = 8 OR = { var:nfp20_before = 7 var:nfp20_after = 7 } }
+            set_variable = { name = nfp31_world value = 1 }
+        }
+        if = { limit = { var:nfp20_foreign = 1 }
+            every_country = {
+                if = { limit = { country_definition = { this = scope:nfp31_legacy_fact.var:nfp20_source_definition } exists = capital }
+                    scope:nfp31_legacy_fact = { set_variable = { name = nfp31_primary_region value = prev.capital.region } }
+                }
+                if = { limit = { scope:nfp31_legacy_fact = { var:nfp20_type = 10 }
+                    country_definition = { this = scope:nfp31_legacy_fact.var:nfp20_secondary } exists = capital }
+                    scope:nfp31_legacy_fact = { set_variable = { name = nfp31_secondary_region value = prev.capital.region } }
+                }
+            }
+        }
+    }
+}
+
+# New article root. Copy immutable geography and audience explanation into issue.
+nfp31_copy_audience = {
+    set_variable = { name = nfp31_schema value = scope:nfp20_selected_fact.var:nfp31_schema }
+    set_variable = { name = nfp31_world value = scope:nfp20_selected_fact.var:nfp31_world }
+    set_variable = { name = nfp31_legacy value = scope:nfp20_selected_fact.var:nfp31_legacy }
+    set_variable = { name = nfp31_reach value = flag:NFP30_REACH_REGION }
+    if = { limit = { var:nfp20_foreign = 0 }
+        set_variable = { name = nfp31_reach value = flag:NFP30_REACH_DOMESTIC }
+    } else_if = { limit = { var:nfp31_world = 1 }
+        set_variable = { name = nfp31_reach value = flag:NFP30_REACH_WORLD }
+    }
+    if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp31_primary_region } }
+        set_variable = { name = nfp31_primary_region value = scope:nfp20_selected_fact.var:nfp31_primary_region }
+    }
+    if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp31_secondary_region } }
+        set_variable = { name = nfp31_secondary_region value = scope:nfp20_selected_fact.var:nfp31_secondary_region }
+    }
+}

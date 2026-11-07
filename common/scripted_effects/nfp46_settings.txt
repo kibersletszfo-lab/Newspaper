@@ -1,0 +1,9 @@
+﻿# Country root. Removed section preferences must not silence old saves.
+nfp46_all_sections = {
+    if = { limit = { is_player = yes }
+        set_variable = { name = nfp_economy value = 1 }
+        set_variable = { name = nfp_war value = 1 }
+        set_variable = { name = nfp_society value = 1 }
+        set_variable = { name = nfp_events value = 1 }
+    }
+}

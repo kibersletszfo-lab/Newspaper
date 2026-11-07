@@ -1,0 +1,55 @@
+﻿# State scope, after this month's original infrastructure/access observations.
+# A queue clear, expiry or capacity eviction must not silence a live unpublished
+# episode forever. Existing valid candidates and already printed episodes win.
+nfp46_retry_state_warnings = {
+    if = { limit = { infrastructure_delta < 0
+        var:nfp20_infra_active = 1
+        NOT = { var:nfp20_infra_published = var:nfp20_infra_episode }
+    }
+        save_scope_as = nfp46_retry_state
+        owner = {
+            if = { limit = { NOT = { any_in_list = { variable = nfp20_candidates
+                var:nfp20_used = 0 var:nfp20_type = 2 var:nfp20_problem = 1
+                nfp20_candidate_age <= 12
+                var:nfp20_problem_state = scope:nfp46_retry_state
+                var:nfp20_episode = scope:nfp46_retry_state.var:nfp20_infra_episode
+            } } }
+                nfp20_prepare = yes
+                set_variable = { name = nfp20_f_region value = scope:nfp46_retry_state.state_region }
+                set_variable = { name = nfp20_f_problem_state value = scope:nfp46_retry_state }
+                set_variable = { name = nfp20_f_problem value = 1 }
+                set_variable = { name = nfp20_f_episode value = scope:nfp46_retry_state.var:nfp20_infra_episode }
+                set_variable = { name = nfp20_f_before value = 0 }
+                set_variable = { name = nfp20_f_after value = scope:nfp46_retry_state.infrastructure_delta }
+                set_variable = { name = nfp20_f_extra value = 2 }
+                set_variable = { name = nfp20_f_detail value = flag:NFP20_NONE }
+                nfp20_emit = { type = 2 section = 1 body = NFP20_INFRA severity = 80 global = no }
+            }
+        }
+    }
+    if = { limit = { market_access < 0.9
+        var:nfp20_access_active = 1
+        NOT = { var:nfp20_access_published = var:nfp20_access_episode }
+    }
+        save_scope_as = nfp46_retry_state
+        owner = {
+            if = { limit = { NOT = { any_in_list = { variable = nfp20_candidates
+                var:nfp20_used = 0 var:nfp20_type = 2 var:nfp20_problem = 2
+                nfp20_candidate_age <= 12
+                var:nfp20_problem_state = scope:nfp46_retry_state
+                var:nfp20_episode = scope:nfp46_retry_state.var:nfp20_access_episode
+            } } }
+                nfp20_prepare = yes
+                set_variable = { name = nfp20_f_region value = scope:nfp46_retry_state.state_region }
+                set_variable = { name = nfp20_f_problem_state value = scope:nfp46_retry_state }
+                set_variable = { name = nfp20_f_problem value = 2 }
+                set_variable = { name = nfp20_f_episode value = scope:nfp46_retry_state.var:nfp20_access_episode }
+                set_variable = { name = nfp20_f_before value = 0 }
+                set_variable = { name = nfp20_f_after value = scope:nfp46_retry_state.market_access }
+                set_variable = { name = nfp20_f_extra value = 2 }
+                set_variable = { name = nfp20_f_detail value = flag:NFP20_NONE }
+                nfp20_emit = { type = 2 section = 1 body = NFP20_ACCESS severity = 80 global = no }
+            }
+        }
+    }
+}

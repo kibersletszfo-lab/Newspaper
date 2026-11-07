@@ -1,0 +1,137 @@
+﻿# UI delivery state only. Old issues with no unread flag stay read.
+nfp38_assign_header = {
+set_variable = { name = nfp38_header_id value = 0 }
+set_variable = { name = nfp39_header_code value = 0 }
+set_variable = { name = nfp39_style_version value = 1 }
+if = { limit = { country_definition = cd:ARG } set_variable = { name = nfp38_header_id value = 4280903 } set_variable = { name = nfp39_header_code value = 1 } }
+if = { limit = { country_definition = cd:AUS } set_variable = { name = nfp38_header_id value = 4281683 } set_variable = { name = nfp39_header_code value = 2 } }
+if = { limit = { country_definition = cd:BOL } set_variable = { name = nfp38_header_id value = 4345676 } set_variable = { name = nfp39_header_code value = 3 } }
+if = { limit = { country_definition = cd:BRA } set_variable = { name = nfp38_header_id value = 4346433 } set_variable = { name = nfp39_header_code value = 4 } }
+if = { limit = { country_definition = cd:BUL } set_variable = { name = nfp38_header_id value = 4347212 } set_variable = { name = nfp39_header_code value = 5 } }
+if = { limit = { country_definition = cd:CAN } set_variable = { name = nfp38_header_id value = 4407630 } set_variable = { name = nfp39_header_code value = 6 } }
+if = { limit = { country_definition = cd:CHL } set_variable = { name = nfp38_header_id value = 4409420 } set_variable = { name = nfp39_header_code value = 7 } }
+if = { limit = { country_definition = cd:COL } set_variable = { name = nfp38_header_id value = 4411212 } set_variable = { name = nfp39_header_code value = 8 } }
+if = { limit = { country_definition = cd:CRI } set_variable = { name = nfp38_header_id value = 4411977 } set_variable = { name = nfp39_header_code value = 9 } }
+if = { limit = { country_definition = cd:CZH } set_variable = { name = nfp38_header_id value = 4414024 } set_variable = { name = nfp39_header_code value = 10 } }
+if = { limit = { country_definition = cd:ECU } set_variable = { name = nfp38_header_id value = 4539221 } set_variable = { name = nfp39_header_code value = 11 } }
+if = { limit = { country_definition = cd:ELS } set_variable = { name = nfp38_header_id value = 4541523 } set_variable = { name = nfp39_header_code value = 12 } }
+if = { limit = { country_definition = cd:GBR } set_variable = { name = nfp38_header_id value = 4670034 } set_variable = { name = nfp39_header_code value = 13 } }
+if = { limit = { country_definition = cd:FRA } set_variable = { name = nfp38_header_id value = 4608577 } set_variable = { name = nfp39_header_code value = 14 } }
+if = { limit = { country_definition = cd:GER } set_variable = { name = nfp38_header_id value = 4670802 } set_variable = { name = nfp39_header_code value = 15 } }
+if = { limit = { country_definition = cd:GRE } set_variable = { name = nfp38_header_id value = 4674117 } set_variable = { name = nfp39_header_code value = 16 } }
+if = { limit = { country_definition = cd:GUA } set_variable = { name = nfp38_header_id value = 4674881 } set_variable = { name = nfp39_header_code value = 17 } }
+if = { limit = { country_definition = cd:HON } set_variable = { name = nfp38_header_id value = 4738894 } set_variable = { name = nfp39_header_code value = 18 } }
+if = { limit = { country_definition = cd:IRE } set_variable = { name = nfp38_header_id value = 4805189 } set_variable = { name = nfp39_header_code value = 19 } }
+if = { limit = { country_definition = cd:ITA } set_variable = { name = nfp38_header_id value = 4805697 } set_variable = { name = nfp39_header_code value = 20 } }
+if = { limit = { country_definition = cd:JAP } set_variable = { name = nfp38_header_id value = 4866384 } set_variable = { name = nfp39_header_code value = 21 } }
+if = { limit = { country_definition = cd:MEX } set_variable = { name = nfp38_header_id value = 5064024 } set_variable = { name = nfp39_header_code value = 22 } }
+if = { limit = { country_definition = cd:NIC } set_variable = { name = nfp38_header_id value = 5130563 } set_variable = { name = nfp39_header_code value = 23 } }
+if = { limit = { country_definition = cd:TUR } set_variable = { name = nfp38_header_id value = 5526866 } set_variable = { name = nfp39_header_code value = 24 } }
+if = { limit = { country_definition = cd:PAN } set_variable = { name = nfp38_header_id value = 5259598 } set_variable = { name = nfp39_header_code value = 25 } }
+if = { limit = { country_definition = cd:PRG } set_variable = { name = nfp38_header_id value = 5263943 } set_variable = { name = nfp39_header_code value = 26 } }
+if = { limit = { country_definition = cd:POL } set_variable = { name = nfp38_header_id value = 5263180 } set_variable = { name = nfp39_header_code value = 27 } }
+if = { limit = { country_definition = cd:POR } set_variable = { name = nfp38_header_id value = 5263186 } set_variable = { name = nfp39_header_code value = 28 } }
+if = { limit = { country_definition = cd:PRU } set_variable = { name = nfp38_header_id value = 5263957 } set_variable = { name = nfp39_header_code value = 29 } }
+if = { limit = { country_definition = cd:RAJ } set_variable = { name = nfp38_header_id value = 5390666 } set_variable = { name = nfp39_header_code value = 30 } }
+if = { limit = { country_definition = cd:ROM } set_variable = { name = nfp38_header_id value = 5394253 } set_variable = { name = nfp39_header_code value = 31 } }
+if = { limit = { country_definition = cd:RUS } set_variable = { name = nfp38_header_id value = 5395795 } set_variable = { name = nfp39_header_code value = 32 } }
+if = { limit = { country_definition = cd:SPA } set_variable = { name = nfp38_header_id value = 5460033 } set_variable = { name = nfp39_header_code value = 33 } }
+if = { limit = { country_definition = cd:SWI } set_variable = { name = nfp38_header_id value = 5461833 } set_variable = { name = nfp39_header_code value = 34 } }
+if = { limit = { country_definition = cd:URU } set_variable = { name = nfp38_header_id value = 5591637 } set_variable = { name = nfp39_header_code value = 35 } }
+if = { limit = { country_definition = cd:USA } set_variable = { name = nfp38_header_id value = 5591873 } set_variable = { name = nfp39_header_code value = 36 } }
+if = { limit = { country_definition = cd:VNZ } set_variable = { name = nfp38_header_id value = 5656154 } set_variable = { name = nfp39_header_code value = 37 } }
+if = { limit = { country_definition = cd:CHI } set_variable = { name = nfp38_header_id value = 4409417 } set_variable = { name = nfp39_header_code value = 38 } }
+nfp39_migrate_issue_headers = yes
+}
+# Add display-only code; keep published legacy ID and all news facts intact.
+nfp39_migrate_issue_headers = {
+every_in_list = { variable = nfp_issues
+limit = { has_variable = nfp38_header_id NOT = { has_variable = nfp39_header_code } }
+if = { limit = { var:nfp38_header_id = 4280903 } set_variable = { name = nfp39_header_code value = 1 } }
+if = { limit = { var:nfp38_header_id = 4281683 } set_variable = { name = nfp39_header_code value = 2 } }
+if = { limit = { var:nfp38_header_id = 4345676 } set_variable = { name = nfp39_header_code value = 3 } }
+if = { limit = { var:nfp38_header_id = 4346433 } set_variable = { name = nfp39_header_code value = 4 } }
+if = { limit = { var:nfp38_header_id = 4347212 } set_variable = { name = nfp39_header_code value = 5 } }
+if = { limit = { var:nfp38_header_id = 4407630 } set_variable = { name = nfp39_header_code value = 6 } }
+if = { limit = { var:nfp38_header_id = 4409420 } set_variable = { name = nfp39_header_code value = 7 } }
+if = { limit = { var:nfp38_header_id = 4411212 } set_variable = { name = nfp39_header_code value = 8 } }
+if = { limit = { var:nfp38_header_id = 4411977 } set_variable = { name = nfp39_header_code value = 9 } }
+if = { limit = { var:nfp38_header_id = 4414024 } set_variable = { name = nfp39_header_code value = 10 } }
+if = { limit = { var:nfp38_header_id = 4539221 } set_variable = { name = nfp39_header_code value = 11 } }
+if = { limit = { var:nfp38_header_id = 4541523 } set_variable = { name = nfp39_header_code value = 12 } }
+if = { limit = { var:nfp38_header_id = 4670034 } set_variable = { name = nfp39_header_code value = 13 } }
+if = { limit = { var:nfp38_header_id = 4608577 } set_variable = { name = nfp39_header_code value = 14 } }
+if = { limit = { var:nfp38_header_id = 4670802 } set_variable = { name = nfp39_header_code value = 15 } }
+if = { limit = { var:nfp38_header_id = 4674117 } set_variable = { name = nfp39_header_code value = 16 } }
+if = { limit = { var:nfp38_header_id = 4674881 } set_variable = { name = nfp39_header_code value = 17 } }
+if = { limit = { var:nfp38_header_id = 4738894 } set_variable = { name = nfp39_header_code value = 18 } }
+if = { limit = { var:nfp38_header_id = 4805189 } set_variable = { name = nfp39_header_code value = 19 } }
+if = { limit = { var:nfp38_header_id = 4805697 } set_variable = { name = nfp39_header_code value = 20 } }
+if = { limit = { var:nfp38_header_id = 4866384 } set_variable = { name = nfp39_header_code value = 21 } }
+if = { limit = { var:nfp38_header_id = 5064024 } set_variable = { name = nfp39_header_code value = 22 } }
+if = { limit = { var:nfp38_header_id = 5130563 } set_variable = { name = nfp39_header_code value = 23 } }
+if = { limit = { var:nfp38_header_id = 5526866 } set_variable = { name = nfp39_header_code value = 24 } }
+if = { limit = { var:nfp38_header_id = 5259598 } set_variable = { name = nfp39_header_code value = 25 } }
+if = { limit = { var:nfp38_header_id = 5263943 } set_variable = { name = nfp39_header_code value = 26 } }
+if = { limit = { var:nfp38_header_id = 5263180 } set_variable = { name = nfp39_header_code value = 27 } }
+if = { limit = { var:nfp38_header_id = 5263186 } set_variable = { name = nfp39_header_code value = 28 } }
+if = { limit = { var:nfp38_header_id = 5263957 } set_variable = { name = nfp39_header_code value = 29 } }
+if = { limit = { var:nfp38_header_id = 5390666 } set_variable = { name = nfp39_header_code value = 30 } }
+if = { limit = { var:nfp38_header_id = 5394253 } set_variable = { name = nfp39_header_code value = 31 } }
+if = { limit = { var:nfp38_header_id = 5395795 } set_variable = { name = nfp39_header_code value = 32 } }
+if = { limit = { var:nfp38_header_id = 5460033 } set_variable = { name = nfp39_header_code value = 33 } }
+if = { limit = { var:nfp38_header_id = 5461833 } set_variable = { name = nfp39_header_code value = 34 } }
+if = { limit = { var:nfp38_header_id = 5591637 } set_variable = { name = nfp39_header_code value = 35 } }
+if = { limit = { var:nfp38_header_id = 5591873 } set_variable = { name = nfp39_header_code value = 36 } }
+if = { limit = { var:nfp38_header_id = 5656154 } set_variable = { name = nfp39_header_code value = 37 } }
+if = { limit = { var:nfp38_header_id = 4409417 } set_variable = { name = nfp39_header_code value = 38 } }
+}
+}
+nfp38_refresh_unread = {
+save_scope_as = nfp38_counter_owner
+set_variable = { name = nfp38_unread_count value = 0 }
+every_in_list = {
+variable = nfp_issues
+limit = { has_variable = nfp38_unread }
+scope:nfp38_counter_owner = { change_variable = { name = nfp38_unread_count add = 1 } }
+}
+}
+nfp38_mark_selected_read = {
+if = { limit = { has_variable = nfp_selected_issue }
+var:nfp_selected_issue = { remove_variable = nfp38_unread }
+}
+nfp38_refresh_unread = yes
+}
+nfp38_choose_unread = {
+save_scope_as = nfp38_open_owner
+ordered_in_list = {
+variable = nfp_issues
+limit = { has_variable = nfp38_unread }
+order_by = nfp38_newest_order
+position = 0
+check_range_bounds = no
+save_scope_as = nfp38_open_issue
+scope:nfp38_open_owner = { set_variable = { name = nfp_selected_issue value = scope:nfp38_open_issue } }
+}
+}
+nfp38_open_reader = {
+ nfp78_prepare_reader = yes
+nfp_initialize = yes
+nfp_refresh_archive = yes
+nfp38_choose_unread = yes
+set_variable = { name = nfp_window_open value = 1 }
+nfp38_mark_selected_read = yes
+}
+nfp38_close_reader = {
+remove_variable = nfp_setup_pending
+set_variable = { name = nfp_window_open value = 0 }
+nfp51_finish_special = yes
+}
+nfp38_receive_issue = {
+nfp38_assign_header = yes
+scope:nfp_new_issue = {
+if = { limit = { var:nfp_kind < 3 } set_variable = nfp38_unread }
+set_variable = { name = nfp38_header_id value = scope:nfp_reader.var:nfp38_header_id }
+set_variable = { name = nfp39_header_code value = scope:nfp_reader.var:nfp39_header_code }
+}
+}

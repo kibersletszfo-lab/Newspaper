@@ -1,0 +1,105 @@
+﻿# Selected keys and order are persisted in the article container.
+nfp50_add_block = {
+if = {
+ limit = { var:nfp50_count = 0 }
+ set_variable = { name = nfp50_count value = 1 }
+ set_variable = { name = nfp50_visible_1 value = 1 }
+ if = { limit = { var:nfp30_variant = 2 }
+  set_variable = { name = nfp50_block_1 value = flag:$b$ }
+ } else = { set_variable = { name = nfp50_block_1 value = flag:$a$ } }
+}
+else_if = {
+ limit = { var:nfp50_count = 1 }
+ set_variable = { name = nfp50_count value = 2 }
+ set_variable = { name = nfp50_visible_2 value = 1 }
+ if = { limit = { var:nfp30_variant = 2 }
+  set_variable = { name = nfp50_block_2 value = flag:$b$ }
+ } else = { set_variable = { name = nfp50_block_2 value = flag:$a$ } }
+}
+else_if = {
+ limit = { var:nfp50_count = 2 }
+ set_variable = { name = nfp50_count value = 3 }
+ set_variable = { name = nfp50_visible_3 value = 1 }
+ if = { limit = { var:nfp30_variant = 2 }
+  set_variable = { name = nfp50_block_3 value = flag:$b$ }
+ } else = { set_variable = { name = nfp50_block_3 value = flag:$a$ } }
+}
+else_if = {
+ limit = { var:nfp50_count = 3 }
+ set_variable = { name = nfp50_count value = 4 }
+ set_variable = { name = nfp50_visible_4 value = 1 }
+ if = { limit = { var:nfp30_variant = 2 }
+  set_variable = { name = nfp50_block_4 value = flag:$b$ }
+ } else = { set_variable = { name = nfp50_block_4 value = flag:$a$ } }
+}
+else_if = {
+ limit = { var:nfp50_count = 4 }
+ set_variable = { name = nfp50_count value = 5 }
+ set_variable = { name = nfp50_visible_5 value = 1 }
+ if = { limit = { var:nfp30_variant = 2 }
+  set_variable = { name = nfp50_block_5 value = flag:$b$ }
+ } else = { set_variable = { name = nfp50_block_5 value = flag:$a$ } }
+}
+else_if = {
+ limit = { var:nfp50_count = 5 }
+ set_variable = { name = nfp50_count value = 6 }
+ set_variable = { name = nfp50_visible_6 value = 1 }
+ if = { limit = { var:nfp30_variant = 2 }
+  set_variable = { name = nfp50_block_6 value = flag:$b$ }
+ } else = { set_variable = { name = nfp50_block_6 value = flag:$a$ } }
+}
+else_if = {
+ limit = { var:nfp50_count = 6 }
+ set_variable = { name = nfp50_count value = 7 }
+ set_variable = { name = nfp50_visible_7 value = 1 }
+ if = { limit = { var:nfp30_variant = 2 }
+  set_variable = { name = nfp50_block_7 value = flag:$b$ }
+ } else = { set_variable = { name = nfp50_block_7 value = flag:$a$ } }
+}
+else_if = {
+ limit = { var:nfp50_count = 7 }
+ set_variable = { name = nfp50_count value = 8 }
+ set_variable = { name = nfp50_visible_8 value = 1 }
+ if = { limit = { var:nfp30_variant = 2 }
+  set_variable = { name = nfp50_block_8 value = flag:$b$ }
+ } else = { set_variable = { name = nfp50_block_8 value = flag:$a$ } }
+}
+}
+nfp50_add_context = {
+ if = { limit = { var:nfp50_count < 7 OR = { NOT = { has_variable = nfp63_schema } AND = { has_variable = nfp63_schema OR = { var:nfp63_brief = 0 var:nfp50_count < 3 } } } } nfp50_add_block = { a = $a$ b = $b$ } }
+}
+nfp50_layout_article = {
+ remove_variable = nfp63_wrapped
+ set_variable = { name = nfp50_schema value = 1 }
+ set_variable = { name = nfp50_count value = 0 }
+ set_variable = { name = nfp50_block_1 value = flag:NFP50_EMPTY }
+ remove_variable = nfp50_visible_1
+ set_variable = { name = nfp50_block_2 value = flag:NFP50_EMPTY }
+ remove_variable = nfp50_visible_2
+ set_variable = { name = nfp50_block_3 value = flag:NFP50_EMPTY }
+ remove_variable = nfp50_visible_3
+ set_variable = { name = nfp50_block_4 value = flag:NFP50_EMPTY }
+ remove_variable = nfp50_visible_4
+ set_variable = { name = nfp50_block_5 value = flag:NFP50_EMPTY }
+ remove_variable = nfp50_visible_5
+ set_variable = { name = nfp50_block_6 value = flag:NFP50_EMPTY }
+ remove_variable = nfp50_visible_6
+ set_variable = { name = nfp50_block_7 value = flag:NFP50_EMPTY }
+ remove_variable = nfp50_visible_7
+ set_variable = { name = nfp50_block_8 value = flag:NFP50_EMPTY }
+ remove_variable = nfp50_visible_8
+ if = { limit = { has_variable = nfp51_schema } nfp51_format_blocks = yes }
+ else_if = { limit = { has_variable = nfp52_schema } nfp52_format_blocks = yes }
+ else_if = { limit = { has_variable = nfp50_supply } nfp50_format_supply = yes }
+ else_if = { limit = { has_variable = nfp69_new } nfp69_format = yes }
+ else_if = { limit = { has_variable = nfp50_law } nfp50_format_law = yes }
+ else = { nfp50_format_family = yes }
+ # Defensive fallback for accumulated old candidates and unsupported payloads.
+ if = { limit = { var:nfp50_count = 0 }
+  set_variable = { name = nfp50_block_1 value = var:nfp30_body }
+  set_variable = { name = nfp50_count value = 1 }
+  set_variable = { name = nfp50_visible_1 value = 1 }
+ }
+
+nfp63_format = yes
+}

@@ -1,0 +1,11 @@
+﻿
+nfp20_period = { value = year multiply = 12 add = month }
+nfp20_period_gap = { value = nfp20_period subtract = var:nfp20_observed_period }
+nfp20_quarter_gap = { value = nfp20_period subtract = var:nfp20_period_2 }
+nfp20_safe_quarter = { value = nfp20_period subtract = var:nfp20_territory_period }
+nfp20_growth = { value = gdp divide = var:nfp20_gdp_2 subtract = 1 }
+nfp20_sol_fall = { value = var:nfp20_sol_2 subtract = average_sol }
+nfp20_candidate_age = { value = nfp20_period subtract = var:nfp20_period }
+# Fixed integer score: priority minus age, FIFO ties through monotonic reader ID.
+nfp20_editor_order = { value = var:nfp20_priority multiply = 1000000 subtract = var:nfp20_id subtract = { value = nfp20_candidate_age multiply = 2000000 } }
+nfp20_discard_order = { value = nfp20_editor_order multiply = -1 }

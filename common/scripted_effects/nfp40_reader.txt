@@ -1,0 +1,4 @@
+﻿# Client-triggered cover visibility only; no delivery or story changes.
+nfp40_event_open = { change_variable = { name = nfp40_event_count add = 1 } }
+nfp40_event_closed = { if = { limit = { var:nfp40_event_count > 0 } change_variable = { name = nfp40_event_count add = -1 } } }
+nfp40_reset_event_cover = { set_variable = { name = nfp40_event_count value = 0 } }

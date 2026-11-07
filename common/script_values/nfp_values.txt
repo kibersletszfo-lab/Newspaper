@@ -1,0 +1,5 @@
+﻿# ordered_in_list sorts highest first; negate the issue number to select oldest.
+nfp_oldest_order = {
+    value = var:nfp_number
+    multiply = -1
+}

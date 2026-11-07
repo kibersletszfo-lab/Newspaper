@@ -1,0 +1,9 @@
+.vscode/
+.idea/
+.px-toolkit/
+.pxignore
+__pycache__/
+*.pyc
+*.zip
+Thumbs.db
+.DS_Store

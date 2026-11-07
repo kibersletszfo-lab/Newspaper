@@ -1,0 +1,64 @@
+﻿# Private newspaper font. No global vanilla font aliases are replaced.
+
+fontfiles = {
+    name = "NFPNewspaper-Regular"
+    always_load = yes
+    group = {
+        languages = { "l_english" "l_braz_por" "l_french" "l_german" "l_polish" "l_russian" "l_spanish" "l_turkish" "l_japanese" "l_korean" "l_simp_chinese" }
+        files = {
+            "fonts/NFPNewspaper/OldStandard-Regular.ttf"
+            "fonts/NotoSerif/NotoSerif-Regular.ttf"
+            "fonts/NotoSerif/NotoSerifJP-Regular.otf"
+            "fonts/NotoSerif/NotoSerifKR-Regular.otf"
+            "fonts/NotoSerif/NotoSerifSC-Regular.otf"
+        }
+    }
+}
+
+fontfiles = {
+    name = "NFPNewspaper-Bold"
+    always_load = yes
+    group = {
+        languages = { "l_english" "l_braz_por" "l_french" "l_german" "l_polish" "l_russian" "l_spanish" "l_turkish" "l_japanese" "l_korean" "l_simp_chinese" }
+        files = {
+            "fonts/NFPNewspaper/OldStandard-Bold.ttf"
+            "fonts/NotoSerif/NotoSerif-Bold.ttf"
+            "fonts/NotoSerif/NotoSerifJP-Regular.otf"
+            "fonts/NotoSerif/NotoSerifKR-Regular.otf"
+            "fonts/NotoSerif/NotoSerifSC-Regular.otf"
+        }
+    }
+}
+
+fontfiles = {
+    name = "NFPNewspaper-Italic"
+    always_load = yes
+    group = {
+        languages = { "l_english" "l_braz_por" "l_french" "l_german" "l_polish" "l_russian" "l_spanish" "l_turkish" "l_japanese" "l_korean" "l_simp_chinese" }
+        files = {
+            "fonts/NFPNewspaper/OldStandard-Italic.ttf"
+            "fonts/NotoSerif/NotoSerif-Italic.ttf"
+            "fonts/NotoSerif/NotoSerifJP-Regular.otf"
+            "fonts/NotoSerif/NotoSerifKR-Regular.otf"
+            "fonts/NotoSerif/NotoSerifSC-Regular.otf"
+        }
+    }
+}
+
+font = {
+    name = "NFPNewspaper"
+    fontstyle = { style = regular fontfiles = "NFPNewspaper-Regular" }
+    fontstyle = { style = bold fontfiles = "NFPNewspaper-Regular" }
+    fontstyle = { style = italic fontfiles = "NFPNewspaper-Italic" }
+    # Newspaper typography: inherited bold requests use normal weight.
+    fontstyle = { style = bold|italic fontfiles = "NFPNewspaper-Italic" }
+}
+
+# Scoped article headlines; body bold requests remain suppressed.
+font = {
+    name = "NFPNewspaperHeadline"
+    fontstyle = { style = regular fontfiles = "NFPNewspaper-Bold" }
+    fontstyle = { style = bold fontfiles = "NFPNewspaper-Bold" }
+    fontstyle = { style = italic fontfiles = "NFPNewspaper-Bold" }
+    fontstyle = { style = bold|italic fontfiles = "NFPNewspaper-Bold" }
+}

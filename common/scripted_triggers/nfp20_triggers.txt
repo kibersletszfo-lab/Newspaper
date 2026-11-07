@@ -1,0 +1,38 @@
+﻿nfp20_eligible = {
+nfp51_delivery_eligible = yes
+var:nfp20_used = 0 nfp20_candidate_age <= 12 nfp20_live_warning = yes nfp31_candidate_relevant = yes OR = { AND = { var:nfp_section = 1 scope:nfp_reader = { var:nfp_economy = 1 } } AND = { var:nfp_section = 2 scope:nfp_reader = { var:nfp_war = 1 } } AND = { var:nfp_section = 3 scope:nfp_reader = { var:nfp_society = 1 } } AND = { var:nfp_section = 4 scope:nfp_reader = { var:nfp_events = 1 } } } OR = { scope:nfp_reader = { var:nfp20_print_kind < 3 } var:nfp20_urgent = 1 }
+}
+nfp20_type_room = {
+OR = { AND = { has_variable = nfp52_schema var:nfp20_type >= 40 var:nfp20_type <= 55 } AND = { var:nfp20_type = 1 scope:nfp_reader = { var:nfp20_chosen_1 < 2 } } AND = { var:nfp20_type = 2 scope:nfp_reader = { var:nfp20_chosen_2 < 2 } } AND = { var:nfp20_type = 3 scope:nfp_reader = { var:nfp20_chosen_3 < 2 } } AND = { var:nfp20_type = 4 scope:nfp_reader = { var:nfp20_chosen_4 < 2 } } AND = { var:nfp20_type = 5 scope:nfp_reader = { var:nfp20_chosen_5 < 2 } } AND = { var:nfp20_type = 6 scope:nfp_reader = { var:nfp20_chosen_6 < 2 } } AND = { var:nfp20_type = 7 scope:nfp_reader = { var:nfp20_chosen_7 < 2 } } AND = { var:nfp20_type = 8 scope:nfp_reader = { var:nfp20_chosen_8 < 2 } } AND = { var:nfp20_type = 9 scope:nfp_reader = { var:nfp20_chosen_9 < 2 } } AND = { var:nfp20_type = 10 scope:nfp_reader = { var:nfp20_chosen_10 < 2 } } AND = { var:nfp20_type = 11 scope:nfp_reader = { var:nfp20_chosen_11 < 2 } } AND = { var:nfp20_type = 29 scope:nfp_reader = { var:nfp20_chosen_29 < 2 } } AND = { var:nfp20_type = 30 scope:nfp_reader = { var:nfp20_chosen_30 < 2 } } AND = { var:nfp20_type = 31 scope:nfp_reader = { var:nfp20_chosen_31 < 2 } } AND = { var:nfp20_type = 24 scope:nfp_reader = { var:nfp20_chosen_24 < 1 } } AND = { var:nfp20_type = 21 scope:nfp_reader = { var:nfp20_chosen_21 < 2 } } AND = { var:nfp20_type = 22 scope:nfp_reader = { var:nfp20_chosen_22 < 2 } } AND = { var:nfp20_type = 23 scope:nfp_reader = { var:nfp20_chosen_23 < 2 } } }
+}
+nfp20_live_warning = {
+trigger_if = { limit = { var:nfp20_type = 3 var:nfp20_problem = 7 } nfp46_warning_live = yes }
+trigger_if = { limit = { var:nfp20_type = 4 var:nfp20_problem = 7 } nfp46_recovery_live = yes }
+trigger_if = { limit = { var:nfp20_type = 24 }
+    scope:nfp_reader = { in_election_campaign = yes var:nfp43_campaign = prev.var:nfp43_campaign }
+}
+trigger_if = { limit = { var:nfp20_type = 2 var:nfp20_problem = 1 }
+        exists = var:nfp20_problem_state
+        var:nfp20_problem_state = { owner = scope:nfp_reader var:nfp20_infra_active = 1 var:nfp20_infra_episode = prev.var:nfp20_episode }
+    }
+trigger_if = { limit = { var:nfp20_type = 2 var:nfp20_problem = 2 }
+        exists = var:nfp20_problem_state
+        var:nfp20_problem_state = { owner = scope:nfp_reader var:nfp20_access_active = 1 var:nfp20_access_episode = prev.var:nfp20_episode }
+    }
+trigger_if = { limit = { var:nfp20_type = 3 var:nfp20_problem = 3 }
+        scope:nfp_reader = { var:nfp20_short_grain_active = 1 var:nfp20_short_grain_episode = prev.var:nfp20_episode }
+    }
+trigger_if = { limit = { var:nfp20_type = 3 var:nfp20_problem = 4 }
+        scope:nfp_reader = { var:nfp20_short_coal_active = 1 var:nfp20_short_coal_episode = prev.var:nfp20_episode }
+    }
+trigger_if = { limit = { var:nfp20_type = 3 var:nfp20_problem = 5 }
+        scope:nfp_reader = { var:nfp20_short_iron_active = 1 var:nfp20_short_iron_episode = prev.var:nfp20_episode }
+    }
+trigger_if = { limit = { var:nfp20_type = 3 var:nfp20_problem = 6 }
+        scope:nfp_reader = { var:nfp20_short_tools_active = 1 var:nfp20_short_tools_episode = prev.var:nfp20_episode }
+    }
+
+}
+nfp20_rubric_enabled = {
+OR = { AND = { var:nfp_section = 1 scope:nfp_reader = { var:nfp_economy = 1 } } AND = { var:nfp_section = 2 scope:nfp_reader = { var:nfp_war = 1 } } AND = { var:nfp_section = 3 scope:nfp_reader = { var:nfp_society = 1 } } AND = { var:nfp_section = 4 scope:nfp_reader = { var:nfp_events = 1 } } }
+}

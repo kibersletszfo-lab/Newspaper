@@ -1,0 +1,751 @@
+﻿# Additive native hook. Native documentation says country scope before end.
+on_law_enactment_pass = { on_actions = { nfp50_law_prepass } }
+nfp50_law_prepass = {
+    trigger = { exists = currently_enacting_law }
+    effect = {
+        remove_variable = nfp50_law_prepass_ready
+if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_peasant_levies } } }
+            nfp50_law_snapshot = { law = law_peasant_levies mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_caesaropapism } } }
+            nfp50_law_snapshot = { law = law_caesaropapism mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_communal_administration } } }
+            nfp50_law_snapshot = { law = law_communal_administration mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_extraordinary_commission } } }
+            nfp50_law_snapshot = { law = law_extraordinary_commission mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_internal_colonization } } }
+            nfp50_law_snapshot = { law = law_internal_colonization mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_labour_suffrage } } }
+            nfp50_law_snapshot = { law = law_labour_suffrage mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_military_bureaucrats } } }
+            nfp50_law_snapshot = { law = law_military_bureaucrats mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_official_nationality } } }
+            nfp50_law_snapshot = { law = law_official_nationality mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_okhrana } } }
+            nfp50_law_snapshot = { law = law_okhrana mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_revolutionary_guard } } }
+            nfp50_law_snapshot = { law = law_revolutionary_guard mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_third_section } } }
+            nfp50_law_snapshot = { law = law_third_section mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_warrior_caste } } }
+            nfp50_law_snapshot = { law = law_warrior_caste mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_professional_army } } }
+            nfp50_law_snapshot = { law = law_professional_army mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_national_militia } } }
+            nfp50_law_snapshot = { law = law_national_militia mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_mass_conscription } } }
+            nfp50_law_snapshot = { law = law_mass_conscription mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_hereditary_bureaucrats } } }
+            nfp50_law_snapshot = { law = law_hereditary_bureaucrats mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_crownland_diets } } }
+            nfp50_law_snapshot = { law = law_crownland_diets mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_appointed_bureaucrats } } }
+            nfp50_law_snapshot = { law = law_appointed_bureaucrats mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_elected_bureaucrats } } }
+            nfp50_law_snapshot = { law = law_elected_bureaucrats mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_hindu_caste_enforced } } }
+            nfp50_law_snapshot = { law = law_hindu_caste_enforced mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_hindu_caste_codified } } }
+            nfp50_law_snapshot = { law = law_hindu_caste_codified mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_hindu_caste_not_enforced } } }
+            nfp50_law_snapshot = { law = law_hindu_caste_not_enforced mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_affirmative_action } } }
+            nfp50_law_snapshot = { law = law_affirmative_action mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_strict_edo_system } } }
+            nfp50_law_snapshot = { law = law_strict_edo_system mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_intermediate_edo_system } } }
+            nfp50_law_snapshot = { law = law_intermediate_edo_system mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_lax_edo_system } } }
+            nfp50_law_snapshot = { law = law_lax_edo_system mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_state_religion } } }
+            nfp50_law_snapshot = { law = law_state_religion mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_millet_system } } }
+            nfp50_law_snapshot = { law = law_millet_system mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_people_of_the_book } } }
+            nfp50_law_snapshot = { law = law_people_of_the_book mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_freedom_of_conscience } } }
+            nfp50_law_snapshot = { law = law_freedom_of_conscience mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_total_separation } } }
+            nfp50_law_snapshot = { law = law_total_separation mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_state_atheism } } }
+            nfp50_law_snapshot = { law = law_state_atheism mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_subjecthood } } }
+            nfp50_law_snapshot = { law = law_subjecthood mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_ethnostate } } }
+            nfp50_law_snapshot = { law = law_ethnostate mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_national_supremacy } } }
+            nfp50_law_snapshot = { law = law_national_supremacy mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_racial_segregation } } }
+            nfp50_law_snapshot = { law = law_racial_segregation mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_cultural_exclusion } } }
+            nfp50_law_snapshot = { law = law_cultural_exclusion mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_multicultural } } }
+            nfp50_law_snapshot = { law = law_multicultural mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_autocracy } } }
+            nfp50_law_snapshot = { law = law_autocracy mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_bakufu } } }
+            nfp50_law_snapshot = { law = law_bakufu mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_neo_absolutism } } }
+            nfp50_law_snapshot = { law = law_neo_absolutism mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_technocracy } } }
+            nfp50_law_snapshot = { law = law_technocracy mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_oligarchy } } }
+            nfp50_law_snapshot = { law = law_oligarchy mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_organic_regulation } } }
+            nfp50_law_snapshot = { law = law_organic_regulation mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_elder_council } } }
+            nfp50_law_snapshot = { law = law_elder_council mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_landed_voting } } }
+            nfp50_law_snapshot = { law = law_landed_voting mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_wealth_voting } } }
+            nfp50_law_snapshot = { law = law_wealth_voting mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_census_voting } } }
+            nfp50_law_snapshot = { law = law_census_voting mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_universal_suffrage } } }
+            nfp50_law_snapshot = { law = law_universal_suffrage mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_anarchy } } }
+            nfp50_law_snapshot = { law = law_anarchy mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_single_party_state } } }
+            nfp50_law_snapshot = { law = law_single_party_state mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_chiefdom } } }
+            nfp50_law_snapshot = { law = law_chiefdom mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_monarchy } } }
+            nfp50_law_snapshot = { law = law_monarchy mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_colonial_administration } } }
+            nfp50_law_snapshot = { law = law_colonial_administration mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_presidential_republic } } }
+            nfp50_law_snapshot = { law = law_presidential_republic mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_parliamentary_republic } } }
+            nfp50_law_snapshot = { law = law_parliamentary_republic mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_theocracy } } }
+            nfp50_law_snapshot = { law = law_theocracy mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_council_republic } } }
+            nfp50_law_snapshot = { law = law_council_republic mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_corporate_state } } }
+            nfp50_law_snapshot = { law = law_corporate_state mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_social_monarchy } } }
+            nfp50_law_snapshot = { law = law_social_monarchy mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_no_home_affairs } } }
+            nfp50_law_snapshot = { law = law_no_home_affairs mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_national_guard } } }
+            nfp50_law_snapshot = { law = law_national_guard mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_secret_police } } }
+            nfp50_law_snapshot = { law = law_secret_police mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_shinsengumi } } }
+            nfp50_law_snapshot = { law = law_shinsengumi mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_guaranteed_liberties } } }
+            nfp50_law_snapshot = { law = law_guaranteed_liberties mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_merchant_navy } } }
+            nfp50_law_snapshot = { law = law_merchant_navy mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_jeune_ecole } } }
+            nfp50_law_snapshot = { law = law_jeune_ecole mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_professional_navy } } }
+            nfp50_law_snapshot = { law = law_professional_navy mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_diplomatic_navy } } }
+            nfp50_law_snapshot = { law = law_diplomatic_navy mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_no_colonial_affairs } } }
+            nfp50_law_snapshot = { law = law_no_colonial_affairs mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_frontier_colonization } } }
+            nfp50_law_snapshot = { law = law_frontier_colonization mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_colonial_resettlement } } }
+            nfp50_law_snapshot = { law = law_colonial_resettlement mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_colonial_exploitation } } }
+            nfp50_law_snapshot = { law = law_colonial_exploitation mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_traditionalism } } }
+            nfp50_law_snapshot = { law = law_traditionalism mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_interventionism } } }
+            nfp50_law_snapshot = { law = law_interventionism mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_agrarianism } } }
+            nfp50_law_snapshot = { law = law_agrarianism mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_industry_banned } } }
+            nfp50_law_snapshot = { law = law_industry_banned mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_extraction_economy } } }
+            nfp50_law_snapshot = { law = law_extraction_economy mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_laissez_faire } } }
+            nfp50_law_snapshot = { law = law_laissez_faire mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_cooperative_ownership } } }
+            nfp50_law_snapshot = { law = law_cooperative_ownership mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_command_economy } } }
+            nfp50_law_snapshot = { law = law_command_economy mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_no_schools } } }
+            nfp50_law_snapshot = { law = law_no_schools mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_religious_schools } } }
+            nfp50_law_snapshot = { law = law_religious_schools mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_private_schools } } }
+            nfp50_law_snapshot = { law = law_private_schools mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_terakoya } } }
+            nfp50_law_snapshot = { law = law_terakoya mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_public_schools } } }
+            nfp50_law_snapshot = { law = law_public_schools mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_no_health_system } } }
+            nfp50_law_snapshot = { law = law_no_health_system mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_charitable_health_system } } }
+            nfp50_law_snapshot = { law = law_charitable_health_system mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_private_health_insurance } } }
+            nfp50_law_snapshot = { law = law_private_health_insurance mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_public_health_insurance } } }
+            nfp50_law_snapshot = { law = law_public_health_insurance mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_serfdom } } }
+            nfp50_law_snapshot = { law = law_serfdom mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_manorialism } } }
+            nfp50_law_snapshot = { law = law_manorialism mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_tenant_farmers } } }
+            nfp50_law_snapshot = { law = law_tenant_farmers mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_latifundias } } }
+            nfp50_law_snapshot = { law = law_latifundias mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_expanded_latifundias } } }
+            nfp50_law_snapshot = { law = law_expanded_latifundias mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_commercialized_agriculture } } }
+            nfp50_law_snapshot = { law = law_commercialized_agriculture mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_peasant_proprietorship } } }
+            nfp50_law_snapshot = { law = law_peasant_proprietorship mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_homesteading } } }
+            nfp50_law_snapshot = { law = law_homesteading mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_collectivized_agriculture } } }
+            nfp50_law_snapshot = { law = law_collectivized_agriculture mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_no_police } } }
+            nfp50_law_snapshot = { law = law_no_police mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_local_police } } }
+            nfp50_law_snapshot = { law = law_local_police mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_dedicated_police } } }
+            nfp50_law_snapshot = { law = law_dedicated_police mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_militarized_police } } }
+            nfp50_law_snapshot = { law = law_militarized_police mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_consumption_based_taxation } } }
+            nfp50_law_snapshot = { law = law_consumption_based_taxation mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_land_based_taxation } } }
+            nfp50_law_snapshot = { law = law_land_based_taxation mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_per_capita_based_taxation } } }
+            nfp50_law_snapshot = { law = law_per_capita_based_taxation mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_proportional_taxation } } }
+            nfp50_law_snapshot = { law = law_proportional_taxation mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_graduated_taxation } } }
+            nfp50_law_snapshot = { law = law_graduated_taxation mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_mercantilism } } }
+            nfp50_law_snapshot = { law = law_mercantilism mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_protectionism } } }
+            nfp50_law_snapshot = { law = law_protectionism mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_free_trade } } }
+            nfp50_law_snapshot = { law = law_free_trade mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_isolationism } } }
+            nfp50_law_snapshot = { law = law_isolationism mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_canton_system } } }
+            nfp50_law_snapshot = { law = law_canton_system mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_sakoku } } }
+            nfp50_law_snapshot = { law = law_sakoku mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_child_labor_allowed } } }
+            nfp50_law_snapshot = { law = law_child_labor_allowed mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_restricted_child_labor } } }
+            nfp50_law_snapshot = { law = law_restricted_child_labor mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_compulsory_primary_school } } }
+            nfp50_law_snapshot = { law = law_compulsory_primary_school mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_outlawed_dissent } } }
+            nfp50_law_snapshot = { law = law_outlawed_dissent mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_censorship } } }
+            nfp50_law_snapshot = { law = law_censorship mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_right_of_assembly } } }
+            nfp50_law_snapshot = { law = law_right_of_assembly mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_protected_speech } } }
+            nfp50_law_snapshot = { law = law_protected_speech mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_no_workers_rights } } }
+            nfp50_law_snapshot = { law = law_no_workers_rights mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_regulatory_bodies } } }
+            nfp50_law_snapshot = { law = law_regulatory_bodies mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_worker_protections } } }
+            nfp50_law_snapshot = { law = law_worker_protections mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_guild_system } } }
+            nfp50_law_snapshot = { law = law_guild_system mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_combination_acts } } }
+            nfp50_law_snapshot = { law = law_combination_acts mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_anti_strike_laws } } }
+            nfp50_law_snapshot = { law = law_anti_strike_laws mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_right_to_associate } } }
+            nfp50_law_snapshot = { law = law_right_to_associate mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_corporatized_unions } } }
+            nfp50_law_snapshot = { law = law_corporatized_unions mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_factory_councils } } }
+            nfp50_law_snapshot = { law = law_factory_councils mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_no_migration_controls } } }
+            nfp50_law_snapshot = { law = law_no_migration_controls mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_migration_controls } } }
+            nfp50_law_snapshot = { law = law_migration_controls mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_closed_borders } } }
+            nfp50_law_snapshot = { law = law_closed_borders mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_no_womens_rights } } }
+            nfp50_law_snapshot = { law = law_no_womens_rights mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_women_in_the_fields } } }
+            nfp50_law_snapshot = { law = law_women_in_the_fields mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_women_own_property } } }
+            nfp50_law_snapshot = { law = law_women_own_property mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_women_in_the_workplace } } }
+            nfp50_law_snapshot = { law = law_women_in_the_workplace mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_womens_suffrage } } }
+            nfp50_law_snapshot = { law = law_womens_suffrage mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_slavery_banned } } }
+            nfp50_law_snapshot = { law = law_slavery_banned mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_colonial_slavery } } }
+            nfp50_law_snapshot = { law = law_colonial_slavery mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_debt_slavery } } }
+            nfp50_law_snapshot = { law = law_debt_slavery mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_slave_trade } } }
+            nfp50_law_snapshot = { law = law_slave_trade mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_legacy_slavery } } }
+            nfp50_law_snapshot = { law = law_legacy_slavery mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_no_social_security } } }
+            nfp50_law_snapshot = { law = law_no_social_security mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_chiefs_distribute_aid } } }
+            nfp50_law_snapshot = { law = law_chiefs_distribute_aid mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_poor_laws } } }
+            nfp50_law_snapshot = { law = law_poor_laws mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_wage_subsidies } } }
+            nfp50_law_snapshot = { law = law_wage_subsidies mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+else_if = {
+            limit = { currently_enacting_law = { type = { this = law_type:law_old_age_pension } } }
+            nfp50_law_snapshot = { law = law_old_age_pension mode = 1 stance = law_enactment_stance }
+            set_variable = { name = nfp50_law_prepass_ready value = 1 days = 2 }
+        }
+    }
+}
+# on_law_activated root is Law, and this runs AFTER nfp20_law has emitted all
+# recipient snapshots. A later direct activation cannot reuse this prepass.
+nfp50_law_clear = { effect = { owner = { remove_variable = nfp50_law_prepass_ready } } }

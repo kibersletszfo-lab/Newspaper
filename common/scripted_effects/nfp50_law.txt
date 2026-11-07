@@ -1,0 +1,1045 @@
+﻿# InterestGroup scope; country destination saved by snapshot.
+nfp50_law_capture_ig = {
+    scope:nfp50_law_owner = {
+        change_variable = { name = nfp50_law_ig_count add = 1 }
+        set_variable = { name = nfp50_law_ig_$row$_population value = prev.interest_group_population }
+        set_variable = { name = nfp50_law_ig_$row$_pop_pct value = prev.nfp50_law_ig_pop_pct }
+        set_variable = { name = nfp50_law_ig_$row$_clout value = prev.nfp50_law_ig_clout }
+    }
+    if = { limit = { $stance$ = { law = law_type:$law$ value > neutral } }
+        scope:nfp50_law_owner = { set_variable = { name = nfp50_law_ig_$row$_stance value = flag:NFP50_LAW_APPROVE } }
+    }
+    else_if = { limit = { $stance$ = { law = law_type:$law$ value < neutral } }
+        scope:nfp50_law_owner = { set_variable = { name = nfp50_law_ig_$row$_stance value = flag:NFP50_LAW_OPPOSE } }
+    }
+if = { limit = { is_interest_group_type = ig_armed_forces } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_ig_$row$_type value = flag:ig_armed_forces } } }
+else_if = { limit = { is_interest_group_type = ig_devout } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_ig_$row$_type value = flag:ig_devout } } }
+else_if = { limit = { is_interest_group_type = ig_industrialists } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_ig_$row$_type value = flag:ig_industrialists } } }
+else_if = { limit = { is_interest_group_type = ig_intelligentsia } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_ig_$row$_type value = flag:ig_intelligentsia } } }
+else_if = { limit = { is_interest_group_type = ig_landowners } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_ig_$row$_type value = flag:ig_landowners } } }
+else_if = { limit = { is_interest_group_type = ig_petty_bourgeoisie } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_ig_$row$_type value = flag:ig_petty_bourgeoisie } } }
+else_if = { limit = { is_interest_group_type = ig_rural_folk } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_ig_$row$_type value = flag:ig_rural_folk } } }
+else_if = { limit = { is_interest_group_type = ig_trade_unions } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_ig_$row$_type value = flag:ig_trade_unions } } }
+}
+
+# Movement scope. Store native type and scalar values, never object refs.
+nfp50_law_capture_movement = {
+    scope:nfp50_law_owner = {
+        set_variable = { name = nfp50_law_move_$side$_present value = 1 }
+        set_variable = { name = nfp50_law_move_$side$_support value = prev.political_movement_support }
+        set_variable = { name = nfp50_law_move_$side$_radicalism value = prev.political_movement_radicalism }
+    }
+if = { limit = { is_political_movement_type = movement_anti_slavery } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_anti_slavery } } }
+else_if = { limit = { is_political_movement_type = movement_pro_slavery } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_pro_slavery } } }
+else_if = { limit = { is_political_movement_type = movement_royalist_absolutist } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_royalist_absolutist } } }
+else_if = { limit = { is_political_movement_type = movement_royalist_constitutional } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_royalist_constitutional } } }
+else_if = { limit = { is_political_movement_type = movement_labor } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_labor } } }
+else_if = { limit = { is_political_movement_type = movement_socialist } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_socialist } } }
+else_if = { limit = { is_political_movement_type = movement_anarchist } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_anarchist } } }
+else_if = { limit = { is_political_movement_type = movement_communist } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_communist } } }
+else_if = { limit = { is_political_movement_type = movement_fascist } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_fascist } } }
+else_if = { limit = { is_political_movement_type = movement_corporatist } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_corporatist } } }
+else_if = { limit = { is_political_movement_type = movement_liberal } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_liberal } } }
+else_if = { limit = { is_political_movement_type = movement_radical } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_radical } } }
+else_if = { limit = { is_political_movement_type = movement_nihilist } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_nihilist } } }
+else_if = { limit = { is_political_movement_type = movement_positivist } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_positivist } } }
+else_if = { limit = { is_political_movement_type = movement_land_reform } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_land_reform } } }
+else_if = { limit = { is_political_movement_type = movement_feminist } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_feminist } } }
+else_if = { limit = { is_political_movement_type = movement_reactionary } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_reactionary } } }
+else_if = { limit = { is_political_movement_type = movement_modernizer } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_modernizer } } }
+else_if = { limit = { is_political_movement_type = movement_religious_majority } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_religious_majority } } }
+else_if = { limit = { is_political_movement_type = movement_religious_minority } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_religious_minority } } }
+else_if = { limit = { is_political_movement_type = movement_cultural_majority } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_cultural_majority } } }
+else_if = { limit = { is_political_movement_type = movement_cultural_minority } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_cultural_minority } } }
+else_if = { limit = { is_political_movement_type = movement_minority_rights } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_minority_rights } } }
+else_if = { limit = { is_political_movement_type = movement_utilitarian } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_utilitarian } } }
+else_if = { limit = { is_political_movement_type = movement_orleanist } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_orleanist } } }
+else_if = { limit = { is_political_movement_type = movement_bonapartist } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_bonapartist } } }
+else_if = { limit = { is_political_movement_type = movement_legitimist } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_legitimist } } }
+else_if = { limit = { is_political_movement_type = movement_carlist } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_carlist } } }
+else_if = { limit = { is_political_movement_type = movement_miguelist } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_miguelist } } }
+else_if = { limit = { is_political_movement_type = movement_meiji_restorationist } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_meiji_restorationist } } }
+else_if = { limit = { is_political_movement_type = movement_tokugawa_loyalist } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_tokugawa_loyalist } } }
+else_if = { limit = { is_political_movement_type = movement_hindu_nationalist } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_hindu_nationalist } } }
+else_if = { limit = { is_political_movement_type = movement_muslim_nationalist } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_muslim_nationalist } } }
+else_if = { limit = { is_political_movement_type = movement_india_pan_national } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_india_pan_national } } }
+else_if = { limit = { is_political_movement_type = movement_german_national } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_german_national } } }
+else_if = { limit = { is_political_movement_type = movement_italian_national } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_italian_national } } }
+else_if = { limit = { is_political_movement_type = movement_yugoslav_national } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_yugoslav_national } } }
+else_if = { limit = { is_political_movement_type = movement_dominican_national } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_dominican_national } } }
+else_if = { limit = { is_political_movement_type = movement_slave_revolt } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_move_$side$_type value = flag:movement_slave_revolt } } }
+}
+
+# The strongest named representative does NOT replace the full sum.
+nfp50_law_capture_gov = {
+    scope:nfp50_law_owner = {
+        set_variable = { name = nfp50_law_gov_$side$_present value = 1 }
+    }
+if = { limit = { is_interest_group_type = ig_armed_forces } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_gov_$side$_type value = flag:ig_armed_forces } } }
+else_if = { limit = { is_interest_group_type = ig_devout } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_gov_$side$_type value = flag:ig_devout } } }
+else_if = { limit = { is_interest_group_type = ig_industrialists } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_gov_$side$_type value = flag:ig_industrialists } } }
+else_if = { limit = { is_interest_group_type = ig_intelligentsia } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_gov_$side$_type value = flag:ig_intelligentsia } } }
+else_if = { limit = { is_interest_group_type = ig_landowners } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_gov_$side$_type value = flag:ig_landowners } } }
+else_if = { limit = { is_interest_group_type = ig_petty_bourgeoisie } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_gov_$side$_type value = flag:ig_petty_bourgeoisie } } }
+else_if = { limit = { is_interest_group_type = ig_rural_folk } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_gov_$side$_type value = flag:ig_rural_folk } } }
+else_if = { limit = { is_interest_group_type = ig_trade_unions } scope:nfp50_law_owner = { set_variable = { name = nfp50_law_gov_$side$_type value = flag:ig_trade_unions } } }
+}
+
+# Country scope; called only for the five watched laws, at the event.
+# Country scope; called only for the five watched laws, at the event.
+nfp50_law_snapshot = {
+    save_scope_as = nfp50_law_owner
+set_variable = { name = nfp50_law value = 1 }
+set_variable = { name = nfp50_law_key value = flag:NFP50_LAW_NONE }
+set_variable = { name = nfp50_law_mode value = 0 }
+set_variable = { name = nfp50_law_gov_count value = 0 }
+set_variable = { name = nfp50_law_old_known value = 0 }
+set_variable = { name = nfp50_law_old value = flag:NFP50_LAW_NONE }
+set_variable = { name = nfp50_law_gov_summary value = flag:NFP50_LAW_GOV_NEUTRAL }
+set_variable = { name = nfp50_law_gov_yes value = 0 }
+set_variable = { name = nfp50_law_gov_no value = 0 }
+set_variable = { name = nfp50_law_gov_neutral value = 0 }
+set_variable = { name = nfp50_law_ig_count value = 0 }
+set_variable = { name = nfp50_law_ig_1_type value = flag:NFP50_LAW_IG_OTHER }
+set_variable = { name = nfp50_law_ig_1_stance value = flag:NFP50_LAW_NEUTRAL }
+set_variable = { name = nfp50_law_ig_1_population value = 0 }
+set_variable = { name = nfp50_law_ig_1_pop_pct value = 0 }
+set_variable = { name = nfp50_law_ig_1_clout value = 0 }
+set_variable = { name = nfp50_law_ig_2_type value = flag:NFP50_LAW_IG_OTHER }
+set_variable = { name = nfp50_law_ig_2_stance value = flag:NFP50_LAW_NEUTRAL }
+set_variable = { name = nfp50_law_ig_2_population value = 0 }
+set_variable = { name = nfp50_law_ig_2_pop_pct value = 0 }
+set_variable = { name = nfp50_law_ig_2_clout value = 0 }
+set_variable = { name = nfp50_law_gov_yes_present value = 0 }
+set_variable = { name = nfp50_law_gov_yes_type value = flag:NFP50_LAW_IG_OTHER }
+set_variable = { name = nfp50_law_move_yes_present value = 0 }
+set_variable = { name = nfp50_law_move_yes_type value = flag:NFP50_LAW_MOVE_OTHER }
+set_variable = { name = nfp50_law_move_yes_support value = 0 }
+set_variable = { name = nfp50_law_move_yes_radicalism value = 0 }
+set_variable = { name = nfp50_law_gov_no_present value = 0 }
+set_variable = { name = nfp50_law_gov_no_type value = flag:NFP50_LAW_IG_OTHER }
+set_variable = { name = nfp50_law_move_no_present value = 0 }
+set_variable = { name = nfp50_law_move_no_type value = flag:NFP50_LAW_MOVE_OTHER }
+set_variable = { name = nfp50_law_move_no_support value = 0 }
+set_variable = { name = nfp50_law_move_no_radicalism value = 0 }
+    set_variable = { name = nfp50_law_key value = flag:$law$ }
+    set_variable = { name = nfp50_law_mode value = $mode$ }
+    # Before ordinary enactment ends, current-law truth still denotes the old
+    # norm. Direct activation never guesses what was replaced.
+    if = { limit = { var:nfp50_law_mode = 1 }
+if = { limit = { OR = { var:nfp50_law_key = flag:law_peasant_levies var:nfp50_law_key = flag:law_warrior_caste var:nfp50_law_key = flag:law_professional_army var:nfp50_law_key = flag:law_national_militia var:nfp50_law_key = flag:law_mass_conscription var:nfp50_law_key = flag:law_revolutionary_guard } }
+if = { limit = { has_law = law_type:law_peasant_levies } set_variable = { name = nfp50_law_old value = flag:law_peasant_levies } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_warrior_caste } set_variable = { name = nfp50_law_old value = flag:law_warrior_caste } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_professional_army } set_variable = { name = nfp50_law_old value = flag:law_professional_army } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_national_militia } set_variable = { name = nfp50_law_old value = flag:law_national_militia } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_mass_conscription } set_variable = { name = nfp50_law_old value = flag:law_mass_conscription } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_revolutionary_guard } set_variable = { name = nfp50_law_old value = flag:law_revolutionary_guard } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_hereditary_bureaucrats var:nfp50_law_key = flag:law_crownland_diets var:nfp50_law_key = flag:law_military_bureaucrats var:nfp50_law_key = flag:law_appointed_bureaucrats var:nfp50_law_key = flag:law_elected_bureaucrats var:nfp50_law_key = flag:law_communal_administration } }
+if = { limit = { has_law = law_type:law_hereditary_bureaucrats } set_variable = { name = nfp50_law_old value = flag:law_hereditary_bureaucrats } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_crownland_diets } set_variable = { name = nfp50_law_old value = flag:law_crownland_diets } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_military_bureaucrats } set_variable = { name = nfp50_law_old value = flag:law_military_bureaucrats } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_appointed_bureaucrats } set_variable = { name = nfp50_law_old value = flag:law_appointed_bureaucrats } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_elected_bureaucrats } set_variable = { name = nfp50_law_old value = flag:law_elected_bureaucrats } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_communal_administration } set_variable = { name = nfp50_law_old value = flag:law_communal_administration } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_hindu_caste_enforced var:nfp50_law_key = flag:law_hindu_caste_codified var:nfp50_law_key = flag:law_hindu_caste_not_enforced var:nfp50_law_key = flag:law_affirmative_action } }
+if = { limit = { has_law = law_type:law_hindu_caste_enforced } set_variable = { name = nfp50_law_old value = flag:law_hindu_caste_enforced } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_hindu_caste_codified } set_variable = { name = nfp50_law_old value = flag:law_hindu_caste_codified } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_hindu_caste_not_enforced } set_variable = { name = nfp50_law_old value = flag:law_hindu_caste_not_enforced } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_affirmative_action } set_variable = { name = nfp50_law_old value = flag:law_affirmative_action } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_strict_edo_system var:nfp50_law_key = flag:law_intermediate_edo_system var:nfp50_law_key = flag:law_lax_edo_system } }
+if = { limit = { has_law = law_type:law_strict_edo_system } set_variable = { name = nfp50_law_old value = flag:law_strict_edo_system } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_intermediate_edo_system } set_variable = { name = nfp50_law_old value = flag:law_intermediate_edo_system } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_lax_edo_system } set_variable = { name = nfp50_law_old value = flag:law_lax_edo_system } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_state_religion var:nfp50_law_key = flag:law_caesaropapism var:nfp50_law_key = flag:law_millet_system var:nfp50_law_key = flag:law_people_of_the_book var:nfp50_law_key = flag:law_freedom_of_conscience var:nfp50_law_key = flag:law_total_separation var:nfp50_law_key = flag:law_state_atheism } }
+if = { limit = { has_law = law_type:law_state_religion } set_variable = { name = nfp50_law_old value = flag:law_state_religion } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_caesaropapism } set_variable = { name = nfp50_law_old value = flag:law_caesaropapism } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_millet_system } set_variable = { name = nfp50_law_old value = flag:law_millet_system } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_people_of_the_book } set_variable = { name = nfp50_law_old value = flag:law_people_of_the_book } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_freedom_of_conscience } set_variable = { name = nfp50_law_old value = flag:law_freedom_of_conscience } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_total_separation } set_variable = { name = nfp50_law_old value = flag:law_total_separation } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_state_atheism } set_variable = { name = nfp50_law_old value = flag:law_state_atheism } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_subjecthood var:nfp50_law_key = flag:law_official_nationality var:nfp50_law_key = flag:law_ethnostate var:nfp50_law_key = flag:law_national_supremacy var:nfp50_law_key = flag:law_racial_segregation var:nfp50_law_key = flag:law_cultural_exclusion var:nfp50_law_key = flag:law_multicultural } }
+if = { limit = { has_law = law_type:law_subjecthood } set_variable = { name = nfp50_law_old value = flag:law_subjecthood } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_official_nationality } set_variable = { name = nfp50_law_old value = flag:law_official_nationality } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_ethnostate } set_variable = { name = nfp50_law_old value = flag:law_ethnostate } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_national_supremacy } set_variable = { name = nfp50_law_old value = flag:law_national_supremacy } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_racial_segregation } set_variable = { name = nfp50_law_old value = flag:law_racial_segregation } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_cultural_exclusion } set_variable = { name = nfp50_law_old value = flag:law_cultural_exclusion } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_multicultural } set_variable = { name = nfp50_law_old value = flag:law_multicultural } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_autocracy var:nfp50_law_key = flag:law_bakufu var:nfp50_law_key = flag:law_neo_absolutism var:nfp50_law_key = flag:law_technocracy var:nfp50_law_key = flag:law_oligarchy var:nfp50_law_key = flag:law_organic_regulation var:nfp50_law_key = flag:law_elder_council var:nfp50_law_key = flag:law_landed_voting var:nfp50_law_key = flag:law_wealth_voting var:nfp50_law_key = flag:law_census_voting var:nfp50_law_key = flag:law_universal_suffrage var:nfp50_law_key = flag:law_anarchy var:nfp50_law_key = flag:law_single_party_state var:nfp50_law_key = flag:law_labour_suffrage } }
+if = { limit = { has_law = law_type:law_autocracy } set_variable = { name = nfp50_law_old value = flag:law_autocracy } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_bakufu } set_variable = { name = nfp50_law_old value = flag:law_bakufu } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_neo_absolutism } set_variable = { name = nfp50_law_old value = flag:law_neo_absolutism } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_technocracy } set_variable = { name = nfp50_law_old value = flag:law_technocracy } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_oligarchy } set_variable = { name = nfp50_law_old value = flag:law_oligarchy } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_organic_regulation } set_variable = { name = nfp50_law_old value = flag:law_organic_regulation } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_elder_council } set_variable = { name = nfp50_law_old value = flag:law_elder_council } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_landed_voting } set_variable = { name = nfp50_law_old value = flag:law_landed_voting } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_wealth_voting } set_variable = { name = nfp50_law_old value = flag:law_wealth_voting } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_census_voting } set_variable = { name = nfp50_law_old value = flag:law_census_voting } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_universal_suffrage } set_variable = { name = nfp50_law_old value = flag:law_universal_suffrage } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_anarchy } set_variable = { name = nfp50_law_old value = flag:law_anarchy } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_single_party_state } set_variable = { name = nfp50_law_old value = flag:law_single_party_state } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_labour_suffrage } set_variable = { name = nfp50_law_old value = flag:law_labour_suffrage } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_chiefdom var:nfp50_law_key = flag:law_monarchy var:nfp50_law_key = flag:law_colonial_administration var:nfp50_law_key = flag:law_presidential_republic var:nfp50_law_key = flag:law_parliamentary_republic var:nfp50_law_key = flag:law_theocracy var:nfp50_law_key = flag:law_council_republic var:nfp50_law_key = flag:law_corporate_state var:nfp50_law_key = flag:law_social_monarchy } }
+if = { limit = { has_law = law_type:law_chiefdom } set_variable = { name = nfp50_law_old value = flag:law_chiefdom } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_monarchy } set_variable = { name = nfp50_law_old value = flag:law_monarchy } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_colonial_administration } set_variable = { name = nfp50_law_old value = flag:law_colonial_administration } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_presidential_republic } set_variable = { name = nfp50_law_old value = flag:law_presidential_republic } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_parliamentary_republic } set_variable = { name = nfp50_law_old value = flag:law_parliamentary_republic } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_theocracy } set_variable = { name = nfp50_law_old value = flag:law_theocracy } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_council_republic } set_variable = { name = nfp50_law_old value = flag:law_council_republic } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_corporate_state } set_variable = { name = nfp50_law_old value = flag:law_corporate_state } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_social_monarchy } set_variable = { name = nfp50_law_old value = flag:law_social_monarchy } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_no_home_affairs var:nfp50_law_key = flag:law_national_guard var:nfp50_law_key = flag:law_secret_police var:nfp50_law_key = flag:law_shinsengumi var:nfp50_law_key = flag:law_third_section var:nfp50_law_key = flag:law_okhrana var:nfp50_law_key = flag:law_guaranteed_liberties var:nfp50_law_key = flag:law_extraordinary_commission } }
+if = { limit = { has_law = law_type:law_no_home_affairs } set_variable = { name = nfp50_law_old value = flag:law_no_home_affairs } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_national_guard } set_variable = { name = nfp50_law_old value = flag:law_national_guard } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_secret_police } set_variable = { name = nfp50_law_old value = flag:law_secret_police } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_shinsengumi } set_variable = { name = nfp50_law_old value = flag:law_shinsengumi } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_third_section } set_variable = { name = nfp50_law_old value = flag:law_third_section } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_okhrana } set_variable = { name = nfp50_law_old value = flag:law_okhrana } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_guaranteed_liberties } set_variable = { name = nfp50_law_old value = flag:law_guaranteed_liberties } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_extraordinary_commission } set_variable = { name = nfp50_law_old value = flag:law_extraordinary_commission } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_merchant_navy var:nfp50_law_key = flag:law_jeune_ecole var:nfp50_law_key = flag:law_professional_navy var:nfp50_law_key = flag:law_diplomatic_navy } }
+if = { limit = { has_law = law_type:law_merchant_navy } set_variable = { name = nfp50_law_old value = flag:law_merchant_navy } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_jeune_ecole } set_variable = { name = nfp50_law_old value = flag:law_jeune_ecole } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_professional_navy } set_variable = { name = nfp50_law_old value = flag:law_professional_navy } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_diplomatic_navy } set_variable = { name = nfp50_law_old value = flag:law_diplomatic_navy } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_no_colonial_affairs var:nfp50_law_key = flag:law_internal_colonization var:nfp50_law_key = flag:law_frontier_colonization var:nfp50_law_key = flag:law_colonial_resettlement var:nfp50_law_key = flag:law_colonial_exploitation } }
+if = { limit = { has_law = law_type:law_no_colonial_affairs } set_variable = { name = nfp50_law_old value = flag:law_no_colonial_affairs } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_internal_colonization } set_variable = { name = nfp50_law_old value = flag:law_internal_colonization } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_frontier_colonization } set_variable = { name = nfp50_law_old value = flag:law_frontier_colonization } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_colonial_resettlement } set_variable = { name = nfp50_law_old value = flag:law_colonial_resettlement } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_colonial_exploitation } set_variable = { name = nfp50_law_old value = flag:law_colonial_exploitation } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_traditionalism var:nfp50_law_key = flag:law_interventionism var:nfp50_law_key = flag:law_agrarianism var:nfp50_law_key = flag:law_industry_banned var:nfp50_law_key = flag:law_extraction_economy var:nfp50_law_key = flag:law_laissez_faire var:nfp50_law_key = flag:law_cooperative_ownership var:nfp50_law_key = flag:law_command_economy } }
+if = { limit = { has_law = law_type:law_traditionalism } set_variable = { name = nfp50_law_old value = flag:law_traditionalism } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_interventionism } set_variable = { name = nfp50_law_old value = flag:law_interventionism } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_agrarianism } set_variable = { name = nfp50_law_old value = flag:law_agrarianism } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_industry_banned } set_variable = { name = nfp50_law_old value = flag:law_industry_banned } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_extraction_economy } set_variable = { name = nfp50_law_old value = flag:law_extraction_economy } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_laissez_faire } set_variable = { name = nfp50_law_old value = flag:law_laissez_faire } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_cooperative_ownership } set_variable = { name = nfp50_law_old value = flag:law_cooperative_ownership } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_command_economy } set_variable = { name = nfp50_law_old value = flag:law_command_economy } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_no_schools var:nfp50_law_key = flag:law_religious_schools var:nfp50_law_key = flag:law_private_schools var:nfp50_law_key = flag:law_terakoya var:nfp50_law_key = flag:law_public_schools } }
+if = { limit = { has_law = law_type:law_no_schools } set_variable = { name = nfp50_law_old value = flag:law_no_schools } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_religious_schools } set_variable = { name = nfp50_law_old value = flag:law_religious_schools } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_private_schools } set_variable = { name = nfp50_law_old value = flag:law_private_schools } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_terakoya } set_variable = { name = nfp50_law_old value = flag:law_terakoya } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_public_schools } set_variable = { name = nfp50_law_old value = flag:law_public_schools } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_no_health_system var:nfp50_law_key = flag:law_charitable_health_system var:nfp50_law_key = flag:law_private_health_insurance var:nfp50_law_key = flag:law_public_health_insurance } }
+if = { limit = { has_law = law_type:law_no_health_system } set_variable = { name = nfp50_law_old value = flag:law_no_health_system } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_charitable_health_system } set_variable = { name = nfp50_law_old value = flag:law_charitable_health_system } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_private_health_insurance } set_variable = { name = nfp50_law_old value = flag:law_private_health_insurance } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_public_health_insurance } set_variable = { name = nfp50_law_old value = flag:law_public_health_insurance } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_serfdom var:nfp50_law_key = flag:law_manorialism var:nfp50_law_key = flag:law_tenant_farmers var:nfp50_law_key = flag:law_latifundias var:nfp50_law_key = flag:law_expanded_latifundias var:nfp50_law_key = flag:law_commercialized_agriculture var:nfp50_law_key = flag:law_peasant_proprietorship var:nfp50_law_key = flag:law_homesteading var:nfp50_law_key = flag:law_collectivized_agriculture } }
+if = { limit = { has_law = law_type:law_serfdom } set_variable = { name = nfp50_law_old value = flag:law_serfdom } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_manorialism } set_variable = { name = nfp50_law_old value = flag:law_manorialism } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_tenant_farmers } set_variable = { name = nfp50_law_old value = flag:law_tenant_farmers } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_latifundias } set_variable = { name = nfp50_law_old value = flag:law_latifundias } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_expanded_latifundias } set_variable = { name = nfp50_law_old value = flag:law_expanded_latifundias } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_commercialized_agriculture } set_variable = { name = nfp50_law_old value = flag:law_commercialized_agriculture } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_peasant_proprietorship } set_variable = { name = nfp50_law_old value = flag:law_peasant_proprietorship } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_homesteading } set_variable = { name = nfp50_law_old value = flag:law_homesteading } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_collectivized_agriculture } set_variable = { name = nfp50_law_old value = flag:law_collectivized_agriculture } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_no_police var:nfp50_law_key = flag:law_local_police var:nfp50_law_key = flag:law_dedicated_police var:nfp50_law_key = flag:law_militarized_police } }
+if = { limit = { has_law = law_type:law_no_police } set_variable = { name = nfp50_law_old value = flag:law_no_police } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_local_police } set_variable = { name = nfp50_law_old value = flag:law_local_police } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_dedicated_police } set_variable = { name = nfp50_law_old value = flag:law_dedicated_police } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_militarized_police } set_variable = { name = nfp50_law_old value = flag:law_militarized_police } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_consumption_based_taxation var:nfp50_law_key = flag:law_land_based_taxation var:nfp50_law_key = flag:law_per_capita_based_taxation var:nfp50_law_key = flag:law_proportional_taxation var:nfp50_law_key = flag:law_graduated_taxation } }
+if = { limit = { has_law = law_type:law_consumption_based_taxation } set_variable = { name = nfp50_law_old value = flag:law_consumption_based_taxation } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_land_based_taxation } set_variable = { name = nfp50_law_old value = flag:law_land_based_taxation } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_per_capita_based_taxation } set_variable = { name = nfp50_law_old value = flag:law_per_capita_based_taxation } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_proportional_taxation } set_variable = { name = nfp50_law_old value = flag:law_proportional_taxation } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_graduated_taxation } set_variable = { name = nfp50_law_old value = flag:law_graduated_taxation } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_mercantilism var:nfp50_law_key = flag:law_protectionism var:nfp50_law_key = flag:law_free_trade var:nfp50_law_key = flag:law_isolationism var:nfp50_law_key = flag:law_canton_system var:nfp50_law_key = flag:law_sakoku } }
+if = { limit = { has_law = law_type:law_mercantilism } set_variable = { name = nfp50_law_old value = flag:law_mercantilism } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_protectionism } set_variable = { name = nfp50_law_old value = flag:law_protectionism } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_free_trade } set_variable = { name = nfp50_law_old value = flag:law_free_trade } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_isolationism } set_variable = { name = nfp50_law_old value = flag:law_isolationism } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_canton_system } set_variable = { name = nfp50_law_old value = flag:law_canton_system } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_sakoku } set_variable = { name = nfp50_law_old value = flag:law_sakoku } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_child_labor_allowed var:nfp50_law_key = flag:law_restricted_child_labor var:nfp50_law_key = flag:law_compulsory_primary_school } }
+if = { limit = { has_law = law_type:law_child_labor_allowed } set_variable = { name = nfp50_law_old value = flag:law_child_labor_allowed } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_restricted_child_labor } set_variable = { name = nfp50_law_old value = flag:law_restricted_child_labor } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_compulsory_primary_school } set_variable = { name = nfp50_law_old value = flag:law_compulsory_primary_school } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_outlawed_dissent var:nfp50_law_key = flag:law_censorship var:nfp50_law_key = flag:law_right_of_assembly var:nfp50_law_key = flag:law_protected_speech } }
+if = { limit = { has_law = law_type:law_outlawed_dissent } set_variable = { name = nfp50_law_old value = flag:law_outlawed_dissent } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_censorship } set_variable = { name = nfp50_law_old value = flag:law_censorship } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_right_of_assembly } set_variable = { name = nfp50_law_old value = flag:law_right_of_assembly } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_protected_speech } set_variable = { name = nfp50_law_old value = flag:law_protected_speech } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_no_workers_rights var:nfp50_law_key = flag:law_regulatory_bodies var:nfp50_law_key = flag:law_worker_protections } }
+if = { limit = { has_law = law_type:law_no_workers_rights } set_variable = { name = nfp50_law_old value = flag:law_no_workers_rights } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_regulatory_bodies } set_variable = { name = nfp50_law_old value = flag:law_regulatory_bodies } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_worker_protections } set_variable = { name = nfp50_law_old value = flag:law_worker_protections } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_guild_system var:nfp50_law_key = flag:law_combination_acts var:nfp50_law_key = flag:law_anti_strike_laws var:nfp50_law_key = flag:law_right_to_associate var:nfp50_law_key = flag:law_corporatized_unions var:nfp50_law_key = flag:law_factory_councils } }
+if = { limit = { has_law = law_type:law_guild_system } set_variable = { name = nfp50_law_old value = flag:law_guild_system } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_combination_acts } set_variable = { name = nfp50_law_old value = flag:law_combination_acts } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_anti_strike_laws } set_variable = { name = nfp50_law_old value = flag:law_anti_strike_laws } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_right_to_associate } set_variable = { name = nfp50_law_old value = flag:law_right_to_associate } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_corporatized_unions } set_variable = { name = nfp50_law_old value = flag:law_corporatized_unions } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_factory_councils } set_variable = { name = nfp50_law_old value = flag:law_factory_councils } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_no_migration_controls var:nfp50_law_key = flag:law_migration_controls var:nfp50_law_key = flag:law_closed_borders } }
+if = { limit = { has_law = law_type:law_no_migration_controls } set_variable = { name = nfp50_law_old value = flag:law_no_migration_controls } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_migration_controls } set_variable = { name = nfp50_law_old value = flag:law_migration_controls } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_closed_borders } set_variable = { name = nfp50_law_old value = flag:law_closed_borders } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_no_womens_rights var:nfp50_law_key = flag:law_women_in_the_fields var:nfp50_law_key = flag:law_women_own_property var:nfp50_law_key = flag:law_women_in_the_workplace var:nfp50_law_key = flag:law_womens_suffrage } }
+if = { limit = { has_law = law_type:law_no_womens_rights } set_variable = { name = nfp50_law_old value = flag:law_no_womens_rights } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_women_in_the_fields } set_variable = { name = nfp50_law_old value = flag:law_women_in_the_fields } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_women_own_property } set_variable = { name = nfp50_law_old value = flag:law_women_own_property } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_women_in_the_workplace } set_variable = { name = nfp50_law_old value = flag:law_women_in_the_workplace } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_womens_suffrage } set_variable = { name = nfp50_law_old value = flag:law_womens_suffrage } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_slavery_banned var:nfp50_law_key = flag:law_colonial_slavery var:nfp50_law_key = flag:law_debt_slavery var:nfp50_law_key = flag:law_slave_trade var:nfp50_law_key = flag:law_legacy_slavery } }
+if = { limit = { has_law = law_type:law_slavery_banned } set_variable = { name = nfp50_law_old value = flag:law_slavery_banned } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_colonial_slavery } set_variable = { name = nfp50_law_old value = flag:law_colonial_slavery } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_debt_slavery } set_variable = { name = nfp50_law_old value = flag:law_debt_slavery } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_slave_trade } set_variable = { name = nfp50_law_old value = flag:law_slave_trade } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_legacy_slavery } set_variable = { name = nfp50_law_old value = flag:law_legacy_slavery } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+else_if = { limit = { OR = { var:nfp50_law_key = flag:law_no_social_security var:nfp50_law_key = flag:law_chiefs_distribute_aid var:nfp50_law_key = flag:law_poor_laws var:nfp50_law_key = flag:law_wage_subsidies var:nfp50_law_key = flag:law_old_age_pension } }
+if = { limit = { has_law = law_type:law_no_social_security } set_variable = { name = nfp50_law_old value = flag:law_no_social_security } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_chiefs_distribute_aid } set_variable = { name = nfp50_law_old value = flag:law_chiefs_distribute_aid } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_poor_laws } set_variable = { name = nfp50_law_old value = flag:law_poor_laws } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_wage_subsidies } set_variable = { name = nfp50_law_old value = flag:law_wage_subsidies } set_variable = { name = nfp50_law_old_known value = 1 } }
+else_if = { limit = { has_law = law_type:law_old_age_pension } set_variable = { name = nfp50_law_old value = flag:law_old_age_pension } set_variable = { name = nfp50_law_old_known value = 1 } }
+}
+    }
+    every_interest_group = { limit = { is_in_government = yes }
+        if = { limit = { $stance$ = { law = law_type:$law$ value > neutral } }
+            scope:nfp50_law_owner = { change_variable = { name = nfp50_law_gov_yes add = prev.nfp50_law_gov_weight } }
+        }
+        else_if = { limit = { $stance$ = { law = law_type:$law$ value < neutral } }
+            scope:nfp50_law_owner = { change_variable = { name = nfp50_law_gov_no add = prev.nfp50_law_gov_weight } }
+        }
+        else = {
+            scope:nfp50_law_owner = { change_variable = { name = nfp50_law_gov_neutral add = prev.nfp50_law_gov_weight } }
+        }
+        scope:nfp50_law_owner = { change_variable = { name = nfp50_law_gov_count add = 1 } }
+    }
+    if = { limit = { var:nfp50_law_gov_yes > 0 var:nfp50_law_gov_no > 0 }
+        set_variable = { name = nfp50_law_gov_summary value = flag:NFP50_LAW_GOV_SPLIT }
+    }
+    else_if = { limit = { var:nfp50_law_gov_yes > var:nfp50_law_gov_no }
+        set_variable = { name = nfp50_law_gov_summary value = flag:NFP50_LAW_GOV_SUPPORT }
+    }
+    else_if = { limit = { var:nfp50_law_gov_no > var:nfp50_law_gov_yes }
+        set_variable = { name = nfp50_law_gov_summary value = flag:NFP50_LAW_GOV_OPPOSE }
+    }
+    ordered_interest_group = {
+        limit = { is_in_government = yes $stance$ = { law = law_type:$law$ value > neutral } }
+        order_by = nfp50_law_gov_weight position = 0 check_range_bounds = no
+        nfp50_law_capture_gov = { side = yes }
+    }
+    ordered_interest_group = {
+        limit = { is_in_government = yes $stance$ = { law = law_type:$law$ value < neutral } }
+        order_by = nfp50_law_gov_weight position = 0 check_range_bounds = no
+        nfp50_law_capture_gov = { side = no }
+    }
+    ordered_interest_group = {
+        order_by = nfp50_law_ig_population position = 0 check_range_bounds = no
+        nfp50_law_capture_ig = { row = 1 law = $law$ stance = $stance$ }
+    }
+    ordered_interest_group = {
+        order_by = nfp50_law_ig_population position = 1 check_range_bounds = no
+        nfp50_law_capture_ig = { row = 2 law = $law$ stance = $stance$ }
+    }
+    ordered_political_movement = {
+        limit = { $stance$ = { law = law_type:$law$ value > neutral } }
+        order_by = nfp50_law_movement_order position = 0 check_range_bounds = no
+        nfp50_law_capture_movement = { side = yes }
+    }
+    ordered_political_movement = {
+        limit = { $stance$ = { law = law_type:$law$ value < neutral } }
+        order_by = nfp50_law_movement_order position = 0 check_range_bounds = no
+        nfp50_law_capture_movement = { side = no }
+    }
+}
+
+# Reader country scope, only for a FOREIGN law article. A hypothetical
+# domestic replacement is distinct from any foreign reaction or actual protest.
+nfp50_law_reader_snapshot = {
+    save_scope_as = nfp50_law_reader
+set_variable = { name = nfp50_law_own_same value = 0 }
+set_variable = { name = nfp50_law_own_count value = 0 }
+set_variable = { name = nfp50_law_own_yes value = 0 }
+set_variable = { name = nfp50_law_own_no value = 0 }
+    if = { limit = { has_law = law_type:$law$ }
+        set_variable = { name = nfp50_law_own_same value = 1 }
+    }
+    else = {
+        every_interest_group = { limit = { is_in_government = yes }
+            if = { limit = { law_enactment_stance = { law = law_type:$law$ value > neutral } }
+                scope:nfp50_law_reader = { change_variable = { name = nfp50_law_own_yes add = prev.nfp50_law_gov_weight } }
+            }
+            else_if = { limit = { law_enactment_stance = { law = law_type:$law$ value < neutral } }
+                scope:nfp50_law_reader = { change_variable = { name = nfp50_law_own_no add = prev.nfp50_law_gov_weight } }
+            }
+            scope:nfp50_law_reader = { change_variable = { name = nfp50_law_own_count add = 1 } }
+        }
+    }
+}
+
+# Candidate scope. Cached prepass snapshot must match the exact new law.
+nfp50_law_capture_for = {
+    scope:nfp20_source = {
+        if = { limit = { NOT = { has_variable = nfp50_law_prepass_ready } }
+            nfp50_law_snapshot = { law = $law$ mode = 0 stance = law_stance }
+        }
+        else_if = { limit = { NOT = { var:nfp50_law_key = flag:$law$ } }
+            nfp50_law_snapshot = { law = $law$ mode = 0 stance = law_stance }
+        }
+    }
+set_variable = { name = nfp50_law value = scope:nfp20_source.var:nfp50_law }
+set_variable = { name = nfp50_law_key value = scope:nfp20_source.var:nfp50_law_key }
+set_variable = { name = nfp50_law_mode value = scope:nfp20_source.var:nfp50_law_mode }
+set_variable = { name = nfp50_law_gov_count value = scope:nfp20_source.var:nfp50_law_gov_count }
+set_variable = { name = nfp50_law_old_known value = scope:nfp20_source.var:nfp50_law_old_known }
+set_variable = { name = nfp50_law_old value = scope:nfp20_source.var:nfp50_law_old }
+set_variable = { name = nfp50_law_gov_summary value = scope:nfp20_source.var:nfp50_law_gov_summary }
+set_variable = { name = nfp50_law_gov_yes value = scope:nfp20_source.var:nfp50_law_gov_yes }
+set_variable = { name = nfp50_law_gov_no value = scope:nfp20_source.var:nfp50_law_gov_no }
+set_variable = { name = nfp50_law_gov_neutral value = scope:nfp20_source.var:nfp50_law_gov_neutral }
+set_variable = { name = nfp50_law_ig_count value = scope:nfp20_source.var:nfp50_law_ig_count }
+set_variable = { name = nfp50_law_ig_1_type value = scope:nfp20_source.var:nfp50_law_ig_1_type }
+set_variable = { name = nfp50_law_ig_1_stance value = scope:nfp20_source.var:nfp50_law_ig_1_stance }
+set_variable = { name = nfp50_law_ig_1_population value = scope:nfp20_source.var:nfp50_law_ig_1_population }
+set_variable = { name = nfp50_law_ig_1_pop_pct value = scope:nfp20_source.var:nfp50_law_ig_1_pop_pct }
+set_variable = { name = nfp50_law_ig_1_clout value = scope:nfp20_source.var:nfp50_law_ig_1_clout }
+set_variable = { name = nfp50_law_ig_2_type value = scope:nfp20_source.var:nfp50_law_ig_2_type }
+set_variable = { name = nfp50_law_ig_2_stance value = scope:nfp20_source.var:nfp50_law_ig_2_stance }
+set_variable = { name = nfp50_law_ig_2_population value = scope:nfp20_source.var:nfp50_law_ig_2_population }
+set_variable = { name = nfp50_law_ig_2_pop_pct value = scope:nfp20_source.var:nfp50_law_ig_2_pop_pct }
+set_variable = { name = nfp50_law_ig_2_clout value = scope:nfp20_source.var:nfp50_law_ig_2_clout }
+set_variable = { name = nfp50_law_gov_yes_present value = scope:nfp20_source.var:nfp50_law_gov_yes_present }
+set_variable = { name = nfp50_law_gov_yes_type value = scope:nfp20_source.var:nfp50_law_gov_yes_type }
+set_variable = { name = nfp50_law_move_yes_present value = scope:nfp20_source.var:nfp50_law_move_yes_present }
+set_variable = { name = nfp50_law_move_yes_type value = scope:nfp20_source.var:nfp50_law_move_yes_type }
+set_variable = { name = nfp50_law_move_yes_support value = scope:nfp20_source.var:nfp50_law_move_yes_support }
+set_variable = { name = nfp50_law_move_yes_radicalism value = scope:nfp20_source.var:nfp50_law_move_yes_radicalism }
+set_variable = { name = nfp50_law_gov_no_present value = scope:nfp20_source.var:nfp50_law_gov_no_present }
+set_variable = { name = nfp50_law_gov_no_type value = scope:nfp20_source.var:nfp50_law_gov_no_type }
+set_variable = { name = nfp50_law_move_no_present value = scope:nfp20_source.var:nfp50_law_move_no_present }
+set_variable = { name = nfp50_law_move_no_type value = scope:nfp20_source.var:nfp50_law_move_no_type }
+set_variable = { name = nfp50_law_move_no_support value = scope:nfp20_source.var:nfp50_law_move_no_support }
+set_variable = { name = nfp50_law_move_no_radicalism value = scope:nfp20_source.var:nfp50_law_move_no_radicalism }
+set_variable = { name = nfp50_law_own_same value = 0 }
+set_variable = { name = nfp50_law_own_count value = 0 }
+set_variable = { name = nfp50_law_own_yes value = 0 }
+set_variable = { name = nfp50_law_own_no value = 0 }
+    if = { limit = { NOT = { scope:nfp20_recipient = scope:nfp20_source } }
+        scope:nfp20_recipient = { nfp50_law_reader_snapshot = { law = $law$ } }
+set_variable = { name = nfp50_law_own_same value = scope:nfp20_recipient.var:nfp50_law_own_same }
+set_variable = { name = nfp50_law_own_count value = scope:nfp20_recipient.var:nfp50_law_own_count }
+set_variable = { name = nfp50_law_own_yes value = scope:nfp20_recipient.var:nfp50_law_own_yes }
+set_variable = { name = nfp50_law_own_no value = scope:nfp20_recipient.var:nfp50_law_own_no }
+    }
+}
+nfp50_capture_law = {
+    if = { limit = { var:nfp20_type = 9 }
+if = { limit = { var:nfp20_detail = flag:law_peasant_levies }
+        nfp50_law_capture_for = { law = law_peasant_levies }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_caesaropapism }
+        nfp50_law_capture_for = { law = law_caesaropapism }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_communal_administration }
+        nfp50_law_capture_for = { law = law_communal_administration }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_extraordinary_commission }
+        nfp50_law_capture_for = { law = law_extraordinary_commission }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_internal_colonization }
+        nfp50_law_capture_for = { law = law_internal_colonization }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_labour_suffrage }
+        nfp50_law_capture_for = { law = law_labour_suffrage }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_military_bureaucrats }
+        nfp50_law_capture_for = { law = law_military_bureaucrats }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_official_nationality }
+        nfp50_law_capture_for = { law = law_official_nationality }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_okhrana }
+        nfp50_law_capture_for = { law = law_okhrana }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_revolutionary_guard }
+        nfp50_law_capture_for = { law = law_revolutionary_guard }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_third_section }
+        nfp50_law_capture_for = { law = law_third_section }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_warrior_caste }
+        nfp50_law_capture_for = { law = law_warrior_caste }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_professional_army }
+        nfp50_law_capture_for = { law = law_professional_army }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_national_militia }
+        nfp50_law_capture_for = { law = law_national_militia }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_mass_conscription }
+        nfp50_law_capture_for = { law = law_mass_conscription }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_hereditary_bureaucrats }
+        nfp50_law_capture_for = { law = law_hereditary_bureaucrats }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_crownland_diets }
+        nfp50_law_capture_for = { law = law_crownland_diets }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_appointed_bureaucrats }
+        nfp50_law_capture_for = { law = law_appointed_bureaucrats }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_elected_bureaucrats }
+        nfp50_law_capture_for = { law = law_elected_bureaucrats }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_hindu_caste_enforced }
+        nfp50_law_capture_for = { law = law_hindu_caste_enforced }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_hindu_caste_codified }
+        nfp50_law_capture_for = { law = law_hindu_caste_codified }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_hindu_caste_not_enforced }
+        nfp50_law_capture_for = { law = law_hindu_caste_not_enforced }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_affirmative_action }
+        nfp50_law_capture_for = { law = law_affirmative_action }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_strict_edo_system }
+        nfp50_law_capture_for = { law = law_strict_edo_system }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_intermediate_edo_system }
+        nfp50_law_capture_for = { law = law_intermediate_edo_system }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_lax_edo_system }
+        nfp50_law_capture_for = { law = law_lax_edo_system }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_state_religion }
+        nfp50_law_capture_for = { law = law_state_religion }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_millet_system }
+        nfp50_law_capture_for = { law = law_millet_system }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_people_of_the_book }
+        nfp50_law_capture_for = { law = law_people_of_the_book }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_freedom_of_conscience }
+        nfp50_law_capture_for = { law = law_freedom_of_conscience }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_total_separation }
+        nfp50_law_capture_for = { law = law_total_separation }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_state_atheism }
+        nfp50_law_capture_for = { law = law_state_atheism }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_subjecthood }
+        nfp50_law_capture_for = { law = law_subjecthood }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_ethnostate }
+        nfp50_law_capture_for = { law = law_ethnostate }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_national_supremacy }
+        nfp50_law_capture_for = { law = law_national_supremacy }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_racial_segregation }
+        nfp50_law_capture_for = { law = law_racial_segregation }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_cultural_exclusion }
+        nfp50_law_capture_for = { law = law_cultural_exclusion }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_multicultural }
+        nfp50_law_capture_for = { law = law_multicultural }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_autocracy }
+        nfp50_law_capture_for = { law = law_autocracy }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_bakufu }
+        nfp50_law_capture_for = { law = law_bakufu }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_neo_absolutism }
+        nfp50_law_capture_for = { law = law_neo_absolutism }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_technocracy }
+        nfp50_law_capture_for = { law = law_technocracy }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_oligarchy }
+        nfp50_law_capture_for = { law = law_oligarchy }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_organic_regulation }
+        nfp50_law_capture_for = { law = law_organic_regulation }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_elder_council }
+        nfp50_law_capture_for = { law = law_elder_council }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_landed_voting }
+        nfp50_law_capture_for = { law = law_landed_voting }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_wealth_voting }
+        nfp50_law_capture_for = { law = law_wealth_voting }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_census_voting }
+        nfp50_law_capture_for = { law = law_census_voting }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_universal_suffrage }
+        nfp50_law_capture_for = { law = law_universal_suffrage }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_anarchy }
+        nfp50_law_capture_for = { law = law_anarchy }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_single_party_state }
+        nfp50_law_capture_for = { law = law_single_party_state }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_chiefdom }
+        nfp50_law_capture_for = { law = law_chiefdom }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_monarchy }
+        nfp50_law_capture_for = { law = law_monarchy }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_colonial_administration }
+        nfp50_law_capture_for = { law = law_colonial_administration }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_presidential_republic }
+        nfp50_law_capture_for = { law = law_presidential_republic }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_parliamentary_republic }
+        nfp50_law_capture_for = { law = law_parliamentary_republic }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_theocracy }
+        nfp50_law_capture_for = { law = law_theocracy }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_council_republic }
+        nfp50_law_capture_for = { law = law_council_republic }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_corporate_state }
+        nfp50_law_capture_for = { law = law_corporate_state }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_social_monarchy }
+        nfp50_law_capture_for = { law = law_social_monarchy }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_no_home_affairs }
+        nfp50_law_capture_for = { law = law_no_home_affairs }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_national_guard }
+        nfp50_law_capture_for = { law = law_national_guard }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_secret_police }
+        nfp50_law_capture_for = { law = law_secret_police }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_shinsengumi }
+        nfp50_law_capture_for = { law = law_shinsengumi }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_guaranteed_liberties }
+        nfp50_law_capture_for = { law = law_guaranteed_liberties }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_merchant_navy }
+        nfp50_law_capture_for = { law = law_merchant_navy }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_jeune_ecole }
+        nfp50_law_capture_for = { law = law_jeune_ecole }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_professional_navy }
+        nfp50_law_capture_for = { law = law_professional_navy }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_diplomatic_navy }
+        nfp50_law_capture_for = { law = law_diplomatic_navy }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_no_colonial_affairs }
+        nfp50_law_capture_for = { law = law_no_colonial_affairs }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_frontier_colonization }
+        nfp50_law_capture_for = { law = law_frontier_colonization }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_colonial_resettlement }
+        nfp50_law_capture_for = { law = law_colonial_resettlement }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_colonial_exploitation }
+        nfp50_law_capture_for = { law = law_colonial_exploitation }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_traditionalism }
+        nfp50_law_capture_for = { law = law_traditionalism }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_interventionism }
+        nfp50_law_capture_for = { law = law_interventionism }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_agrarianism }
+        nfp50_law_capture_for = { law = law_agrarianism }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_industry_banned }
+        nfp50_law_capture_for = { law = law_industry_banned }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_extraction_economy }
+        nfp50_law_capture_for = { law = law_extraction_economy }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_laissez_faire }
+        nfp50_law_capture_for = { law = law_laissez_faire }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_cooperative_ownership }
+        nfp50_law_capture_for = { law = law_cooperative_ownership }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_command_economy }
+        nfp50_law_capture_for = { law = law_command_economy }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_no_schools }
+        nfp50_law_capture_for = { law = law_no_schools }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_religious_schools }
+        nfp50_law_capture_for = { law = law_religious_schools }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_private_schools }
+        nfp50_law_capture_for = { law = law_private_schools }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_terakoya }
+        nfp50_law_capture_for = { law = law_terakoya }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_public_schools }
+        nfp50_law_capture_for = { law = law_public_schools }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_no_health_system }
+        nfp50_law_capture_for = { law = law_no_health_system }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_charitable_health_system }
+        nfp50_law_capture_for = { law = law_charitable_health_system }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_private_health_insurance }
+        nfp50_law_capture_for = { law = law_private_health_insurance }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_public_health_insurance }
+        nfp50_law_capture_for = { law = law_public_health_insurance }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_serfdom }
+        nfp50_law_capture_for = { law = law_serfdom }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_manorialism }
+        nfp50_law_capture_for = { law = law_manorialism }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_tenant_farmers }
+        nfp50_law_capture_for = { law = law_tenant_farmers }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_latifundias }
+        nfp50_law_capture_for = { law = law_latifundias }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_expanded_latifundias }
+        nfp50_law_capture_for = { law = law_expanded_latifundias }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_commercialized_agriculture }
+        nfp50_law_capture_for = { law = law_commercialized_agriculture }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_peasant_proprietorship }
+        nfp50_law_capture_for = { law = law_peasant_proprietorship }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_homesteading }
+        nfp50_law_capture_for = { law = law_homesteading }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_collectivized_agriculture }
+        nfp50_law_capture_for = { law = law_collectivized_agriculture }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_no_police }
+        nfp50_law_capture_for = { law = law_no_police }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_local_police }
+        nfp50_law_capture_for = { law = law_local_police }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_dedicated_police }
+        nfp50_law_capture_for = { law = law_dedicated_police }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_militarized_police }
+        nfp50_law_capture_for = { law = law_militarized_police }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_consumption_based_taxation }
+        nfp50_law_capture_for = { law = law_consumption_based_taxation }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_land_based_taxation }
+        nfp50_law_capture_for = { law = law_land_based_taxation }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_per_capita_based_taxation }
+        nfp50_law_capture_for = { law = law_per_capita_based_taxation }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_proportional_taxation }
+        nfp50_law_capture_for = { law = law_proportional_taxation }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_graduated_taxation }
+        nfp50_law_capture_for = { law = law_graduated_taxation }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_mercantilism }
+        nfp50_law_capture_for = { law = law_mercantilism }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_protectionism }
+        nfp50_law_capture_for = { law = law_protectionism }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_free_trade }
+        nfp50_law_capture_for = { law = law_free_trade }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_isolationism }
+        nfp50_law_capture_for = { law = law_isolationism }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_canton_system }
+        nfp50_law_capture_for = { law = law_canton_system }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_sakoku }
+        nfp50_law_capture_for = { law = law_sakoku }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_child_labor_allowed }
+        nfp50_law_capture_for = { law = law_child_labor_allowed }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_restricted_child_labor }
+        nfp50_law_capture_for = { law = law_restricted_child_labor }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_compulsory_primary_school }
+        nfp50_law_capture_for = { law = law_compulsory_primary_school }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_outlawed_dissent }
+        nfp50_law_capture_for = { law = law_outlawed_dissent }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_censorship }
+        nfp50_law_capture_for = { law = law_censorship }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_right_of_assembly }
+        nfp50_law_capture_for = { law = law_right_of_assembly }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_protected_speech }
+        nfp50_law_capture_for = { law = law_protected_speech }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_no_workers_rights }
+        nfp50_law_capture_for = { law = law_no_workers_rights }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_regulatory_bodies }
+        nfp50_law_capture_for = { law = law_regulatory_bodies }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_worker_protections }
+        nfp50_law_capture_for = { law = law_worker_protections }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_guild_system }
+        nfp50_law_capture_for = { law = law_guild_system }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_combination_acts }
+        nfp50_law_capture_for = { law = law_combination_acts }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_anti_strike_laws }
+        nfp50_law_capture_for = { law = law_anti_strike_laws }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_right_to_associate }
+        nfp50_law_capture_for = { law = law_right_to_associate }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_corporatized_unions }
+        nfp50_law_capture_for = { law = law_corporatized_unions }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_factory_councils }
+        nfp50_law_capture_for = { law = law_factory_councils }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_no_migration_controls }
+        nfp50_law_capture_for = { law = law_no_migration_controls }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_migration_controls }
+        nfp50_law_capture_for = { law = law_migration_controls }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_closed_borders }
+        nfp50_law_capture_for = { law = law_closed_borders }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_no_womens_rights }
+        nfp50_law_capture_for = { law = law_no_womens_rights }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_women_in_the_fields }
+        nfp50_law_capture_for = { law = law_women_in_the_fields }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_women_own_property }
+        nfp50_law_capture_for = { law = law_women_own_property }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_women_in_the_workplace }
+        nfp50_law_capture_for = { law = law_women_in_the_workplace }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_womens_suffrage }
+        nfp50_law_capture_for = { law = law_womens_suffrage }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_slavery_banned }
+        nfp50_law_capture_for = { law = law_slavery_banned }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_colonial_slavery }
+        nfp50_law_capture_for = { law = law_colonial_slavery }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_debt_slavery }
+        nfp50_law_capture_for = { law = law_debt_slavery }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_slave_trade }
+        nfp50_law_capture_for = { law = law_slave_trade }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_legacy_slavery }
+        nfp50_law_capture_for = { law = law_legacy_slavery }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_no_social_security }
+        nfp50_law_capture_for = { law = law_no_social_security }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_chiefs_distribute_aid }
+        nfp50_law_capture_for = { law = law_chiefs_distribute_aid }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_poor_laws }
+        nfp50_law_capture_for = { law = law_poor_laws }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_wage_subsidies }
+        nfp50_law_capture_for = { law = law_wage_subsidies }
+    }
+else_if = { limit = { var:nfp20_detail = flag:law_old_age_pension }
+        nfp50_law_capture_for = { law = law_old_age_pension }
+    }
+    }
+}
+nfp50_copy_law = {
+    if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law } }
+set_variable = { name = nfp50_law value = 1 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law } } set_variable = { name = nfp50_law value = scope:nfp20_selected_fact.var:nfp50_law } }
+set_variable = { name = nfp50_law_key value = flag:NFP50_LAW_NONE }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_key } } set_variable = { name = nfp50_law_key value = scope:nfp20_selected_fact.var:nfp50_law_key } }
+set_variable = { name = nfp50_law_mode value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_mode } } set_variable = { name = nfp50_law_mode value = scope:nfp20_selected_fact.var:nfp50_law_mode } }
+set_variable = { name = nfp50_law_gov_count value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_gov_count } } set_variable = { name = nfp50_law_gov_count value = scope:nfp20_selected_fact.var:nfp50_law_gov_count } }
+set_variable = { name = nfp50_law_old_known value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_old_known } } set_variable = { name = nfp50_law_old_known value = scope:nfp20_selected_fact.var:nfp50_law_old_known } }
+set_variable = { name = nfp50_law_old value = flag:NFP50_LAW_NONE }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_old } } set_variable = { name = nfp50_law_old value = scope:nfp20_selected_fact.var:nfp50_law_old } }
+set_variable = { name = nfp50_law_gov_summary value = flag:NFP50_LAW_GOV_NEUTRAL }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_gov_summary } } set_variable = { name = nfp50_law_gov_summary value = scope:nfp20_selected_fact.var:nfp50_law_gov_summary } }
+set_variable = { name = nfp50_law_gov_yes value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_gov_yes } } set_variable = { name = nfp50_law_gov_yes value = scope:nfp20_selected_fact.var:nfp50_law_gov_yes } }
+set_variable = { name = nfp50_law_gov_no value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_gov_no } } set_variable = { name = nfp50_law_gov_no value = scope:nfp20_selected_fact.var:nfp50_law_gov_no } }
+set_variable = { name = nfp50_law_gov_neutral value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_gov_neutral } } set_variable = { name = nfp50_law_gov_neutral value = scope:nfp20_selected_fact.var:nfp50_law_gov_neutral } }
+set_variable = { name = nfp50_law_ig_count value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_ig_count } } set_variable = { name = nfp50_law_ig_count value = scope:nfp20_selected_fact.var:nfp50_law_ig_count } }
+set_variable = { name = nfp50_law_ig_1_type value = flag:NFP50_LAW_IG_OTHER }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_ig_1_type } } set_variable = { name = nfp50_law_ig_1_type value = scope:nfp20_selected_fact.var:nfp50_law_ig_1_type } }
+set_variable = { name = nfp50_law_ig_1_stance value = flag:NFP50_LAW_NEUTRAL }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_ig_1_stance } } set_variable = { name = nfp50_law_ig_1_stance value = scope:nfp20_selected_fact.var:nfp50_law_ig_1_stance } }
+set_variable = { name = nfp50_law_ig_1_population value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_ig_1_population } } set_variable = { name = nfp50_law_ig_1_population value = scope:nfp20_selected_fact.var:nfp50_law_ig_1_population } }
+set_variable = { name = nfp50_law_ig_1_pop_pct value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_ig_1_pop_pct } } set_variable = { name = nfp50_law_ig_1_pop_pct value = scope:nfp20_selected_fact.var:nfp50_law_ig_1_pop_pct } }
+set_variable = { name = nfp50_law_ig_1_clout value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_ig_1_clout } } set_variable = { name = nfp50_law_ig_1_clout value = scope:nfp20_selected_fact.var:nfp50_law_ig_1_clout } }
+set_variable = { name = nfp50_law_ig_2_type value = flag:NFP50_LAW_IG_OTHER }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_ig_2_type } } set_variable = { name = nfp50_law_ig_2_type value = scope:nfp20_selected_fact.var:nfp50_law_ig_2_type } }
+set_variable = { name = nfp50_law_ig_2_stance value = flag:NFP50_LAW_NEUTRAL }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_ig_2_stance } } set_variable = { name = nfp50_law_ig_2_stance value = scope:nfp20_selected_fact.var:nfp50_law_ig_2_stance } }
+set_variable = { name = nfp50_law_ig_2_population value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_ig_2_population } } set_variable = { name = nfp50_law_ig_2_population value = scope:nfp20_selected_fact.var:nfp50_law_ig_2_population } }
+set_variable = { name = nfp50_law_ig_2_pop_pct value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_ig_2_pop_pct } } set_variable = { name = nfp50_law_ig_2_pop_pct value = scope:nfp20_selected_fact.var:nfp50_law_ig_2_pop_pct } }
+set_variable = { name = nfp50_law_ig_2_clout value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_ig_2_clout } } set_variable = { name = nfp50_law_ig_2_clout value = scope:nfp20_selected_fact.var:nfp50_law_ig_2_clout } }
+set_variable = { name = nfp50_law_gov_yes_present value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_gov_yes_present } } set_variable = { name = nfp50_law_gov_yes_present value = scope:nfp20_selected_fact.var:nfp50_law_gov_yes_present } }
+set_variable = { name = nfp50_law_gov_yes_type value = flag:NFP50_LAW_IG_OTHER }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_gov_yes_type } } set_variable = { name = nfp50_law_gov_yes_type value = scope:nfp20_selected_fact.var:nfp50_law_gov_yes_type } }
+set_variable = { name = nfp50_law_move_yes_present value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_move_yes_present } } set_variable = { name = nfp50_law_move_yes_present value = scope:nfp20_selected_fact.var:nfp50_law_move_yes_present } }
+set_variable = { name = nfp50_law_move_yes_type value = flag:NFP50_LAW_MOVE_OTHER }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_move_yes_type } } set_variable = { name = nfp50_law_move_yes_type value = scope:nfp20_selected_fact.var:nfp50_law_move_yes_type } }
+set_variable = { name = nfp50_law_move_yes_support value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_move_yes_support } } set_variable = { name = nfp50_law_move_yes_support value = scope:nfp20_selected_fact.var:nfp50_law_move_yes_support } }
+set_variable = { name = nfp50_law_move_yes_radicalism value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_move_yes_radicalism } } set_variable = { name = nfp50_law_move_yes_radicalism value = scope:nfp20_selected_fact.var:nfp50_law_move_yes_radicalism } }
+set_variable = { name = nfp50_law_gov_no_present value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_gov_no_present } } set_variable = { name = nfp50_law_gov_no_present value = scope:nfp20_selected_fact.var:nfp50_law_gov_no_present } }
+set_variable = { name = nfp50_law_gov_no_type value = flag:NFP50_LAW_IG_OTHER }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_gov_no_type } } set_variable = { name = nfp50_law_gov_no_type value = scope:nfp20_selected_fact.var:nfp50_law_gov_no_type } }
+set_variable = { name = nfp50_law_move_no_present value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_move_no_present } } set_variable = { name = nfp50_law_move_no_present value = scope:nfp20_selected_fact.var:nfp50_law_move_no_present } }
+set_variable = { name = nfp50_law_move_no_type value = flag:NFP50_LAW_MOVE_OTHER }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_move_no_type } } set_variable = { name = nfp50_law_move_no_type value = scope:nfp20_selected_fact.var:nfp50_law_move_no_type } }
+set_variable = { name = nfp50_law_move_no_support value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_move_no_support } } set_variable = { name = nfp50_law_move_no_support value = scope:nfp20_selected_fact.var:nfp50_law_move_no_support } }
+set_variable = { name = nfp50_law_move_no_radicalism value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_move_no_radicalism } } set_variable = { name = nfp50_law_move_no_radicalism value = scope:nfp20_selected_fact.var:nfp50_law_move_no_radicalism } }
+set_variable = { name = nfp50_law_own_same value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_own_same } } set_variable = { name = nfp50_law_own_same value = scope:nfp20_selected_fact.var:nfp50_law_own_same } }
+set_variable = { name = nfp50_law_own_count value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_own_count } } set_variable = { name = nfp50_law_own_count value = scope:nfp20_selected_fact.var:nfp50_law_own_count } }
+set_variable = { name = nfp50_law_own_yes value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_own_yes } } set_variable = { name = nfp50_law_own_yes value = scope:nfp20_selected_fact.var:nfp50_law_own_yes } }
+set_variable = { name = nfp50_law_own_no value = 0 }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp50_law_own_no } } set_variable = { name = nfp50_law_own_no value = scope:nfp20_selected_fact.var:nfp50_law_own_no } }
+    }
+}
+
+# Article scope; all optional values below were initialized and copied.
+nfp50_format_law = {
+    if = { limit = { var:nfp20_foreign = 0 }
+nfp50_add_block = { a = NFP50_LAW_INTRO_HOME_1 b = NFP50_LAW_INTRO_HOME_2 }
+    }
+    else = {
+nfp50_add_block = { a = NFP50_LAW_INTRO_AWAY_1 b = NFP50_LAW_INTRO_AWAY_2 }
+    }
+nfp50_add_block = { a = NFP50_LAW_FACT_1 b = NFP50_LAW_FACT_2 }
+if = { limit = { var:nfp50_law_key = flag:law_slavery_banned }
+        nfp50_add_context = { a = NFP50_LAW_MEANING_LAW_SLAVERY_BANNED_1 b = NFP50_LAW_MEANING_LAW_SLAVERY_BANNED_2 }
+    }
+else_if = { limit = { var:nfp50_law_key = flag:law_protected_speech }
+        nfp50_add_context = { a = NFP50_LAW_MEANING_LAW_PROTECTED_SPEECH_1 b = NFP50_LAW_MEANING_LAW_PROTECTED_SPEECH_2 }
+    }
+else_if = { limit = { var:nfp50_law_key = flag:law_compulsory_primary_school }
+        nfp50_add_context = { a = NFP50_LAW_MEANING_LAW_COMPULSORY_PRIMARY_SCHOOL_1 b = NFP50_LAW_MEANING_LAW_COMPULSORY_PRIMARY_SCHOOL_2 }
+    }
+else_if = { limit = { var:nfp50_law_key = flag:law_womens_suffrage }
+        nfp50_add_context = { a = NFP50_LAW_MEANING_LAW_WOMENS_SUFFRAGE_1 b = NFP50_LAW_MEANING_LAW_WOMENS_SUFFRAGE_2 }
+    }
+else_if = { limit = { var:nfp50_law_key = flag:law_guaranteed_liberties }
+        nfp50_add_context = { a = NFP50_LAW_MEANING_LAW_GUARANTEED_LIBERTIES_1 b = NFP50_LAW_MEANING_LAW_GUARANTEED_LIBERTIES_2 }
+    }
+    if = { limit = { var:nfp50_law_gov_count > 0 }
+        if = { limit = { var:nfp50_law_mode = 1 }
+nfp50_add_context = { a = NFP50_LAW_GOV_RELATIVE_1 b = NFP50_LAW_GOV_RELATIVE_2 }
+        }
+        else = {
+nfp50_add_context = { a = NFP50_LAW_GOV_BASE_1 b = NFP50_LAW_GOV_BASE_2 }
+        }
+    }
+    if = { limit = { var:nfp50_law_ig_count > 0 }
+        if = { limit = { var:nfp50_law_mode = 1 }
+nfp50_add_context = { a = NFP50_LAW_IG_RELATIVE_1 b = NFP50_LAW_IG_RELATIVE_2 }
+        }
+        else = {
+nfp50_add_context = { a = NFP50_LAW_IG_BASE_1 b = NFP50_LAW_IG_BASE_2 }
+        }
+    }
+    if = { limit = { OR = { var:nfp50_law_move_yes_present = 1 var:nfp50_law_move_no_present = 1 } }
+        if = { limit = { var:nfp50_law_mode = 1 }
+nfp50_add_context = { a = NFP50_LAW_MOVEMENT_RELATIVE_1 b = NFP50_LAW_MOVEMENT_RELATIVE_2 }
+        }
+        else = {
+nfp50_add_context = { a = NFP50_LAW_MOVEMENT_BASE_1 b = NFP50_LAW_MOVEMENT_BASE_2 }
+        }
+    }
+    if = { limit = { var:nfp20_foreign = 1 }
+        if = { limit = { var:nfp50_law_own_same = 1 }
+nfp50_add_context = { a = NFP50_LAW_OWN_SAME_1 b = NFP50_LAW_OWN_SAME_2 }
+        }
+        else_if = { limit = { var:nfp50_law_own_count > 0 }
+nfp50_add_context = { a = NFP50_LAW_OWN_COMPARE_1 b = NFP50_LAW_OWN_COMPARE_2 }
+        }
+    }
+nfp50_add_block = { a = NFP50_LAW_END_1 b = NFP50_LAW_END_2 }
+}

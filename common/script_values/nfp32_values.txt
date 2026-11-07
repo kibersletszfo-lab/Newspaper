@@ -1,0 +1,19 @@
+﻿# MarketGoods scope. Native premium/discount are fractions of goods.base_price.
+# Separate branches handle both signed and nonnegative premium/discount getters.
+nfp32_price = {
+    value = 1
+    if = { limit = { market_goods_pricier > 0 } add = market_goods_pricier }
+    else_if = { limit = { market_goods_cheaper > 0 } subtract = market_goods_cheaper }
+    multiply = goods.base_price
+}
+nfp32_gap = { value = nfp20_period subtract = var:nfp32_period }
+nfp32_change = { value = var:nfp32_current divide = var:nfp32_previous subtract = 1 multiply = 100 }
+nfp32_order = {
+    value = 0
+    if = { limit = { var:nfp32_comparable = 1 var:nfp32_previous > 0 }
+        value = nfp32_change
+        if = { limit = { var:nfp32_current < var:nfp32_previous } multiply = -1 }
+    }
+    multiply = 1000000
+    subtract = var:nfp32_index
+}

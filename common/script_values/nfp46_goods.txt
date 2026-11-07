@@ -1,0 +1,10 @@
+﻿# MarketGoods root, not goods/country. Supply shortage is editorial.
+nfp46_supply_ceiling = { value = market_goods_buy_orders multiply = 0.8 }
+nfp46_supply_gap = {
+    value = 0
+    if = { limit = { market_goods_buy_orders > 0 market_goods_sell_orders < market_goods_buy_orders }
+        value = market_goods_sell_orders divide = market_goods_buy_orders
+        multiply = -1 add = 1 multiply = 100
+    }
+}
+nfp46_watch_gap = { value = nfp20_period subtract = var:nfp46_period }

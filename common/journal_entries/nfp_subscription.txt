@@ -1,0 +1,8 @@
+﻿je_nfp_subscription = {
+    group = je_group_objectives
+    is_shown_when_inactive = { is_player = yes has_variable = nfp_initialized }
+    possible = { is_player = yes has_variable = nfp_initialized }
+    context = country
+    on_weekly_pulse = { effect = { nfp43_alliance_observe = yes nfp52_observe = yes nfp_maybe_urgent = yes } }
+    on_monthly_pulse = { effect = { nfp52_observe = yes nfp_maybe_urgent = yes nfp45_monthly_delivery = yes } }
+}

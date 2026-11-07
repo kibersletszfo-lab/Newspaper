@@ -1,0 +1,437 @@
+﻿# Additive presentation only; root at publication is the reader country.
+nfp30_layout_issue = {
+    scope:nfp_new_issue = {
+        set_variable = { name = nfp30_schema value = 3 }
+        set_variable = { name = nfp30_reader_definition value = scope:nfp_reader.country_definition }
+        set_variable = { name = nfp30_issue_number value = var:nfp_number }
+        set_variable = { name = nfp30_lead_priority value = -1000000 }
+        set_variable = { name = nfp30_lead_order value = 7 }
+
+set_variable = { name = nfp30_first_section_1 value = 0 }
+set_variable = { name = nfp30_first_section_2 value = 0 }
+set_variable = { name = nfp30_first_section_3 value = 0 }
+set_variable = { name = nfp30_first_section_4 value = 0 }
+if = { limit = { var:nfp_month = 0 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_1 } }
+else_if = { limit = { var:nfp_month = 1 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_2 } }
+else_if = { limit = { var:nfp_month = 2 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_3 } }
+else_if = { limit = { var:nfp_month = 3 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_4 } }
+else_if = { limit = { var:nfp_month = 4 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_5 } }
+else_if = { limit = { var:nfp_month = 5 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_6 } }
+else_if = { limit = { var:nfp_month = 6 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_7 } }
+else_if = { limit = { var:nfp_month = 7 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_8 } }
+else_if = { limit = { var:nfp_month = 8 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_9 } }
+else_if = { limit = { var:nfp_month = 9 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_10 } }
+else_if = { limit = { var:nfp_month = 10 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_11 } }
+else_if = { limit = { var:nfp_month = 11 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_12 } }
+every_in_list = { variable = nfp_articles
+    save_scope_as = nfp30_article
+    nfp30_format_article = yes
+    nfp32_format_report = yes
+    nfp46_format_goods = yes
+    nfp43_format_election = yes
+    nfp43_format_alliance = yes
+    nfp43_format_welcome = yes
+    nfp51_format_article = yes
+    nfp52_format_article = yes
+    nfp50_layout_article = yes
+    nfp78_layout_article = yes
+
+if = { limit = { var:nfp20_order = 1 } scope:nfp_new_issue = { set_variable = { name = nfp30_page_1 value = scope:nfp30_article } } }
+if = { limit = { var:nfp20_order = 2 } scope:nfp_new_issue = { set_variable = { name = nfp30_page_2 value = scope:nfp30_article } } }
+if = { limit = { var:nfp20_order = 3 } scope:nfp_new_issue = { set_variable = { name = nfp30_page_3 value = scope:nfp30_article } } }
+if = { limit = { var:nfp20_order = 4 } scope:nfp_new_issue = { set_variable = { name = nfp30_page_4 value = scope:nfp30_article } } }
+if = { limit = { var:nfp20_order = 5 } scope:nfp_new_issue = { set_variable = { name = nfp30_page_5 value = scope:nfp30_article } } }
+if = { limit = { var:nfp20_order = 6 } scope:nfp_new_issue = { set_variable = { name = nfp30_page_6 value = scope:nfp30_article } } }
+if = { limit = { var:nfp_section = 1 }
+    scope:nfp_new_issue = {
+        if = { limit = { OR = { var:nfp30_first_section_1 = 0 var:nfp30_first_section_1 > scope:nfp30_article.var:nfp20_order } }
+            set_variable = { name = nfp30_first_section_1 value = scope:nfp30_article.var:nfp20_order }
+        }
+    }
+}
+if = { limit = { var:nfp_section = 2 }
+    scope:nfp_new_issue = {
+        if = { limit = { OR = { var:nfp30_first_section_2 = 0 var:nfp30_first_section_2 > scope:nfp30_article.var:nfp20_order } }
+            set_variable = { name = nfp30_first_section_2 value = scope:nfp30_article.var:nfp20_order }
+        }
+    }
+}
+if = { limit = { var:nfp_section = 3 }
+    scope:nfp_new_issue = {
+        if = { limit = { OR = { var:nfp30_first_section_3 = 0 var:nfp30_first_section_3 > scope:nfp30_article.var:nfp20_order } }
+            set_variable = { name = nfp30_first_section_3 value = scope:nfp30_article.var:nfp20_order }
+        }
+    }
+}
+if = { limit = { var:nfp_section = 4 }
+    scope:nfp_new_issue = {
+        if = { limit = { OR = { var:nfp30_first_section_4 = 0 var:nfp30_first_section_4 > scope:nfp30_article.var:nfp20_order } }
+            set_variable = { name = nfp30_first_section_4 value = scope:nfp30_article.var:nfp20_order }
+        }
+    }
+}
+scope:nfp_new_issue = {
+    if = { limit = { OR = {
+        var:nfp30_lead_priority < scope:nfp30_article.var:nfp20_priority
+        AND = { var:nfp30_lead_priority = scope:nfp30_article.var:nfp20_priority var:nfp30_lead_order > scope:nfp30_article.var:nfp20_order }
+    } }
+        set_variable = { name = nfp30_lead_article value = scope:nfp30_article }
+        set_variable = { name = nfp30_lead_priority value = scope:nfp30_article.var:nfp20_priority }
+        set_variable = { name = nfp30_lead_order value = scope:nfp30_article.var:nfp20_order }
+    }
+}
+} # every article
+} # issue
+}
+
+nfp30_format_article = {
+set_variable = { name = nfp30_schema value = 3 }
+set_variable = { name = nfp30_reader_definition value = scope:nfp_reader.country_definition }
+set_variable = { name = nfp30_issue_number value = scope:nfp_new_issue.var:nfp_number }
+set_variable = { name = nfp30_page_count value = scope:nfp_new_issue.var:nfp20_article_count }
+set_variable = { name = nfp30_variant value = nfp30_variant_value }
+set_variable = { name = nfp30_domestic value = 0 }
+if = { limit = { var:nfp20_foreign = 0 } set_variable = { name = nfp30_domestic value = 1 } }
+set_variable = { name = nfp30_headline value = flag:NFP30_UNKNOWN_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_UNKNOWN_LEAD }
+set_variable = { name = nfp30_body value = var:nfp_body }
+set_variable = { name = nfp30_metrics value = flag:NFP30_UNKNOWN_METRICS }
+
+if = { limit = { var:nfp20_month = 0 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_1 } }
+else_if = { limit = { var:nfp20_month = 1 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_2 } }
+else_if = { limit = { var:nfp20_month = 2 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_3 } }
+else_if = { limit = { var:nfp20_month = 3 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_4 } }
+else_if = { limit = { var:nfp20_month = 4 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_5 } }
+else_if = { limit = { var:nfp20_month = 5 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_6 } }
+else_if = { limit = { var:nfp20_month = 6 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_7 } }
+else_if = { limit = { var:nfp20_month = 7 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_8 } }
+else_if = { limit = { var:nfp20_month = 8 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_9 } }
+else_if = { limit = { var:nfp20_month = 9 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_10 } }
+else_if = { limit = { var:nfp20_month = 10 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_11 } }
+else_if = { limit = { var:nfp20_month = 11 } set_variable = { name = nfp30_month value = flag:NFP30_MONTH_12 } }
+if = { limit = { var:nfp_section = 1 } set_variable = { name = nfp30_rubric value = flag:NFP30_RUBRIC_1 } }
+if = { limit = { var:nfp_section = 2 } set_variable = { name = nfp30_rubric value = flag:NFP30_RUBRIC_2 } }
+if = { limit = { var:nfp_section = 3 } set_variable = { name = nfp30_rubric value = flag:NFP30_RUBRIC_3 } }
+if = { limit = { var:nfp_section = 4 } set_variable = { name = nfp30_rubric value = flag:NFP30_RUBRIC_4 } }
+if = { limit = { var:nfp_body = flag:NFP20_DIVERGENCE }
+    set_variable = { name = nfp30_metrics value = flag:NFP30_DIVERGENCE_METRICS }
+if = { limit = { always = yes }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_DIVERGENCE_HOME_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_DIVERGENCE_HOME_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_DIVERGENCE_HOME_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_DIVERGENCE_HOME_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_DIVERGENCE_HOME_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_DIVERGENCE_HOME_2_BODY }
+}
+}
+}
+if = { limit = { var:nfp_body = flag:NFP20_INFRA }
+    set_variable = { name = nfp30_metrics value = flag:NFP30_INFRA_METRICS }
+if = { limit = { always = yes }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_INFRA_HOME_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_INFRA_HOME_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_INFRA_HOME_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_INFRA_HOME_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_INFRA_HOME_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_INFRA_HOME_2_BODY }
+}
+}
+}
+if = { limit = { var:nfp_body = flag:NFP20_ACCESS }
+    set_variable = { name = nfp30_metrics value = flag:NFP30_ACCESS_METRICS }
+if = { limit = { always = yes }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_ACCESS_HOME_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_ACCESS_HOME_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_ACCESS_HOME_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_ACCESS_HOME_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_ACCESS_HOME_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_ACCESS_HOME_2_BODY }
+}
+}
+}
+if = { limit = { var:nfp_body = flag:NFP20_SHORTAGE }
+    set_variable = { name = nfp30_metrics value = flag:NFP30_SHORTAGE_METRICS }
+if = { limit = { always = yes }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_SHORTAGE_HOME_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_SHORTAGE_HOME_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_SHORTAGE_HOME_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_SHORTAGE_HOME_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_SHORTAGE_HOME_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_SHORTAGE_HOME_2_BODY }
+}
+}
+}
+if = { limit = { var:nfp_body = flag:NFP20_INFRA_RECOVERY }
+    set_variable = { name = nfp30_metrics value = flag:NFP30_INFRA_RECOVERY_METRICS }
+if = { limit = { always = yes }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_INFRA_RECOVERY_HOME_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_INFRA_RECOVERY_HOME_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_INFRA_RECOVERY_HOME_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_INFRA_RECOVERY_HOME_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_INFRA_RECOVERY_HOME_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_INFRA_RECOVERY_HOME_2_BODY }
+}
+}
+}
+if = { limit = { var:nfp_body = flag:NFP20_ACCESS_RECOVERY }
+    set_variable = { name = nfp30_metrics value = flag:NFP30_ACCESS_RECOVERY_METRICS }
+if = { limit = { always = yes }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_ACCESS_RECOVERY_HOME_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_ACCESS_RECOVERY_HOME_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_ACCESS_RECOVERY_HOME_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_ACCESS_RECOVERY_HOME_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_ACCESS_RECOVERY_HOME_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_ACCESS_RECOVERY_HOME_2_BODY }
+}
+}
+}
+if = { limit = { var:nfp_body = flag:NFP20_SHORTAGE_RECOVERY }
+    set_variable = { name = nfp30_metrics value = flag:NFP30_SHORTAGE_RECOVERY_METRICS }
+if = { limit = { always = yes }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_SHORTAGE_RECOVERY_HOME_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_SHORTAGE_RECOVERY_HOME_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_SHORTAGE_RECOVERY_HOME_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_SHORTAGE_RECOVERY_HOME_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_SHORTAGE_RECOVERY_HOME_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_SHORTAGE_RECOVERY_HOME_2_BODY }
+}
+}
+}
+if = { limit = { var:nfp_body = flag:NFP20_LITERACY }
+    set_variable = { name = nfp30_metrics value = flag:NFP30_LITERACY_METRICS }
+if = { limit = { var:nfp30_domestic = 1 }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_LITERACY_HOME_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_LITERACY_HOME_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_LITERACY_HOME_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_LITERACY_HOME_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_LITERACY_HOME_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_LITERACY_HOME_2_BODY }
+}
+}
+if = { limit = { var:nfp30_domestic = 0 }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_LITERACY_AWAY_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_LITERACY_AWAY_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_LITERACY_AWAY_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_LITERACY_AWAY_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_LITERACY_AWAY_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_LITERACY_AWAY_2_BODY }
+}
+}
+}
+if = { limit = { var:nfp_body = flag:NFP20_GDP_LEADER }
+    set_variable = { name = nfp30_metrics value = flag:NFP30_GDP_LEADER_METRICS }
+if = { limit = { var:nfp30_domestic = 1 }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_GDP_LEADER_HOME_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_GDP_LEADER_HOME_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_GDP_LEADER_HOME_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_GDP_LEADER_HOME_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_GDP_LEADER_HOME_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_GDP_LEADER_HOME_2_BODY }
+}
+}
+if = { limit = { var:nfp30_domestic = 0 }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_GDP_LEADER_AWAY_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_GDP_LEADER_AWAY_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_GDP_LEADER_AWAY_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_GDP_LEADER_AWAY_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_GDP_LEADER_AWAY_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_GDP_LEADER_AWAY_2_BODY }
+}
+}
+}
+if = { limit = { var:nfp_body = flag:NFP20_PRODUCTION }
+    set_variable = { name = nfp30_metrics value = flag:NFP30_PRODUCTION_METRICS }
+if = { limit = { var:nfp30_domestic = 1 }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_PRODUCTION_HOME_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_PRODUCTION_HOME_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_PRODUCTION_HOME_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_PRODUCTION_HOME_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_PRODUCTION_HOME_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_PRODUCTION_HOME_2_BODY }
+}
+}
+if = { limit = { var:nfp30_domestic = 0 }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_PRODUCTION_AWAY_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_PRODUCTION_AWAY_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_PRODUCTION_AWAY_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_PRODUCTION_AWAY_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_PRODUCTION_AWAY_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_PRODUCTION_AWAY_2_BODY }
+}
+}
+}
+if = { limit = { var:nfp_body = flag:NFP20_RANK }
+    set_variable = { name = nfp30_metrics value = flag:NFP30_RANK_METRICS }
+if = { limit = { var:nfp30_domestic = 1 }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_RANK_HOME_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_RANK_HOME_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_RANK_HOME_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_RANK_HOME_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_RANK_HOME_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_RANK_HOME_2_BODY }
+}
+}
+if = { limit = { var:nfp30_domestic = 0 }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_RANK_AWAY_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_RANK_AWAY_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_RANK_AWAY_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_RANK_AWAY_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_RANK_AWAY_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_RANK_AWAY_2_BODY }
+}
+}
+}
+if = { limit = { var:nfp_body = flag:NFP20_LAW }
+    set_variable = { name = nfp30_metrics value = flag:NFP30_LAW_METRICS }
+if = { limit = { var:nfp30_domestic = 1 }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_LAW_HOME_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_LAW_HOME_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_LAW_HOME_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_LAW_HOME_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_LAW_HOME_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_LAW_HOME_2_BODY }
+}
+}
+if = { limit = { var:nfp30_domestic = 0 }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_LAW_AWAY_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_LAW_AWAY_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_LAW_AWAY_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_LAW_AWAY_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_LAW_AWAY_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_LAW_AWAY_2_BODY }
+}
+}
+}
+if = { limit = { var:nfp_body = flag:NFP20_TECH }
+    set_variable = { name = nfp30_metrics value = flag:NFP30_TECH_METRICS }
+if = { limit = { var:nfp30_domestic = 1 }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_TECH_HOME_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_TECH_HOME_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_TECH_HOME_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_TECH_HOME_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_TECH_HOME_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_TECH_HOME_2_BODY }
+}
+}
+if = { limit = { var:nfp30_domestic = 0 }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_TECH_AWAY_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_TECH_AWAY_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_TECH_AWAY_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_TECH_AWAY_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_TECH_AWAY_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_TECH_AWAY_2_BODY }
+}
+}
+}
+if = { limit = { var:nfp_body = flag:NFP20_WAR_START }
+    set_variable = { name = nfp30_metrics value = flag:NFP30_WAR_START_METRICS }
+if = { limit = { var:nfp30_domestic = 1 }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_WAR_START_HOME_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_WAR_START_HOME_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_WAR_START_HOME_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_WAR_START_HOME_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_WAR_START_HOME_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_WAR_START_HOME_2_BODY }
+}
+}
+if = { limit = { var:nfp30_domestic = 0 }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_WAR_START_AWAY_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_WAR_START_AWAY_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_WAR_START_AWAY_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_WAR_START_AWAY_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_WAR_START_AWAY_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_WAR_START_AWAY_2_BODY }
+}
+}
+}
+if = { limit = { var:nfp_body = flag:NFP20_WAR_END }
+    set_variable = { name = nfp30_metrics value = flag:NFP30_WAR_END_METRICS }
+if = { limit = { var:nfp30_domestic = 1 }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_WAR_END_HOME_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_WAR_END_HOME_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_WAR_END_HOME_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_WAR_END_HOME_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_WAR_END_HOME_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_WAR_END_HOME_2_BODY }
+}
+}
+if = { limit = { var:nfp30_domestic = 0 }
+if = { limit = { var:nfp30_variant = 1 }
+set_variable = { name = nfp30_headline value = flag:NFP30_WAR_END_AWAY_1_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_WAR_END_AWAY_1_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_WAR_END_AWAY_1_BODY }
+}
+if = { limit = { var:nfp30_variant = 2 }
+set_variable = { name = nfp30_headline value = flag:NFP30_WAR_END_AWAY_2_TITLE }
+set_variable = { name = nfp30_lead value = flag:NFP30_WAR_END_AWAY_2_LEAD }
+set_variable = { name = nfp30_body value = flag:NFP30_WAR_END_AWAY_2_BODY }
+}
+}
+}
+}

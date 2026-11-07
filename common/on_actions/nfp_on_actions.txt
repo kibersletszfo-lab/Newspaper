@@ -1,0 +1,146 @@
+﻿
+on_game_started_after_lobby = { on_actions = { nfp20_start } }
+on_monthly_pulse = { on_actions = { nfp20_month } }
+on_monthly_pulse_country = { on_actions = { nfp_initialize_country } }
+on_rank_changed = { on_actions = { nfp20_rank_changed } }
+on_law_activated = { on_actions = { nfp20_law nfp50_law_clear } }
+on_acquired_technology = { on_actions = { nfp20_technology } }
+on_diplo_play_war_start = { on_actions = { nfp20_war_start } }
+on_war_end = { on_actions = { nfp20_war_end } }
+on_state_owner_change = { on_actions = { nfp20_territory } }
+on_country_formed = { on_actions = { nfp20_formed } }
+nfp20_start = { effect = { nfp20_collect_world = yes } }
+nfp20_month = { effect = { nfp20_collect_world = yes every_country = { limit = { is_player = yes has_variable = nfp20_schema } nfp_maybe_urgent = yes } } }
+nfp_initialize_country = { trigger = { is_player = yes } effect = { nfp_initialize = yes } }
+nfp20_rank_changed = { trigger = { has_variable = nfp20_observed_period } effect = { nfp20_rank_news = yes } }
+nfp20_formed = { effect = { set_variable = { name = nfp20_territory_period value = nfp20_period } } }
+# Territorial inference guard: block quarterly inference after ANY transfer.
+# Conservative by design: no old-owner scope is assumed or invented.
+nfp20_territory = { effect = { every_country = { limit = { is_player = yes has_variable = nfp20_schema } set_variable = { name = nfp20_territory_period value = nfp20_period } } } }
+nfp20_law = { effect = { owner = { nfp69_observe = yes } } }
+nfp20_technology = { trigger = { has_variable = nfp20_observed_period } effect = {
+if = { limit = { has_technology_researched = railways NOT = { has_variable = nfp20_acquired_railways } }
+        nfp20_prepare = yes
+        set_variable = { name = nfp20_f_before value = 0 }
+set_variable = { name = nfp20_f_after value = 1 }
+set_variable = { name = nfp20_f_extra value = 0 }
+set_variable = { name = nfp20_f_detail value = flag:railways }
+nfp20_emit = { type = 11 section = 4 body = NFP20_TECH severity = 45 global = yes }
+        set_variable = nfp20_acquired_railways
+    }
+if = { limit = { has_technology_researched = bessemer_process NOT = { has_variable = nfp20_acquired_bessemer_process } }
+        nfp20_prepare = yes
+        set_variable = { name = nfp20_f_before value = 0 }
+set_variable = { name = nfp20_f_after value = 1 }
+set_variable = { name = nfp20_f_extra value = 0 }
+set_variable = { name = nfp20_f_detail value = flag:bessemer_process }
+nfp20_emit = { type = 11 section = 4 body = NFP20_TECH severity = 45 global = yes }
+        set_variable = nfp20_acquired_bessemer_process
+    }
+if = { limit = { has_technology_researched = steelworking NOT = { has_variable = nfp20_acquired_steelworking } }
+        nfp20_prepare = yes
+        set_variable = { name = nfp20_f_before value = 0 }
+set_variable = { name = nfp20_f_after value = 1 }
+set_variable = { name = nfp20_f_extra value = 0 }
+set_variable = { name = nfp20_f_detail value = flag:steelworking }
+nfp20_emit = { type = 11 section = 4 body = NFP20_TECH severity = 45 global = yes }
+        set_variable = nfp20_acquired_steelworking
+    }
+if = { limit = { has_technology_researched = steam_donkey NOT = { has_variable = nfp20_acquired_steam_donkey } }
+        nfp20_prepare = yes
+        set_variable = { name = nfp20_f_before value = 0 }
+set_variable = { name = nfp20_f_after value = 1 }
+set_variable = { name = nfp20_f_extra value = 0 }
+set_variable = { name = nfp20_f_detail value = flag:steam_donkey }
+nfp20_emit = { type = 11 section = 4 body = NFP20_TECH severity = 45 global = yes }
+        set_variable = nfp20_acquired_steam_donkey
+    }
+if = { limit = { has_technology_researched = aniline NOT = { has_variable = nfp20_acquired_aniline } }
+        nfp20_prepare = yes
+        set_variable = { name = nfp20_f_before value = 0 }
+set_variable = { name = nfp20_f_after value = 1 }
+set_variable = { name = nfp20_f_extra value = 0 }
+set_variable = { name = nfp20_f_detail value = flag:aniline }
+nfp20_emit = { type = 11 section = 4 body = NFP20_TECH severity = 45 global = yes }
+        set_variable = nfp20_acquired_aniline
+    }
+if = { limit = { has_technology_researched = electrical_generation NOT = { has_variable = nfp20_acquired_electrical_generation } }
+        nfp20_prepare = yes
+        set_variable = { name = nfp20_f_before value = 0 }
+set_variable = { name = nfp20_f_after value = 1 }
+set_variable = { name = nfp20_f_extra value = 0 }
+set_variable = { name = nfp20_f_detail value = flag:electrical_generation }
+nfp20_emit = { type = 11 section = 4 body = NFP20_TECH severity = 45 global = yes }
+        set_variable = nfp20_acquired_electrical_generation
+    }
+if = { limit = { has_technology_researched = electric_telegraph NOT = { has_variable = nfp20_acquired_electric_telegraph } }
+        nfp20_prepare = yes
+        set_variable = { name = nfp20_f_before value = 0 }
+set_variable = { name = nfp20_f_after value = 1 }
+set_variable = { name = nfp20_f_extra value = 0 }
+set_variable = { name = nfp20_f_detail value = flag:electric_telegraph }
+nfp20_emit = { type = 11 section = 4 body = NFP20_TECH severity = 45 global = yes }
+        set_variable = nfp20_acquired_electric_telegraph
+    }
+if = { limit = { has_technology_researched = quinine NOT = { has_variable = nfp20_acquired_quinine } }
+        nfp20_prepare = yes
+        set_variable = { name = nfp20_f_before value = 0 }
+set_variable = { name = nfp20_f_after value = 1 }
+set_variable = { name = nfp20_f_extra value = 0 }
+set_variable = { name = nfp20_f_detail value = flag:quinine }
+nfp20_emit = { type = 11 section = 4 body = NFP20_TECH severity = 45 global = yes }
+        set_variable = nfp20_acquired_quinine
+    }
+if = { limit = { has_technology_researched = antibiotics NOT = { has_variable = nfp20_acquired_antibiotics } }
+        nfp20_prepare = yes
+        set_variable = { name = nfp20_f_before value = 0 }
+set_variable = { name = nfp20_f_after value = 1 }
+set_variable = { name = nfp20_f_extra value = 0 }
+set_variable = { name = nfp20_f_detail value = flag:antibiotics }
+nfp20_emit = { type = 11 section = 4 body = NFP20_TECH severity = 45 global = yes }
+        set_variable = nfp20_acquired_antibiotics
+    }
+}
+}
+nfp20_war_start = {
+        trigger = { NOT = { nfp52_us_civil_war_play = yes }  NOT = { has_variable = nfp20_war_start_recorded } exists = initiator exists = target }
+        effect = {
+            set_variable = nfp20_war_start_recorded
+            target = { save_scope_as = nfp20_other_actor }
+            initiator = { if = { limit = { has_variable = nfp20_observed_period }
+                nfp20_prepare = yes
+                set_variable = { name = nfp20_f_secondary value = scope:nfp20_other_actor.country_definition }
+                set_variable = { name = nfp20_f_secondary_country value = scope:nfp20_other_actor }
+                set_variable = { name = nfp20_f_urgent value = 1 }
+                if = { limit = { always = yes }
+                    set_variable = { name = nfp20_f_before value = 0 }
+set_variable = { name = nfp20_f_after value = 0 }
+set_variable = { name = nfp20_f_extra value = 0 }
+set_variable = { name = nfp20_f_detail value = flag:NFP20_NONE }
+nfp20_emit = { type = 10 section = 2 body = NFP20_WAR_START severity = 95 global = yes }
+                }
+            } }
+            every_country = { limit = { is_player = yes has_variable = nfp20_schema } nfp_maybe_urgent = yes }
+        }
+    }
+nfp20_war_end = {
+        trigger = { NOT = { has_variable = nfp20_war_end_recorded } exists = scope:actor exists = scope:target }
+        effect = {
+            set_variable = nfp20_war_end_recorded
+            scope:target = { save_scope_as = nfp20_other_actor }
+            scope:actor = { if = { limit = { has_variable = nfp20_observed_period }
+                nfp20_prepare = yes
+                set_variable = { name = nfp20_f_secondary value = scope:nfp20_other_actor.country_definition }
+                set_variable = { name = nfp20_f_secondary_country value = scope:nfp20_other_actor }
+                set_variable = { name = nfp20_f_urgent value = 1 }
+                if = { limit = { always = yes }
+                    set_variable = { name = nfp20_f_before value = 0 }
+set_variable = { name = nfp20_f_after value = 0 }
+set_variable = { name = nfp20_f_extra value = 0 }
+set_variable = { name = nfp20_f_detail value = flag:NFP20_NONE }
+nfp20_emit = { type = 10 section = 2 body = NFP20_WAR_END severity = 95 global = yes }
+                }
+            } }
+            every_country = { limit = { is_player = yes has_variable = nfp20_schema } nfp_maybe_urgent = yes }
+        }
+    }

@@ -1,0 +1,630 @@
+﻿# Reader assessment at event time. Only primitive facts/Region copied to containers.
+nfp63_assess = {
+save_scope_as = nfp63_reader
+set_variable = { name = nfp63_allow value = 0 }
+set_variable = { name = nfp63_reason value = 0 }
+set_variable = { name = nfp63_regional value = 0 }
+set_variable = { name = nfp63_reader_tier value = 0 }
+set_variable = { name = nfp63_source_tier value = 0 }
+set_variable = { name = nfp63_second_tier value = 0 }
+set_variable = { name = nfp63_strategic value = 0 }
+set_variable = { name = nfp63_interest value = 0 }
+set_variable = { name = nfp63_bonus value = 0 }
+set_variable = { name = nfp63_brief value = 0 }
+set_variable = { name = nfp63_relation value = 0 }
+set_variable = { name = nfp63_second_relation value = 0 }
+set_variable = { name = nfp63_friend value = 0 }
+set_variable = { name = nfp63_secondary_friend value = 0 }
+set_variable = { name = nfp63_novel value = 0 }
+set_variable = { name = nfp63_different_law value = 0 }
+set_variable = { name = nfp63_has_second value = 0 }
+set_variable = { name = nfp63_followup value = 0 }
+set_variable = { name = nfp63_ally value = 0 }
+set_variable = { name = nfp63_bloc value = 0 }
+set_variable = { name = nfp63_subject value = 0 }
+set_variable = { name = nfp63_overlord value = 0 }
+set_variable = { name = nfp63_rival value = 0 }
+set_variable = { name = nfp63_neighbor value = 0 }
+set_variable = { name = nfp63_second_ally value = 0 }
+set_variable = { name = nfp63_second_bloc value = 0 }
+set_variable = { name = nfp63_second_subject value = 0 }
+set_variable = { name = nfp63_second_overlord value = 0 }
+set_variable = { name = nfp63_second_rival value = 0 }
+set_variable = { name = nfp63_second_neighbor value = 0 }
+set_variable = { name = nfp63_relation_value value = 0 }
+set_variable = { name = nfp63_relation_band value = 0 }
+set_variable = { name = nfp63_attitude value = 0 }
+set_variable = { name = nfp63_secondary_relation_value value = 0 }
+set_variable = { name = nfp63_secondary_relation_band value = 0 }
+set_variable = { name = nfp63_secondary_attitude value = 0 }
+remove_variable = nfp63_interest_region
+set_variable = { name = nfp63_reader_tier value = 0 }
+if = { limit = { scope:nfp63_reader = { OR = { country_rank = rank_value:great_power } } }
+set_variable = { name = nfp63_reader_tier value = 4 }
+
+}
+if = { limit = { scope:nfp63_reader = { OR = { country_rank = rank_value:major_power country_rank = rank_value:unrecognized_major_power } } }
+set_variable = { name = nfp63_reader_tier value = 3 }
+
+}
+if = { limit = { scope:nfp63_reader = { OR = { country_rank = rank_value:minor_power country_rank = rank_value:unrecognized_regional_power } } }
+set_variable = { name = nfp63_reader_tier value = 2 }
+
+}
+if = { limit = { scope:nfp63_reader = { OR = { country_rank = rank_value:insignificant_power country_rank = rank_value:unrecognized_power } } }
+set_variable = { name = nfp63_reader_tier value = 1 }
+
+}
+set_variable = { name = nfp63_source_tier value = 0 }
+if = { limit = { scope:nfp63_source = { OR = { country_rank = rank_value:great_power } } }
+set_variable = { name = nfp63_source_tier value = 4 }
+
+}
+if = { limit = { scope:nfp63_source = { OR = { country_rank = rank_value:major_power country_rank = rank_value:unrecognized_major_power } } }
+set_variable = { name = nfp63_source_tier value = 3 }
+
+}
+if = { limit = { scope:nfp63_source = { OR = { country_rank = rank_value:minor_power country_rank = rank_value:unrecognized_regional_power } } }
+set_variable = { name = nfp63_source_tier value = 2 }
+
+}
+if = { limit = { scope:nfp63_source = { OR = { country_rank = rank_value:insignificant_power country_rank = rank_value:unrecognized_power } } }
+set_variable = { name = nfp63_source_tier value = 1 }
+
+}
+set_variable = { name = nfp63_second_tier value = 0 }
+if = { limit = { scope:nfp63_second = { OR = { country_rank = rank_value:great_power } } }
+set_variable = { name = nfp63_second_tier value = 4 }
+
+}
+if = { limit = { scope:nfp63_second = { OR = { country_rank = rank_value:major_power country_rank = rank_value:unrecognized_major_power } } }
+set_variable = { name = nfp63_second_tier value = 3 }
+
+}
+if = { limit = { scope:nfp63_second = { OR = { country_rank = rank_value:minor_power country_rank = rank_value:unrecognized_regional_power } } }
+set_variable = { name = nfp63_second_tier value = 2 }
+
+}
+if = { limit = { scope:nfp63_second = { OR = { country_rank = rank_value:insignificant_power country_rank = rank_value:unrecognized_power } } }
+set_variable = { name = nfp63_second_tier value = 1 }
+
+}
+if = { limit = { OR = { var:nfp63_kind = 9 var:nfp63_kind = 10 var:nfp63_kind = 11 AND = { var:nfp63_kind >= 29 var:nfp63_kind <= 31 } } }
+set_variable = { name = nfp63_strategic value = 1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } any_scope_treaty = { binds = scope:nfp63_source any_scope_article = { has_type = alliance } } }
+set_variable = { name = nfp63_ally value = 1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } is_in_same_power_bloc = scope:nfp63_source }
+set_variable = { name = nfp63_bloc value = 1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } scope:nfp63_source = { is_subject_of = scope:nfp63_reader } }
+set_variable = { name = nfp63_subject value = 1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } is_subject_of = scope:nfp63_source }
+set_variable = { name = nfp63_overlord value = 1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } OR = { has_diplomatic_pact = { who = scope:nfp63_source type = rivalry } scope:nfp63_source = { has_diplomatic_pact = { who = scope:nfp63_reader type = rivalry } } } }
+set_variable = { name = nfp63_rival value = 1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } is_adjacent_to_country = scope:nfp63_source }
+set_variable = { name = nfp63_neighbor value = 1 }
+
+}
+if = { limit = { var:nfp63_neighbor = 1 }
+set_variable = { name = nfp63_relation value = 7 }
+
+}
+if = { limit = { var:nfp63_rival = 1 }
+set_variable = { name = nfp63_relation value = 6 }
+
+}
+if = { limit = { var:nfp63_bloc = 1 }
+set_variable = { name = nfp63_relation value = 5 }
+
+}
+if = { limit = { var:nfp63_ally = 1 }
+set_variable = { name = nfp63_relation value = 4 }
+
+}
+if = { limit = { var:nfp63_overlord = 1 }
+set_variable = { name = nfp63_relation value = 3 }
+
+}
+if = { limit = { var:nfp63_subject = 1 }
+set_variable = { name = nfp63_relation value = 2 }
+
+}
+if = { limit = { this = scope:nfp63_source }
+set_variable = { name = nfp63_relation value = 1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } scope:nfp63_source.relations:this >= relations_threshold:cordial }
+set_variable = { name = nfp63_friend value = 1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } scope:nfp63_source.relations:this <= relations_threshold:poor }
+set_variable = { name = nfp63_friend value = -1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } }
+set_variable = { name = nfp63_relation_value value = scope:nfp63_source.relations:this }
+
+}
+if = { limit = { var:nfp63_relation_value <= -20 }
+set_variable = { name = nfp63_relation_band value = -1 }
+
+}
+if = { limit = { var:nfp63_relation_value <= -50 }
+set_variable = { name = nfp63_relation_band value = -2 }
+
+}
+if = { limit = { var:nfp63_relation_value <= -80 }
+set_variable = { name = nfp63_relation_band value = -3 }
+
+}
+if = { limit = { var:nfp63_relation_value >= 20 }
+set_variable = { name = nfp63_relation_band value = 1 }
+
+}
+if = { limit = { var:nfp63_relation_value >= 50 }
+set_variable = { name = nfp63_relation_band value = 2 }
+
+}
+if = { limit = { var:nfp63_relation_value >= 80 }
+set_variable = { name = nfp63_relation_band value = 3 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } scope:nfp63_source = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = antagonistic } } }
+set_variable = { name = nfp63_attitude value = 1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } scope:nfp63_source = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = belligerent } } }
+set_variable = { name = nfp63_attitude value = 2 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } scope:nfp63_source = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = domineering } } }
+set_variable = { name = nfp63_attitude value = 3 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } scope:nfp63_source = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = cautious } } }
+set_variable = { name = nfp63_attitude value = 4 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } scope:nfp63_source = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = disinterested } } }
+set_variable = { name = nfp63_attitude value = 5 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } scope:nfp63_source = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = conciliatory } } }
+set_variable = { name = nfp63_attitude value = 6 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } scope:nfp63_source = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = cooperative } } }
+set_variable = { name = nfp63_attitude value = 7 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } scope:nfp63_source = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = genial } } }
+set_variable = { name = nfp63_attitude value = 8 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } scope:nfp63_source = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = protective } } }
+set_variable = { name = nfp63_attitude value = 9 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } scope:nfp63_source = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = loyal } } }
+set_variable = { name = nfp63_attitude value = 10 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_source } scope:nfp63_source = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = rebellious } } }
+set_variable = { name = nfp63_attitude value = 11 }
+
+}
+if = { limit = { NOT = { scope:nfp63_source = scope:nfp63_second } }
+set_variable = { name = nfp63_has_second value = 1 }
+if = { limit = { NOT = { this = scope:nfp63_second } any_scope_treaty = { binds = scope:nfp63_second any_scope_article = { has_type = alliance } } }
+set_variable = { name = nfp63_second_ally value = 1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } is_in_same_power_bloc = scope:nfp63_second }
+set_variable = { name = nfp63_second_bloc value = 1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } scope:nfp63_second = { is_subject_of = scope:nfp63_reader } }
+set_variable = { name = nfp63_second_subject value = 1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } is_subject_of = scope:nfp63_second }
+set_variable = { name = nfp63_second_overlord value = 1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } OR = { has_diplomatic_pact = { who = scope:nfp63_second type = rivalry } scope:nfp63_second = { has_diplomatic_pact = { who = scope:nfp63_reader type = rivalry } } } }
+set_variable = { name = nfp63_second_rival value = 1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } is_adjacent_to_country = scope:nfp63_second }
+set_variable = { name = nfp63_second_neighbor value = 1 }
+
+}
+if = { limit = { var:nfp63_second_neighbor = 1 }
+set_variable = { name = nfp63_second_relation value = 7 }
+
+}
+if = { limit = { var:nfp63_second_rival = 1 }
+set_variable = { name = nfp63_second_relation value = 6 }
+
+}
+if = { limit = { var:nfp63_second_bloc = 1 }
+set_variable = { name = nfp63_second_relation value = 5 }
+
+}
+if = { limit = { var:nfp63_second_ally = 1 }
+set_variable = { name = nfp63_second_relation value = 4 }
+
+}
+if = { limit = { var:nfp63_second_overlord = 1 }
+set_variable = { name = nfp63_second_relation value = 3 }
+
+}
+if = { limit = { var:nfp63_second_subject = 1 }
+set_variable = { name = nfp63_second_relation value = 2 }
+
+}
+if = { limit = { this = scope:nfp63_second }
+set_variable = { name = nfp63_second_relation value = 1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } scope:nfp63_second.relations:this >= relations_threshold:cordial }
+set_variable = { name = nfp63_secondary_friend value = 1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } scope:nfp63_second.relations:this <= relations_threshold:poor }
+set_variable = { name = nfp63_secondary_friend value = -1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } }
+set_variable = { name = nfp63_secondary_relation_value value = scope:nfp63_second.relations:this }
+
+}
+if = { limit = { var:nfp63_secondary_relation_value <= -20 }
+set_variable = { name = nfp63_secondary_relation_band value = -1 }
+
+}
+if = { limit = { var:nfp63_secondary_relation_value <= -50 }
+set_variable = { name = nfp63_secondary_relation_band value = -2 }
+
+}
+if = { limit = { var:nfp63_secondary_relation_value <= -80 }
+set_variable = { name = nfp63_secondary_relation_band value = -3 }
+
+}
+if = { limit = { var:nfp63_secondary_relation_value >= 20 }
+set_variable = { name = nfp63_secondary_relation_band value = 1 }
+
+}
+if = { limit = { var:nfp63_secondary_relation_value >= 50 }
+set_variable = { name = nfp63_secondary_relation_band value = 2 }
+
+}
+if = { limit = { var:nfp63_secondary_relation_value >= 80 }
+set_variable = { name = nfp63_secondary_relation_band value = 3 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } scope:nfp63_second = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = antagonistic } } }
+set_variable = { name = nfp63_secondary_attitude value = 1 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } scope:nfp63_second = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = belligerent } } }
+set_variable = { name = nfp63_secondary_attitude value = 2 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } scope:nfp63_second = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = domineering } } }
+set_variable = { name = nfp63_secondary_attitude value = 3 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } scope:nfp63_second = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = cautious } } }
+set_variable = { name = nfp63_secondary_attitude value = 4 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } scope:nfp63_second = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = disinterested } } }
+set_variable = { name = nfp63_secondary_attitude value = 5 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } scope:nfp63_second = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = conciliatory } } }
+set_variable = { name = nfp63_secondary_attitude value = 6 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } scope:nfp63_second = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = cooperative } } }
+set_variable = { name = nfp63_secondary_attitude value = 7 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } scope:nfp63_second = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = genial } } }
+set_variable = { name = nfp63_secondary_attitude value = 8 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } scope:nfp63_second = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = protective } } }
+set_variable = { name = nfp63_secondary_attitude value = 9 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } scope:nfp63_second = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = loyal } } }
+set_variable = { name = nfp63_secondary_attitude value = 10 }
+
+}
+if = { limit = { NOT = { this = scope:nfp63_second } scope:nfp63_second = { is_player = no has_attitude = { who = scope:nfp63_reader attitude = rebellious } } }
+set_variable = { name = nfp63_secondary_attitude value = 11 }
+
+}
+
+}
+scope:nfp63_source = {
+if = { limit = { OR = { scope:nfp63_reader = { var:nfp63_kind = 2 } scope:nfp63_reader = { var:nfp63_kind = 4 } } exists = var:nfp20_f_problem_state }
+var:nfp20_f_problem_state = { if = { limit = { scope:nfp63_reader = { has_strategic_region_interest_tier = { strategic_region = prev.region value >= 2 } } }
+scope:nfp63_reader = { set_variable = { name = nfp63_interest value = 1 }
+set_variable = { name = nfp63_interest_region value = prev.region } }
+
+}
+ }
+}
+else = { every_scope_state = { limit = { scope:nfp63_reader = { has_strategic_region_interest_tier = { strategic_region = prev.region value >= 2 } } } scope:nfp63_reader = { set_variable = { name = nfp63_interest value = 1 }
+set_variable = { name = nfp63_interest_region value = prev.region } }
+ } }
+}
+if = { limit = { NOT = { scope:nfp63_source = scope:nfp63_second } }
+scope:nfp63_second = { every_scope_state = { limit = { scope:nfp63_reader = { has_strategic_region_interest_tier = { strategic_region = prev.region value >= 2 } } } scope:nfp63_reader = { set_variable = { name = nfp63_interest value = 1 }
+set_variable = { name = nfp63_interest_region value = prev.region } }
+ } }
+}
+if = { limit = { OR = { this = scope:nfp63_source this = scope:nfp63_second } } set_variable = { name = nfp63_allow value = 1 }
+set_variable = { name = nfp63_reason value = 1 }
+ }
+else_if = { limit = { var:nfp63_kind = 8 scope:nfp63_source = { var:nfp31_f_world = 1 } } set_variable = { name = nfp63_allow value = 1 }
+set_variable = { name = nfp63_reason value = 2 }
+ }
+else_if = { limit = { var:nfp63_strategic = 1 OR = { var:nfp63_source_tier = 4 var:nfp63_second_tier = 4 } } set_variable = { name = nfp63_allow value = 1 }
+set_variable = { name = nfp63_reason value = 3 }
+ }
+else_if = { limit = { var:nfp63_strategic = 1 OR = { var:nfp63_ally = 1 var:nfp63_bloc = 1 var:nfp63_subject = 1 var:nfp63_overlord = 1 var:nfp63_second_ally = 1 var:nfp63_second_bloc = 1 var:nfp63_second_subject = 1 var:nfp63_second_overlord = 1 } } set_variable = { name = nfp63_allow value = 1 }
+set_variable = { name = nfp63_reason value = 4 }
+ }
+else_if = { limit = { var:nfp63_strategic = 1 OR = { var:nfp63_rival = 1 var:nfp63_second_rival = 1 } } set_variable = { name = nfp63_allow value = 1 }
+set_variable = { name = nfp63_reason value = 5 }
+ }
+else_if = { limit = { OR = { var:nfp63_kind = 10 AND = { var:nfp63_kind >= 29 var:nfp63_kind <= 31 } } OR = { var:nfp63_neighbor = 1 var:nfp63_second_neighbor = 1 } } set_variable = { name = nfp63_allow value = 1 }
+set_variable = { name = nfp63_reason value = 6 }
+ }
+else_if = { limit = { var:nfp63_interest = 1 OR = { AND = { var:nfp63_reader_tier = 4 OR = { var:nfp63_source_tier >= 3 var:nfp63_second_tier >= 3 } } AND = { var:nfp63_reader_tier = 3 OR = { var:nfp63_source_tier >= 2 var:nfp63_second_tier >= 2 } } AND = { var:nfp63_reader_tier = 2 OR = { OR = { var:nfp63_source_tier >= 2 var:nfp63_second_tier >= 2 } OR = { var:nfp63_neighbor = 1 var:nfp63_second_neighbor = 1 } } } AND = { var:nfp63_reader_tier <= 1 var:nfp63_source_tier >= 1 } OR = { var:nfp63_ally = 1 var:nfp63_bloc = 1 var:nfp63_subject = 1 var:nfp63_overlord = 1 var:nfp63_second_ally = 1 var:nfp63_second_bloc = 1 var:nfp63_second_subject = 1 var:nfp63_second_overlord = 1 } OR = { var:nfp63_rival = 1 var:nfp63_second_rival = 1 } } } set_variable = { name = nfp63_allow value = 1 }
+set_variable = { name = nfp63_reason value = 7 }
+set_variable = { name = nfp63_regional value = 1 }
+ }
+if = { limit = { var:nfp63_source_tier = 4 }
+change_variable = { name = nfp63_bonus add = 10 }
+
+}
+if = { limit = { OR = { var:nfp63_ally = 1 var:nfp63_bloc = 1 var:nfp63_subject = 1 var:nfp63_overlord = 1 var:nfp63_second_ally = 1 var:nfp63_second_bloc = 1 var:nfp63_second_subject = 1 var:nfp63_second_overlord = 1 } }
+change_variable = { name = nfp63_bonus add = 25 }
+
+}
+if = { limit = { OR = { var:nfp63_rival = 1 var:nfp63_second_rival = 1 } }
+change_variable = { name = nfp63_bonus add = 20 }
+
+}
+if = { limit = { OR = { var:nfp63_neighbor = 1 var:nfp63_second_neighbor = 1 } }
+change_variable = { name = nfp63_bonus add = 10 }
+
+}
+if = { limit = { var:nfp63_bonus > 55 }
+set_variable = { name = nfp63_bonus value = 55 }
+
+}
+if = { limit = { var:nfp63_reason = 7 var:nfp63_source_tier <= 2 var:nfp63_strategic = 0 }
+set_variable = { name = nfp63_brief value = 1 }
+
+}
+
+if = { limit = { var:nfp63_kind = 9 var:nfp63_neighbor = 1 } set_variable = { name = nfp63_allow value = 1 } set_variable = { name = nfp63_regional value = 0 } }
+}
+nfp63_capture = {
+set_variable = { name = nfp63_schema value = 1 }
+set_variable = { name = nfp63_allow value = scope:nfp63_reader.var:nfp63_allow }
+set_variable = { name = nfp63_reason value = scope:nfp63_reader.var:nfp63_reason }
+set_variable = { name = nfp63_regional value = scope:nfp63_reader.var:nfp63_regional }
+set_variable = { name = nfp63_reader_tier value = scope:nfp63_reader.var:nfp63_reader_tier }
+set_variable = { name = nfp63_source_tier value = scope:nfp63_reader.var:nfp63_source_tier }
+set_variable = { name = nfp63_second_tier value = scope:nfp63_reader.var:nfp63_second_tier }
+set_variable = { name = nfp63_strategic value = scope:nfp63_reader.var:nfp63_strategic }
+set_variable = { name = nfp63_interest value = scope:nfp63_reader.var:nfp63_interest }
+set_variable = { name = nfp63_bonus value = scope:nfp63_reader.var:nfp63_bonus }
+set_variable = { name = nfp63_brief value = scope:nfp63_reader.var:nfp63_brief }
+set_variable = { name = nfp63_relation value = scope:nfp63_reader.var:nfp63_relation }
+set_variable = { name = nfp63_second_relation value = scope:nfp63_reader.var:nfp63_second_relation }
+set_variable = { name = nfp63_friend value = scope:nfp63_reader.var:nfp63_friend }
+set_variable = { name = nfp63_secondary_friend value = scope:nfp63_reader.var:nfp63_secondary_friend }
+set_variable = { name = nfp63_novel value = scope:nfp63_reader.var:nfp63_novel }
+set_variable = { name = nfp63_different_law value = scope:nfp63_reader.var:nfp63_different_law }
+set_variable = { name = nfp63_has_second value = scope:nfp63_reader.var:nfp63_has_second }
+set_variable = { name = nfp63_followup value = scope:nfp63_reader.var:nfp63_followup }
+set_variable = { name = nfp63_ally value = scope:nfp63_reader.var:nfp63_ally }
+set_variable = { name = nfp63_bloc value = scope:nfp63_reader.var:nfp63_bloc }
+set_variable = { name = nfp63_subject value = scope:nfp63_reader.var:nfp63_subject }
+set_variable = { name = nfp63_overlord value = scope:nfp63_reader.var:nfp63_overlord }
+set_variable = { name = nfp63_rival value = scope:nfp63_reader.var:nfp63_rival }
+set_variable = { name = nfp63_neighbor value = scope:nfp63_reader.var:nfp63_neighbor }
+set_variable = { name = nfp63_second_ally value = scope:nfp63_reader.var:nfp63_second_ally }
+set_variable = { name = nfp63_second_bloc value = scope:nfp63_reader.var:nfp63_second_bloc }
+set_variable = { name = nfp63_second_subject value = scope:nfp63_reader.var:nfp63_second_subject }
+set_variable = { name = nfp63_second_overlord value = scope:nfp63_reader.var:nfp63_second_overlord }
+set_variable = { name = nfp63_second_rival value = scope:nfp63_reader.var:nfp63_second_rival }
+set_variable = { name = nfp63_second_neighbor value = scope:nfp63_reader.var:nfp63_second_neighbor }
+set_variable = { name = nfp63_relation_value value = scope:nfp63_reader.var:nfp63_relation_value }
+set_variable = { name = nfp63_relation_band value = scope:nfp63_reader.var:nfp63_relation_band }
+set_variable = { name = nfp63_attitude value = scope:nfp63_reader.var:nfp63_attitude }
+set_variable = { name = nfp63_secondary_relation_value value = scope:nfp63_reader.var:nfp63_secondary_relation_value }
+set_variable = { name = nfp63_secondary_relation_band value = scope:nfp63_reader.var:nfp63_secondary_relation_band }
+set_variable = { name = nfp63_secondary_attitude value = scope:nfp63_reader.var:nfp63_secondary_attitude }
+if = { limit = { scope:nfp63_reader = { has_variable = nfp63_interest_region } }
+set_variable = { name = nfp63_region value = scope:nfp63_reader.var:nfp63_interest_region }
+
+}
+change_variable = { name = nfp20_priority add = var:nfp63_bonus }
+if = { limit = { has_variable = nfp50_family_reader_tech }
+if = { limit = { var:nfp20_type = 11 var:nfp50_family_reader_tech = 0 }
+set_variable = { name = nfp63_novel value = 1 }
+change_variable = { name = nfp20_priority add = 10 }
+}
+
+}
+if = { limit = { has_variable = nfp50_law_own_same }
+if = { limit = { var:nfp20_type = 9 var:nfp50_law_own_same = 0 }
+set_variable = { name = nfp63_different_law value = 1 }
+change_variable = { name = nfp20_priority add = 10 }
+}
+
+}
+if = { limit = { var:nfp20_type = 4 var:nfp20_foreign = 0 }
+set_variable = { name = nfp63_followup value = 1 }
+change_variable = { name = nfp20_priority add = 15 }
+}
+}
+nfp63_copy = {
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp63_schema } }
+set_variable = { name = nfp63_schema value = 1 }
+set_variable = { name = nfp63_allow value = scope:nfp20_selected_fact.var:nfp63_allow }
+set_variable = { name = nfp63_reason value = scope:nfp20_selected_fact.var:nfp63_reason }
+set_variable = { name = nfp63_regional value = scope:nfp20_selected_fact.var:nfp63_regional }
+set_variable = { name = nfp63_reader_tier value = scope:nfp20_selected_fact.var:nfp63_reader_tier }
+set_variable = { name = nfp63_source_tier value = scope:nfp20_selected_fact.var:nfp63_source_tier }
+set_variable = { name = nfp63_second_tier value = scope:nfp20_selected_fact.var:nfp63_second_tier }
+set_variable = { name = nfp63_strategic value = scope:nfp20_selected_fact.var:nfp63_strategic }
+set_variable = { name = nfp63_interest value = scope:nfp20_selected_fact.var:nfp63_interest }
+set_variable = { name = nfp63_bonus value = scope:nfp20_selected_fact.var:nfp63_bonus }
+set_variable = { name = nfp63_brief value = scope:nfp20_selected_fact.var:nfp63_brief }
+set_variable = { name = nfp63_relation value = scope:nfp20_selected_fact.var:nfp63_relation }
+set_variable = { name = nfp63_second_relation value = scope:nfp20_selected_fact.var:nfp63_second_relation }
+set_variable = { name = nfp63_friend value = scope:nfp20_selected_fact.var:nfp63_friend }
+set_variable = { name = nfp63_secondary_friend value = scope:nfp20_selected_fact.var:nfp63_secondary_friend }
+set_variable = { name = nfp63_novel value = scope:nfp20_selected_fact.var:nfp63_novel }
+set_variable = { name = nfp63_different_law value = scope:nfp20_selected_fact.var:nfp63_different_law }
+set_variable = { name = nfp63_has_second value = scope:nfp20_selected_fact.var:nfp63_has_second }
+set_variable = { name = nfp63_followup value = scope:nfp20_selected_fact.var:nfp63_followup }
+set_variable = { name = nfp63_ally value = scope:nfp20_selected_fact.var:nfp63_ally }
+set_variable = { name = nfp63_bloc value = scope:nfp20_selected_fact.var:nfp63_bloc }
+set_variable = { name = nfp63_subject value = scope:nfp20_selected_fact.var:nfp63_subject }
+set_variable = { name = nfp63_overlord value = scope:nfp20_selected_fact.var:nfp63_overlord }
+set_variable = { name = nfp63_rival value = scope:nfp20_selected_fact.var:nfp63_rival }
+set_variable = { name = nfp63_neighbor value = scope:nfp20_selected_fact.var:nfp63_neighbor }
+set_variable = { name = nfp63_second_ally value = scope:nfp20_selected_fact.var:nfp63_second_ally }
+set_variable = { name = nfp63_second_bloc value = scope:nfp20_selected_fact.var:nfp63_second_bloc }
+set_variable = { name = nfp63_second_subject value = scope:nfp20_selected_fact.var:nfp63_second_subject }
+set_variable = { name = nfp63_second_overlord value = scope:nfp20_selected_fact.var:nfp63_second_overlord }
+set_variable = { name = nfp63_second_rival value = scope:nfp20_selected_fact.var:nfp63_second_rival }
+set_variable = { name = nfp63_second_neighbor value = scope:nfp20_selected_fact.var:nfp63_second_neighbor }
+set_variable = { name = nfp63_relation_value value = scope:nfp20_selected_fact.var:nfp63_relation_value }
+set_variable = { name = nfp63_relation_band value = scope:nfp20_selected_fact.var:nfp63_relation_band }
+set_variable = { name = nfp63_attitude value = scope:nfp20_selected_fact.var:nfp63_attitude }
+set_variable = { name = nfp63_secondary_relation_value value = scope:nfp20_selected_fact.var:nfp63_secondary_relation_value }
+set_variable = { name = nfp63_secondary_relation_band value = scope:nfp20_selected_fact.var:nfp63_secondary_relation_band }
+set_variable = { name = nfp63_secondary_attitude value = scope:nfp20_selected_fact.var:nfp63_secondary_attitude }
+if = { limit = { scope:nfp20_selected_fact = { has_variable = nfp63_region } }
+set_variable = { name = nfp63_region value = scope:nfp20_selected_fact.var:nfp63_region }
+}
+
+}
+}
+nfp63_format = {
+if = { limit = { has_variable = nfp63_schema NOT = { has_variable = nfp63_wrapped } }
+if = { limit = { OR = { var:nfp20_foreign = 1 AND = { var:nfp63_has_second = 1 OR = { var:nfp20_type = 10 AND = { var:nfp20_type >= 21 var:nfp20_type <= 23 } AND = { var:nfp20_type >= 29 var:nfp20_type <= 31 } } } } var:nfp20_type < 40 }
+set_variable = { name = nfp63_wrapped value = 1 }
+if = { limit = { var:nfp50_count = 1 }
+set_variable = { name = nfp63_closing value = var:nfp50_block_1 }
+set_variable = { name = nfp50_block_1 value = flag:NFP63_CLOSING }
+
+}
+if = { limit = { var:nfp50_count = 2 }
+set_variable = { name = nfp63_closing value = var:nfp50_block_2 }
+set_variable = { name = nfp50_block_2 value = flag:NFP63_CLOSING }
+
+}
+if = { limit = { var:nfp50_count = 3 }
+set_variable = { name = nfp63_closing value = var:nfp50_block_3 }
+set_variable = { name = nfp50_block_3 value = flag:NFP63_CLOSING }
+
+}
+if = { limit = { var:nfp50_count = 4 }
+set_variable = { name = nfp63_closing value = var:nfp50_block_4 }
+set_variable = { name = nfp50_block_4 value = flag:NFP63_CLOSING }
+
+}
+if = { limit = { var:nfp50_count = 5 }
+set_variable = { name = nfp63_closing value = var:nfp50_block_5 }
+set_variable = { name = nfp50_block_5 value = flag:NFP63_CLOSING }
+
+}
+if = { limit = { var:nfp50_count = 6 }
+set_variable = { name = nfp63_closing value = var:nfp50_block_6 }
+set_variable = { name = nfp50_block_6 value = flag:NFP63_CLOSING }
+
+}
+if = { limit = { var:nfp50_count = 7 }
+set_variable = { name = nfp63_closing value = var:nfp50_block_7 }
+set_variable = { name = nfp50_block_7 value = flag:NFP63_CLOSING }
+
+}
+if = { limit = { var:nfp50_count = 8 }
+set_variable = { name = nfp63_closing value = var:nfp50_block_8 }
+set_variable = { name = nfp50_block_8 value = flag:NFP63_CLOSING }
+
+}
+
+}
+
+}
+}
+nfp63_kind_set = {
+set_variable = { name = nfp63_kind value = $kind$ }
+}
+nfp63_direct_packet = {
+set_variable = { name = nfp63_schema value = 1 }
+set_variable = { name = nfp63_allow value = 0 }
+set_variable = { name = nfp63_reason value = 0 }
+set_variable = { name = nfp63_regional value = 0 }
+set_variable = { name = nfp63_reader_tier value = 0 }
+set_variable = { name = nfp63_source_tier value = 0 }
+set_variable = { name = nfp63_second_tier value = 0 }
+set_variable = { name = nfp63_strategic value = 0 }
+set_variable = { name = nfp63_interest value = 0 }
+set_variable = { name = nfp63_bonus value = 0 }
+set_variable = { name = nfp63_brief value = 0 }
+set_variable = { name = nfp63_relation value = 0 }
+set_variable = { name = nfp63_second_relation value = 0 }
+set_variable = { name = nfp63_friend value = 0 }
+set_variable = { name = nfp63_secondary_friend value = 0 }
+set_variable = { name = nfp63_novel value = 0 }
+set_variable = { name = nfp63_different_law value = 0 }
+set_variable = { name = nfp63_has_second value = 0 }
+set_variable = { name = nfp63_followup value = 0 }
+set_variable = { name = nfp63_ally value = 0 }
+set_variable = { name = nfp63_bloc value = 0 }
+set_variable = { name = nfp63_subject value = 0 }
+set_variable = { name = nfp63_overlord value = 0 }
+set_variable = { name = nfp63_rival value = 0 }
+set_variable = { name = nfp63_neighbor value = 0 }
+set_variable = { name = nfp63_second_ally value = 0 }
+set_variable = { name = nfp63_second_bloc value = 0 }
+set_variable = { name = nfp63_second_subject value = 0 }
+set_variable = { name = nfp63_second_overlord value = 0 }
+set_variable = { name = nfp63_second_rival value = 0 }
+set_variable = { name = nfp63_second_neighbor value = 0 }
+set_variable = { name = nfp63_relation_value value = 0 }
+set_variable = { name = nfp63_relation_band value = 0 }
+set_variable = { name = nfp63_attitude value = 0 }
+set_variable = { name = nfp63_secondary_relation_value value = 0 }
+set_variable = { name = nfp63_secondary_relation_band value = 0 }
+set_variable = { name = nfp63_secondary_attitude value = 0 }
+set_variable = { name = nfp63_allow value = 1 }
+set_variable = { name = nfp63_reason value = $reason$ }
+}

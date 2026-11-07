@@ -1,0 +1,13 @@
+{
+  "name": "Newspaper World News [BETA 0.5.0]",
+  "id": "local.newspaper.prototype.data",
+  "version": "0.5.0",
+  "game_id": "victoria3",
+  "supported_game_version": "1.15.0",
+  "short_description": "A national newspaper with monthly issues, special editions and an archive. Russian, English, Simplified Chinese, Brazilian Portuguese, German and Korean.",
+  "tags": [],
+  "relationships": [],
+  "game_custom_data": {
+    "multiplayer_synchronized": true
+  }
+}

@@ -1,0 +1,37 @@
+﻿# Country root. Compatibility field remains monthly for existing saves.
+nfp45_normalize_schedule = {
+    if = { limit = { is_player = yes }
+        set_variable = { name = nfp_frequency value = 2 }
+    }
+}
+
+# One ordinary delivery per calendar month. Weekly strategic observation stays.
+nfp45_monthly_delivery = {
+    if = { limit = { is_player = yes }
+        nfp45_normalize_schedule = yes
+        if = { limit = { var:nfp_subscribed = 1 NOT = { has_variable = nfp_setup_pending } }
+            if = { limit = { NOT = { has_variable = nfp45_last_regular_period } }
+                set_variable = { name = nfp45_last_regular_period value = -1 }
+                # Old saves may already contain an ordinary/welcome issue this month.
+                if = { limit = { any_in_list = { variable = nfp_issues
+                    var:nfp_kind = 1 var:nfp_year = year var:nfp_month = month
+                } }
+                    set_variable = { name = nfp45_last_regular_period value = nfp20_period }
+                }
+            }
+            if = { limit = { NOT = { var:nfp45_last_regular_period = nfp20_period } }
+                # Guard before publication; archive eviction cannot reset delivery.
+                set_variable = { name = nfp45_last_regular_period value = nfp20_period }
+                nfp_publish = { kind = 1 marker = 0 }
+            }
+        }
+    }
+}
+
+# Welcome is a once-only exception, and also occupies this month's regular slot.
+# Urgent wartime editions never consume the ordinary monthly slot.
+nfp45_record_regular = {
+    if = { limit = { scope:nfp_new_issue = { var:nfp_kind = 1 } }
+        set_variable = { name = nfp45_last_regular_period value = nfp20_period }
+    }
+}

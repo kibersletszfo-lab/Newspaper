@@ -1,0 +1,15 @@
+﻿# MarketGoods root. Native share-of-world-imports is deliberately unused.
+nfp50_supply_import_fraction = {
+    value = market_goods_production add = market_goods_imports
+    if = { limit = { OR = { market_goods_production > 0 market_goods_imports > 0 } }
+        save_temporary_value_as = nfp50_supply_total
+        value = market_goods_imports divide = scope:nfp50_supply_total multiply = 100
+    } else = { value = 0 }
+}
+nfp50_supply_premium = {
+    value = 0
+    if = { limit = { market_goods_pricier > 0 } add = market_goods_pricier }
+    else_if = { limit = { market_goods_cheaper > 0 } subtract = market_goods_cheaper }
+    multiply = 100
+}
+nfp50_supply_pub_gap = { value = nfp20_period subtract = var:nfp50_supply_last_period }

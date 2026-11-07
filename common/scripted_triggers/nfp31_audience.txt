@@ -1,0 +1,40 @@
+﻿# New emission, root = prospective reader; source fields frozen before loop.
+nfp31_source_relevant = {
+    OR = {
+        this = scope:nfp20_source
+        this = scope:nfp20_source.var:nfp20_f_secondary_country
+        scope:nfp20_source = { var:nfp31_f_world = 1 }
+        AND = { scope:nfp20_source = { exists = var:nfp31_f_primary_region }
+            has_strategic_region_interest_tier = { strategic_region = scope:nfp20_source.var:nfp31_f_primary_region value >= 2 }
+        }
+        AND = { scope:nfp20_source = { exists = var:nfp31_f_secondary_region }
+            has_strategic_region_interest_tier = { strategic_region = scope:nfp20_source.var:nfp31_f_secondary_region value >= 2 }
+        }
+    }
+}
+
+# Publication-time check, root = queued container. No published article is checked.
+nfp31_candidate_relevant = {
+ OR = {
+  AND = { NOT = { has_variable = nfp63_schema } nfp63_legacy_relevant = yes }
+  AND = { has_variable = nfp63_schema var:nfp63_allow = 1
+   OR = { var:nfp63_regional = 0
+    AND = { exists = var:nfp63_region scope:nfp_reader = { has_strategic_region_interest_tier = { strategic_region = prev.var:nfp63_region value >= 2 } } }
+   }
+  }
+ }
+}
+
+
+nfp63_legacy_relevant = {
+    OR = {
+        var:nfp20_foreign = 0
+        var:nfp31_world = 1
+        AND = { exists = var:nfp31_primary_region
+            scope:nfp_reader = { has_strategic_region_interest_tier = { strategic_region = prev.var:nfp31_primary_region value >= 2 } }
+        }
+        AND = { exists = var:nfp31_secondary_region
+            scope:nfp_reader = { has_strategic_region_interest_tier = { strategic_region = prev.var:nfp31_secondary_region value >= 2 } }
+        }
+    }
+}
